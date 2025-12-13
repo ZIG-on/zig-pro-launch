@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions Légales - ZIG Gaming</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #FFD700;
+            --dark: #000000;
+            --dark-2: #0F0F0F;
+            --dark-3: #1A1A1A;
+            --text: #FFFFFF;
+            --text-gray: #9CA3AF;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--dark-3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 6%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-accent {
+            width: 6px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .btn {
+            background: var(--text);
+            color: var(--dark);
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 120px auto 80px;
+            padding: 0 6%;
+        }
+
+        .page-selector {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            padding: 8px;
+            background: var(--dark-2);
+            border-radius: 12px;
+            border: 1px solid var(--dark-3);
+        }
+
+        .page-btn {
+            flex: 1;
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .page-btn.active {
+            background: var(--dark);
+            color: var(--text);
+        }
+
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .last-update {
+            color: var(--text-gray);
+            font-size: 14px;
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 48px 0 24px;
+            letter-spacing: -0.5px;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-gray);
+            font-size: 16px;
+        }
+
+        ul, ol {
+            margin: 16px 0 16px 24px;
+            color: var(--text-gray);
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        strong {
+            color: var(--text);
+        }
+
+        .highlight-box {
+            background: var(--dark-2);
+            border-left: 4px solid var(--primary);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        footer {
+            padding: 40px 6%;
+            border-top: 1px solid var(--dark-3);
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 32px; }
+            h2 { font-size: 24px; }
+            .page-selector { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <div class="logo-accent"></div>
+                ZIG
+            </a>
+            <a href="index.html" class="btn">Retour à l'accueil</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-selector">
+            <button class="page-btn" onclick="showPage('mentions')">Mentions Légales</button>
+            <button class="page-btn" onclick="showPage('cgv')">CGV</button>
+            <button class="page-btn" onclick="showPage('privacy')">Confidentialité</button>
+        </div>
+
+        <!-- MENTIONS LÉGALES -->
+        <div id="mentions" class="page-content active">
+            <h1>Mentions Légales</h1>
+            <p class="last-update">Dernière mise à jour : 15 décembre 2024</p>
+
+            <h2>1. Informations légales</h2>
+            <p><strong>Raison sociale :</strong> ZIG Gaming</p>
+            <p><strong>Forme juridique :</strong> [À compléter - SARL/SAS/Entreprise individuelle]</p>
+            <p><strong>Siège social :</strong> [Votre adresse complète]</p>
+            <p><strong>SIRET :</strong> [Numéro SIRET]</p>
+            <p><strong>TVA Intracommunautaire :</strong> [Numéro TVA]</p>
+            <p><strong>Email :</strong> contact@zig-on.online</p>
+            <p><strong>Téléphone :</strong> [Votre numéro]</p>
+
+            <h2>2. Directeur de la publication</h2>
+            <p><strong>Nom :</strong> [Votre nom complet]</p>
+            <p><strong>Qualité :</strong> [Gérant/Président/Directeur]</p>
+
+            <h2>3. Hébergement du site</h2>
+            <p><strong>Hébergeur :</strong> [Nom de l'hébergeur]</p>
+            <p><strong>Adresse :</strong> [Adresse de l'hébergeur]</p>
+            <p><strong>Contact :</strong> [Contact hébergeur]</p>
+
+            <h2>4. Propriété intellectuelle</h2>
+            <p>L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.</p>
+            
+            <p>La reproduction de tout ou partie de ce site sur un support électronique quel qu'il soit est formellement interdite sauf autorisation expresse du directeur de la publication.</p>
+
+            <h2>5. Protection des données personnelles</h2>
+            <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données personnelles vous concernant.</p>
+            
+            <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse : contact@zig-on.online</p>
+
+            <div class="highlight-box">
+                <p><strong>Commission Nationale de l'Informatique et des Libertés (CNIL)</strong></p>
+                <p>Pour toute information complémentaire ou réclamation, vous pouvez contacter la CNIL : <a href="https://www.cnil.fr" style="color: var(--primary);">www.cnil.fr</a></p>
+            </div>
+
+            <h2>6. Cookies</h2>
+            <p>Ce site utilise des cookies essentiels au fonctionnement du site. Aucun cookie publicitaire ou de tracking n'est utilisé sans votre consentement préalable.</p>
+
+            <h2>7. Litiges</h2>
+            <p>Les présentes conditions du site sont régies par les lois françaises et toute contestation ou litiges qui pourraient naître de l'interprétation ou de l'exécution de celles-ci seront de la compétence exclusive des tribunaux.</p>
+        </div>
+
+        <!-- CGV -->
+        <div id="cgv" class="page-content">
+            <h1>Conditions Générales de Vente</h1>
+            <p class="last-update">Dernière mise à jour : 15 décembre 2024</p>
+
+            <h2>1. Objet</h2>
+            <p>Les présentes Conditions Générales de Vente (CGV) régissent les ventes de produits ZIG Gaming effectuées via le site zig-on.online. Toute commande implique l'acceptation sans réserve des présentes CGV.</p>
+
+            <h2>2. Produits</h2>
+            <h3>2.1 Description</h3>
+            <p>Les produits proposés sont ceux qui figurent sur le site zig-on.online. Les photographies et illustrations ne sont pas contractuelles.</p>
+
+            <h3>2.2 Disponibilité</h3>
+            <p>Nos produits sont proposés dans la limite des stocks disponibles. En cas d'indisponibilité après commande, nous vous en informerons dans les meilleurs délais.</p>
+
+            <div class="highlight-box">
+                <p><strong>Phase de pré-lancement</strong></p>
+                <p>Actuellement en phase de pré-commande. Les premières livraisons sont estimées pour début 2026 après validation du prototype final.</p>
+            </div>
+
+            <h2>3. Prix</h2>
+            <p>Les prix sont indiqués en euros (EUR) toutes taxes comprises (TTC). ZIG Gaming se réserve le droit de modifier ses prix à tout moment, mais les produits seront facturés sur la base des tarifs en vigueur au moment de la validation de la commande.</p>
+
+            <h2>4. Commande</h2>
+            <h3>4.1 Processus de commande</h3>
+            <ol>
+                <li>Sélection du ou des produit(s)</li>
+                <li>Vérification du récapitulatif de commande</li>
+                <li>Validation des informations de livraison</li>
+                <li>Choix du mode de paiement</li>
+                <li>Confirmation de commande</li>
+            </ol>
+
+            <h3>4.2 Confirmation</h3>
+            <p>Une confirmation de commande vous sera envoyée par email après validation du paiement.</p>
+
+            <h2>5. Paiement</h2>
+            <h3>5.1 Modalités</h3>
+            <p>Le paiement est exigible immédiatement à la commande. Les modes de paiement acceptés sont :</p>
+            <ul>
+                <li>Carte bancaire (Visa, Mastercard, American Express)</li>
+                <li>PayPal</li>
+                <li>Stripe</li>
+            </ul>
+
+            <h3>5.2 Sécurité</h3>
+            <p>Les transactions sont sécurisées via des protocoles SSL. ZIG Gaming ne conserve aucune donnée bancaire.</p>
+
+            <h2>6. Livraison</h2>
+            <h3>6.1 Zone de livraison</h3>
+            <p>Nous livrons actuellement en France métropolitaine et dans l'Union Européenne. D'autres destinations pourront être ajoutées ultérieurement.</p>
+
+            <h3>6.2 Délais</h3>
+            <p>Les délais de livraison sont donnés à titre indicatif :</p>
+            <ul>
+                <li>France métropolitaine : 3-5 jours ouvrés</li>
+                <li>Union Européenne : 5-10 jours ouvrés</li>
+            </ul>
+
+            <h3>6.3 Frais de port</h3>
+            <ul>
+                <li>Gratuits pour toute commande supérieure à 99€</li>
+                <li>9,90€ pour les commandes inférieures à 99€</li>
+            </ul>
+
+            <h2>7. Droit de rétractation</h2>
+            <p>Conformément à l'article L221-18 du Code de la consommation, vous disposez d'un délai de <strong>14 jours</strong> à compter de la réception du produit pour exercer votre droit de rétractation sans avoir à justifier de motifs ni à payer de pénalités.</p>
+
+            <h3>7.1 Procédure</h3>
+            <ol>
+                <li>Informez-nous de votre décision par email à : retours@zig-on.online</li>
+                <li>Renvoyez le produit dans son emballage d'origine</li>
+                <li>Le produit doit être dans un état permettant sa remise en vente</li>
+            </ol>
+
+            <h3>7.2 Remboursement</h3>
+            <p>Le remboursement sera effectué dans les 14 jours suivant la réception du produit retourné, par le même moyen de paiement que celui utilisé pour la commande.</p>
+
+            <h2>8. Garanties</h2>
+            <h3>8.1 Garantie légale de conformité</h3>
+            <p>Tous nos produits bénéficient de la garantie légale de conformité de 2 ans conformément aux articles L217-4 et suivants du Code de la consommation.</p>
+
+            <h3>8.2 Garantie constructeur</h3>
+            <p>Nos produits bénéficient également d'une garantie constructeur de <strong>2 ans</strong> contre tout défaut de fabrication.</p>
+
+            <h2>9. Service après-vente</h2>
+            <p>Pour toute question concernant nos produits ou votre commande :</p>
+            <ul>
+                <li>Email : support@zig-on.online</li>
+                <li>Téléphone : [Votre numéro]</li>
+                <li>Horaires : Du lundi au vendredi, 9h-18h</li>
+            </ul>
+
+            <h2>10. Litiges</h2>
+            <p>En cas de litige, une solution amiable sera recherchée avant toute action judiciaire. À défaut, les tribunaux français seront seuls compétents.</p>
+
+            <div class="highlight-box">
+                <p><strong>Médiation de la consommation</strong></p>
+                <p>Conformément à l'article L.612-1 du Code de la consommation, nous proposons un dispositif de médiation de la consommation. Le médiateur "droit de la consommation" ainsi choisi est [Nom du médiateur].</p>
+            </div>
+        </div>
+
+        <!-- CONFIDENTIALITÉ -->
+        <div id="privacy" class="page-content">
+            <h1>Politique de Confidentialité</h1>
+            <p class="last-update">Dernière mise à jour : 15 décembre 2024</p>
+
+            <h2>1. Introduction</h2>
+            <p>ZIG Gaming accorde une grande importance à la protection de vos données personnelles. Cette politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos informations conformément au Règlement Général sur la Protection des Données (RGPD).</p>
+
+            <h2>2. Responsable du traitement</h2>
+            <p><strong>ZIG Gaming</strong></p>
+            <p>Adresse : [Votre adresse]</p>
+            <p>Email : privacy@zig-on.online</p>
+
+            <h2>3. Données collectées</h2>
+            <h3>3.1 Données d'identification</h3>
+            <ul>
+                <li>Nom et prénom</li>
+                <li>Adresse email</li>
+                <li>Numéro de téléphone (optionnel)</li>
+                <li>Adresse postale (pour la livraison)</li>
+            </ul>
+
+            <h3>3.2 Données de commande</h3>
+            <ul>
+                <li>Historique d'achats</li>
+                <li>Préférences produits</li>
+                <li>Panier d'achat</li>
+            </ul>
+
+            <h3>3.3 Données de navigation</h3>
+            <ul>
+                <li>Adresse IP</li>
+                <li>Type de navigateur</li>
+                <li>Pages visitées</li>
+                <li>Durée de session</li>
+            </ul>
+
+            <h2>4. Finalités du traitement</h2>
+            <p>Vos données sont collectées pour les finalités suivantes :</p>
+            <ul>
+                <li><strong>Gestion des commandes :</strong> traitement, facturation, livraison</li>
+                <li><strong>Service client :</strong> répondre à vos demandes, gérer les retours</li>
+                <li><strong>Marketing :</strong> envoi de newsletters, offres personnalisées (avec votre consentement)</li>
+                <li><strong>Amélioration du service :</strong> analyse statistique, optimisation du site</li>
+                <li><strong>Obligations légales :</strong> comptabilité, lutte contre la fraude</li>
+            </ul>
+
+            <h2>5. Base légale</h2>
+            <p>Le traitement de vos données repose sur :</p>
+            <ul>
+                <li><strong>L'exécution du contrat :</strong> pour traiter vos commandes</li>
+                <li><strong>Votre consentement :</strong> pour les communications marketing</li>
+                <li><strong>L'intérêt légitime :</strong> pour améliorer nos services</li>
+                <li><strong>L'obligation légale :</strong> pour respecter nos obligations fiscales et comptables</li>
+            </ul>
+
+            <h2>6. Durée de conservation</h2>
+            <ul>
+                <li><strong>Données de compte :</strong> jusqu'à la suppression du compte + 3 ans</li>
+                <li><strong>Données de commande :</strong> 10 ans (obligations comptables)</li>
+                <li><strong>Données marketing :</strong> 3 ans à compter du dernier contact</li>
+                <li><strong>Cookies :</strong> 13 mois maximum</li>
+            </ul>
+
+            <h2>7. Destinataires des données</h2>
+            <p>Vos données peuvent être transmises à :</p>
+            <ul>
+                <li><strong>Prestataires de paiement :</strong> Stripe, PayPal</li>
+                <li><strong>Services de livraison :</strong> transporteurs sélectionnés</li>
+                <li><strong>Services techniques :</strong> hébergement, maintenance</li>
+                <li><strong>Services marketing :</strong> plateforme d'emailing (avec votre consentement)</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Important :</strong> Nous ne vendons jamais vos données personnelles à des tiers.</p>
+            </div>
+
+            <h2>8. Transferts hors UE</h2>
+            <p>Certains de nos prestataires peuvent être situés hors de l'Union Européenne. Dans ce cas, nous nous assurons que des garanties appropriées sont mises en place (clauses contractuelles types, Privacy Shield, etc.).</p>
+
+            <h2>9. Sécurité des données</h2>
+            <p>Nous mettons en œuvre des mesures techniques et organisationnelles pour protéger vos données :</p>
+            <ul>
+                <li>Chiffrement SSL/TLS des communications</li>
+                <li>Authentification sécurisée</li>
+                <li>Accès restreint aux données personnelles</li>
+                <li>Sauvegardes régulières</li>
+                <li>Audit de sécurité périodique</li>
+            </ul>
+
+            <h2>10. Vos droits</h2>
+            <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+
+            <h3>10.1 Droit d'accès</h3>
+            <p>Vous pouvez obtenir une copie de vos données personnelles.</p>
+
+            <h3>10.2 Droit de rectification</h3>
+            <p>Vous pouvez demander la correction de données inexactes.</p>
+
+            <h3>10.3 Droit à l'effacement</h3>
+            <p>Vous pouvez demander la suppression de vos données dans certains cas.</p>
+
+            <h3>10.4 Droit à la limitation</h3>
+            <p>Vous pouvez demander la limitation du traitement de vos données.</p>
+
+            <h3>10.5 Droit à la portabilité</h3>
+            <p>Vous pouvez recevoir vos données dans un format structuré et lisible.</p>
+
+            <h3>10.6 Droit d'opposition</h3>
+            <p>Vous pouvez vous opposer au traitement de vos données à des fins marketing.</p>
+
+            <h3>10.7 Exercice de vos droits</h3>
+            <p>Pour exercer vos droits, contactez-nous à : <strong>privacy@zig-on.online</strong></p>
+            <p>Nous répondrons dans un délai maximum de <strong>1 mois</strong>.</p>
+
+            <h2>11. Cookies</h2>
+            <h3>11.1 Types de cookies utilisés</h3>
+            <ul>
+                <li><strong>Cookies essentiels :</strong> nécessaires au fonctionnement du site</li>
+                <li><strong>Cookies analytiques :</strong> statistiques de visite (avec consentement)</li>
+                <li><strong>Cookies marketing :</strong> publicité personnalisée (avec consentement)</li>
+            </ul>
+
+            <h3>11.2 Gestion des cookies</h3>
+            <p>Vous pouvez à tout moment modifier vos préférences en matière de cookies via les paramètres de votre navigateur ou notre bandeau de consentement.</p>
+
+            <h2>12. Mineurs</h2>
+            <p>Nos services ne sont pas destinés aux personnes de moins de 16 ans. Si vous avez moins de 16 ans, veuillez obtenir le consentement de vos parents avant de nous fournir vos données.</p>
+
+            <h2>13. Modifications</h2>
+            <p>Nous nous réservons le droit de modifier cette politique de confidentialité. Toute modification sera publiée sur cette page avec une nouvelle date de mise à jour.</p>
+
+            <h2>14. Réclamation</h2>
+            <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL :</p>
+            <p><strong>Commission Nationale de l'Informatique et des Libertés (CNIL)</strong></p>
+            <p>3 Place de Fontenoy - TSA 80715 - 75334 PARIS CEDEX 07</p>
+            <p>Tél : 01 53 73 22 22</p>
+            <p>Site : <a href="https://www.cnil.fr" style="color: var(--primary);">www.cnil.fr</a></p>
+
+            <h2>15. Contact</h2>
+            <p>Pour toute question concernant cette politique de confidentialité :</p>
+            <p>Email : <strong>privacy@zig-on.online</strong></p>
+            <p>Adresse : [Votre adresse complète]</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 ZIG Gaming. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            event.target.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Gestion des ancres dans l'URL (#cgv, #mentions, #privacy)
+        document.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && ['cgv', 'mentions', 'privacy'].includes(hash)) {
+                showPageByHash(hash);
+            } else {
+                showPageByHash('mentions');
+            }
+        });
+
+        function showPageByHash(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            const buttons = document.querySelectorAll('.page-btn');
+            if (pageId === 'mentions') buttons[0].classList.add('active');
+            if (pageId === 'cgv') buttons[1].classList.add('active');
+            if (pageId === 'privacy') buttons[2].classList.add('active');
+        }
+    </script>
+</body>
+</html>

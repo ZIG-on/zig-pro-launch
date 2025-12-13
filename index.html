@@ -3,523 +3,730 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentions Légales - ZIG Gaming</title>
+    <title>ZIG Pro | L'Avantage Compétitif, Redéfini par l'IA</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
             --primary: #FFD700;
-            --dark: #000000;
-            --dark-2: #0F0F0F;
-            --dark-3: #1A1A1A;
+            --primary-dark: #FFC000;
+            --accent: #00FF88;
+            --dark: #0A0A0A;
+            --dark-2: #151515;
+            --dark-3: #202020;
+            --dark-4: #2A2A2A;
             --text: #FFFFFF;
-            --text-gray: #9CA3AF;
+            --text-gray: #AAAAAA;
+            --gradient: linear-gradient(135deg, #FFD700 0%, #FFEC40 100%);
+            --glow: 0 0 40px rgba(255, 215, 0, 0.4);
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--dark);
             color: var(--text);
-            line-height: 1.8;
+            overflow-x: hidden;
         }
 
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 1000;
-            border-bottom: 1px solid var(--dark-3);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 6%;
+            padding: 20px 5%;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text);
-            text-decoration: none;
+        .logo img {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--dark);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        .hero {
+            margin-top: 80px;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            gap: 8px;
+            padding: 100px 5%;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
         }
 
-        .logo-accent {
-            width: 6px;
-            height: 28px;
-            background: var(--primary);
-            border-radius: 2px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: var(--gradient);
+            filter: blur(200px);
+            opacity: 0.15;
+            top: -200px;
+            right: -300px;
+            animation: pulse 8s ease-in-out infinite;
         }
 
-        .btn {
-            background: var(--text);
-            color: var(--dark);
-            padding: 10px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.15; }
+            50% { transform: scale(1.3) rotate(180deg); opacity: 0.25; }
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
+        .hero-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 120px auto 80px;
-            padding: 0 6%;
+        .hero-text h1 {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .page-selector {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 48px;
-            padding: 8px;
+        .hero-text p {
+            font-size: 22px;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-text p strong {
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        .hero-image {
+            margin-top: 60px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 600px;
+            filter: drop-shadow(0 30px 60px rgba(255, 215, 0, 0.4));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .ia-promise {
+            padding: 120px 5%;
             background: var(--dark-2);
-            border-radius: 12px;
-            border: 1px solid var(--dark-3);
         }
 
-        .page-btn {
-            flex: 1;
-            padding: 12px 24px;
-            background: transparent;
-            border: none;
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .section-header p {
+            font-size: 18px;
             color: var(--text-gray);
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ia-features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 1000px;
+            margin: 0 auto;
+            gap: 40px;
+        }
+
+        .ia-card {
+            background: var(--dark-3);
+            padding: 50px 40px;
+            border-radius: 16px;
+            border-left: 5px solid var(--primary);
             transition: all 0.3s;
         }
 
-        .page-btn.active {
-            background: var(--dark);
+        .ia-card:hover {
+            transform: translateX(10px);
+            background: var(--dark-4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .ia-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
             color: var(--text);
-        }
-
-        .page-content {
-            display: none;
-        }
-
-        .page-content.active {
-            display: block;
-        }
-
-        h1 {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            letter-spacing: -1px;
-        }
-
-        .last-update {
-            color: var(--text-gray);
-            font-size: 14px;
-            margin-bottom: 48px;
-        }
-
-        h2 {
-            font-size: 28px;
             font-weight: 700;
-            margin: 48px 0 24px;
-            letter-spacing: -0.5px;
         }
 
-        h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 32px 0 16px;
-        }
-
-        p {
-            margin-bottom: 16px;
+        .ia-card p {
             color: var(--text-gray);
+            line-height: 1.6;
             font-size: 16px;
         }
 
-        ul, ol {
-            margin: 16px 0 16px 24px;
+        .features {
+            padding: 120px 5%;
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: var(--dark-3);
+            padding: 50px 40px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            background: var(--dark-4);
+        }
+
+        .feature-icon {
+            font-size: 64px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .feature-card p {
             color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.6;
         }
 
-        li {
-            margin-bottom: 12px;
-        }
-
-        strong {
-            color: var(--text);
-        }
-
-        .highlight-box {
+        .cta-section {
+            padding: 120px 5%;
             background: var(--dark-2);
-            border-left: 4px solid var(--primary);
-            padding: 24px;
-            margin: 32px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: var(--gradient);
+            filter: blur(150px);
+            opacity: 0.1;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-container h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-container > p {
+            font-size: 18px;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .countdown-item {
+            background: var(--dark-3);
+            padding: 30px 35px;
+            border-radius: 12px;
+            min-width: 120px;
+            border: 2px solid var(--primary);
+            transition: all 0.3s;
+        }
+
+        .countdown-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--glow);
+        }
+
+        .countdown-item span {
+            display: block;
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .countdown-item small {
+            font-size: 14px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-form {
+            max-width: 600px;
+            margin: 30px auto 20px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .cta-form input[type="email"] {
+            flex: 1;
+            padding: 18px 24px;
+            background: var(--dark-3);
+            border: 2px solid var(--dark-4);
             border-radius: 8px;
+            color: var(--text);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .cta-form input[type="email"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .cta-note {
+            color: var(--text-gray);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .form-message {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+            font-weight: 700;
+        }
+
+        .form-message.success {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            display: block;
+        }
+
+        .form-message.error {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            display: block;
+        }
+
+        .waitlist-count {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-top: 30px;
+        }
+
+        .waitlist-count strong {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 900;
         }
 
         footer {
-            padding: 40px 6%;
+            background: var(--dark-2);
+            padding: 60px 5% 40px;
+            border-top: 1px solid var(--dark-3);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 16px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .footer-brand p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
             border-top: 1px solid var(--dark-3);
             text-align: center;
             color: var(--text-gray);
             font-size: 14px;
         }
 
+        @media (max-width: 1024px) {
+            .ia-features-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+
         @media (max-width: 768px) {
-            h1 { font-size: 32px; }
-            h2 { font-size: 24px; }
-            .page-selector { flex-direction: column; }
+            .hero-text h1 { font-size: 40px; }
+            .hero-text p { font-size: 18px; }
+            .section-header h2 { font-size: 36px; }
+            .cta-container h2 { font-size: 36px; }
+            .cta-form { flex-direction: column; }
+            .countdown { flex-wrap: wrap; gap: 15px; }
+            .countdown-item { min-width: 80px; padding: 20px 15px; }
+            .countdown-item span { font-size: 36px; }
         }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.html" class="logo">
-                <div class="logo-accent"></div>
-                ZIG
-            </a>
-            <a href="index.html" class="btn">Retour à l'accueil</a>
+            <div class="logo">
+                <img src="ZIG_logo_final.png" alt="ZIG Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span style="display:none; font-size:32px; font-weight:900; color:var(--primary);">⚡ ZIG</span>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-primary" onclick="scrollToCTA()">Accès Prioritaire</button>
+            </div>
         </nav>
     </header>
 
-    <div class="container">
-        <div class="page-selector">
-            <button class="page-btn active" onclick="showPage('mentions')">Mentions Légales</button>
-            <button class="page-btn" onclick="showPage('cgv')">CGV</button>
-            <button class="page-btn" onclick="showPage('privacy')">Confidentialité</button>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>ZIG Pro : L'Avantage Compétitif, Redéfini par l'IA.</h1>
+                <p>Oubliez la friction. La ZIG Pro fusionne un poids plume radical de <strong>35g</strong> avec le capteur <strong>PAW3950</strong> pour une vitesse inégalée, optimisée par notre moteur d'Intelligence Artificielle.</p>
+            </div>
+            <div class="hero-image">
+                <img src="ZIG_Pro_render.jpg" alt="ZIG Pro 35g Mouse" onerror="this.src='file:///C:/Users/alexi/Downloads/Gemini_Generated_Image_pzyc53pzyc53pzyc.png'">
+            </div>
         </div>
+    </section>
 
-        <!-- MENTIONS LÉGALES -->
-        <div id="mentions" class="page-content active">
-            <h1>Mentions Légales</h1>
-            <p class="last-update">Dernière mise à jour : 15 décembre 2024</p>
+    <section class="ia-promise">
+        <div class="section-header">
+            <h2>Votre Co-Pilote de Performance.</h2>
+            <p>L'équipement ne doit plus être un obstacle. ZIG élimine les incertitudes du matériel pour que vous soyez le seul facteur limitant de votre performance.</p>
+        </div>
+        <div class="ia-features-grid">
+            <div class="ia-card">
+                <h3>Vitesse de la Lumière (35g)</h3>
+                <p>Conçue pour l'e-sport. Réduisez la fatigue, augmentez la rapidité de vos flick shots. La souris la plus légère sans compromis sur la solidité.</p>
+            </div>
+            <div class="ia-card">
+                <h3>ZIG AI Engine (Optimisation Logicielle)</h3>
+                <p>Notre logiciel intelligent apprend de vos mouvements. Profitez d'une optimisation DPI adaptative et d'une maintenance prédictive pour une performance constante.</p>
+            </div>
+        </div>
+    </section>
 
-            <h2>1. Informations légales</h2>
-            <p><strong>Raison sociale :</strong> ZIG Gaming</p>
-            <p><strong>Forme juridique :</strong> [À compléter - SARL/SAS/Entreprise individuelle]</p>
-            <p><strong>Siège social :</strong> [Votre adresse complète]</p>
-            <p><strong>SIRET :</strong> [Numéro SIRET]</p>
-            <p><strong>TVA Intracommunautaire :</strong> [Numéro TVA]</p>
-            <p><strong>Email :</strong> contact@zig-on.online</p>
-            <p><strong>Téléphone :</strong> [Votre numéro]</p>
+    <section class="features">
+        <div class="section-header">
+            <h2>TECHNOLOGIE DE POINTE</h2>
+            <p>Performance professionnelle pour les champions de demain</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Intelligence Artificielle</h3>
+                <p>Optimisation IA de vos mouvements pour une précision inégalée. Analyse en temps réel de votre gameplay.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>35 Grammes</h3>
+                <p>Ultra-légère sans compromis sur la durabilité. Design aérodynamique pour une vitesse maximale.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Capteur PAW3950</h3>
+                <p>26000 DPI de précision absolue. Tracking parfait pour l'e-sport de haut niveau.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔋</div>
+                <h3>Batterie Longue Durée</h3>
+                <p>Jusqu'à 100 heures d'autonomie. Charge rapide USB-C pour ne jamais s'arrêter.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌈</div>
+                <h3>RGB Personnalisable</h3>
+                <p>16,8 millions de couleurs. Synchronisation avec votre setup gaming.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>E-Sport Ready</h3>
+                <p>Conçue avec des professionnels. Testée en compétition internationale.</p>
+            </div>
+        </div>
+    </section>
 
-            <h2>2. Directeur de la publication</h2>
-            <p><strong>Nom :</strong> [Votre nom complet]</p>
-            <p><strong>Qualité :</strong> [Gérant/Président/Directeur]</p>
-
-            <h2>3. Hébergement du site</h2>
-            <p><strong>Hébergeur :</strong> [Nom de l'hébergeur]</p>
-            <p><strong>Adresse :</strong> [Adresse de l'hébergeur]</p>
-            <p><strong>Contact :</strong> [Contact hébergeur]</p>
-
-            <h2>4. Propriété intellectuelle</h2>
-            <p>L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.</p>
+    <section class="cta-section" id="ctaSection">
+        <div class="cta-container">
+            <h2>Le Lancement Est Imminent.</h2>
+            <p>Seulement 100 unités seront disponibles pour la première vague. Assurez votre place et recevez des réductions exclusives en vous inscrivant à l'accès prioritaire.</p>
             
-            <p>La reproduction de tout ou partie de ce site sur un support électronique quel qu'il soit est formellement interdite sauf autorisation expresse du directeur de la publication.</p>
-
-            <h2>5. Protection des données personnelles</h2>
-            <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données personnelles vous concernant.</p>
+            <div class="countdown">
+                <div class="countdown-item">
+                    <span id="days">00</span>
+                    <small>Jours</small>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours">00</span>
+                    <small>Heures</small>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span>
+                    <small>Minutes</small>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds">00</span>
+                    <small>Secondes</small>
+                </div>
+            </div>
             
-            <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse : contact@zig-on.online</p>
-
-            <div class="highlight-box">
-                <p><strong>Commission Nationale de l'Informatique et des Libertés (CNIL)</strong></p>
-                <p>Pour toute information complémentaire ou réclamation, vous pouvez contacter la CNIL : <a href="https://www.cnil.fr" style="color: var(--primary);">www.cnil.fr</a></p>
+            <form class="cta-form" onsubmit="joinWaitlist(event)">
+                <input type="email" id="waitlistEmail" placeholder="Votre Email Compétitif" required>
+                <button type="submit" class="btn-primary">Accès ZIG Prioritaire</button>
+            </form>
+            
+            <div class="form-message" id="formMessage"></div>
+            
+            <div class="waitlist-count">
+                <strong id="waitlistCount">247</strong> gamers déjà inscrits
             </div>
-
-            <h2>6. Cookies</h2>
-            <p>Ce site utilise des cookies essentiels au fonctionnement du site. Aucun cookie publicitaire ou de tracking n'est utilisé sans votre consentement préalable.</p>
-
-            <h2>7. Litiges</h2>
-            <p>Les présentes conditions du site sont régies par les lois françaises et toute contestation ou litiges qui pourraient naître de l'interprétation ou de l'exécution de celles-ci seront de la compétence exclusive des tribunaux.</p>
+            
+            <p class="cta-note">Première livraison estimée après validation du prototype (Fin 2026).</p>
         </div>
-
-        <!-- CGV -->
-        <div id="cgv" class="page-content">
-            <h1>Conditions Générales de Vente</h1>
-            <p class="last-update">Dernière mise à jour : 15 décembre 2024</p>
-
-            <h2>1. Objet</h2>
-            <p>Les présentes Conditions Générales de Vente (CGV) régissent les ventes de produits ZIG Gaming effectuées via le site zig-on.online. Toute commande implique l'acceptation sans réserve des présentes CGV.</p>
-
-            <h2>2. Produits</h2>
-            <h3>2.1 Description</h3>
-            <p>Les produits proposés sont ceux qui figurent sur le site zig-on.online. Les photographies et illustrations ne sont pas contractuelles.</p>
-
-            <h3>2.2 Disponibilité</h3>
-            <p>Nos produits sont proposés dans la limite des stocks disponibles. En cas d'indisponibilité après commande, nous vous en informerons dans les meilleurs délais.</p>
-
-            <div class="highlight-box">
-                <p><strong>Phase de pré-lancement</strong></p>
-                <p>Actuellement en phase de pré-commande. Les premières livraisons sont estimées pour début 2026 après validation du prototype final.</p>
-            </div>
-
-            <h2>3. Prix</h2>
-            <p>Les prix sont indiqués en euros (EUR) toutes taxes comprises (TTC). ZIG Gaming se réserve le droit de modifier ses prix à tout moment, mais les produits seront facturés sur la base des tarifs en vigueur au moment de la validation de la commande.</p>
-
-            <h2>4. Commande</h2>
-            <h3>4.1 Processus de commande</h3>
-            <ol>
-                <li>Sélection du ou des produit(s)</li>
-                <li>Vérification du récapitulatif de commande</li>
-                <li>Validation des informations de livraison</li>
-                <li>Choix du mode de paiement</li>
-                <li>Confirmation de commande</li>
-            </ol>
-
-            <h3>4.2 Confirmation</h3>
-            <p>Une confirmation de commande vous sera envoyée par email après validation du paiement.</p>
-
-            <h2>5. Paiement</h2>
-            <h3>5.1 Modalités</h3>
-            <p>Le paiement est exigible immédiatement à la commande. Les modes de paiement acceptés sont :</p>
-            <ul>
-                <li>Carte bancaire (Visa, Mastercard, American Express)</li>
-                <li>PayPal</li>
-                <li>Stripe</li>
-            </ul>
-
-            <h3>5.2 Sécurité</h3>
-            <p>Les transactions sont sécurisées via des protocoles SSL. ZIG Gaming ne conserve aucune donnée bancaire.</p>
-
-            <h2>6. Livraison</h2>
-            <h3>6.1 Zone de livraison</h3>
-            <p>Nous livrons actuellement en France métropolitaine et dans l'Union Européenne. D'autres destinations pourront être ajoutées ultérieurement.</p>
-
-            <h3>6.2 Délais</h3>
-            <p>Les délais de livraison sont donnés à titre indicatif :</p>
-            <ul>
-                <li>France métropolitaine : 3-5 jours ouvrés</li>
-                <li>Union Européenne : 5-10 jours ouvrés</li>
-            </ul>
-
-            <h3>6.3 Frais de port</h3>
-            <ul>
-                <li>Gratuits pour toute commande supérieure à 99€</li>
-                <li>9,90€ pour les commandes inférieures à 99€</li>
-            </ul>
-
-            <h2>7. Droit de rétractation</h2>
-            <p>Conformément à l'article L221-18 du Code de la consommation, vous disposez d'un délai de <strong>14 jours</strong> à compter de la réception du produit pour exercer votre droit de rétractation sans avoir à justifier de motifs ni à payer de pénalités.</p>
-
-            <h3>7.1 Procédure</h3>
-            <ol>
-                <li>Informez-nous de votre décision par email à : retours@zig-on.online</li>
-                <li>Renvoyez le produit dans son emballage d'origine</li>
-                <li>Le produit doit être dans un état permettant sa remise en vente</li>
-            </ol>
-
-            <h3>7.2 Remboursement</h3>
-            <p>Le remboursement sera effectué dans les 14 jours suivant la réception du produit retourné, par le même moyen de paiement que celui utilisé pour la commande.</p>
-
-            <h2>8. Garanties</h2>
-            <h3>8.1 Garantie légale de conformité</h3>
-            <p>Tous nos produits bénéficient de la garantie légale de conformité de 2 ans conformément aux articles L217-4 et suivants du Code de la consommation.</p>
-
-            <h3>8.2 Garantie constructeur</h3>
-            <p>Nos produits bénéficient également d'une garantie constructeur de <strong>2 ans</strong> contre tout défaut de fabrication.</p>
-
-            <h2>9. Service après-vente</h2>
-            <p>Pour toute question concernant nos produits ou votre commande :</p>
-            <ul>
-                <li>Email : support@zig-on.online</li>
-                <li>Téléphone : [Votre numéro]</li>
-                <li>Horaires : Du lundi au vendredi, 9h-18h</li>
-            </ul>
-
-            <h2>10. Litiges</h2>
-            <p>En cas de litige, une solution amiable sera recherchée avant toute action judiciaire. À défaut, les tribunaux français seront seuls compétents.</p>
-
-            <div class="highlight-box">
-                <p><strong>Médiation de la consommation</strong></p>
-                <p>Conformément à l'article L.612-1 du Code de la consommation, nous proposons un dispositif de médiation de la consommation. Le médiateur "droit de la consommation" ainsi choisi est [Nom du médiateur].</p>
-            </div>
-        </div>
-
-        <!-- CONFIDENTIALITÉ -->
-        <div id="privacy" class="page-content">
-            <h1>Politique de Confidentialité</h1>
-            <p class="last-update">Dernière mise à jour : 15 décembre 2024</p>
-
-            <h2>1. Introduction</h2>
-            <p>ZIG Gaming accorde une grande importance à la protection de vos données personnelles. Cette politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos informations conformément au Règlement Général sur la Protection des Données (RGPD).</p>
-
-            <h2>2. Responsable du traitement</h2>
-            <p><strong>ZIG Gaming</strong></p>
-            <p>Adresse : [Votre adresse]</p>
-            <p>Email : privacy@zig-on.online</p>
-
-            <h2>3. Données collectées</h2>
-            <h3>3.1 Données d'identification</h3>
-            <ul>
-                <li>Nom et prénom</li>
-                <li>Adresse email</li>
-                <li>Numéro de téléphone (optionnel)</li>
-                <li>Adresse postale (pour la livraison)</li>
-            </ul>
-
-            <h3>3.2 Données de commande</h3>
-            <ul>
-                <li>Historique d'achats</li>
-                <li>Préférences produits</li>
-                <li>Panier d'achat</li>
-            </ul>
-
-            <h3>3.3 Données de navigation</h3>
-            <ul>
-                <li>Adresse IP</li>
-                <li>Type de navigateur</li>
-                <li>Pages visitées</li>
-                <li>Durée de session</li>
-            </ul>
-
-            <h2>4. Finalités du traitement</h2>
-            <p>Vos données sont collectées pour les finalités suivantes :</p>
-            <ul>
-                <li><strong>Gestion des commandes :</strong> traitement, facturation, livraison</li>
-                <li><strong>Service client :</strong> répondre à vos demandes, gérer les retours</li>
-                <li><strong>Marketing :</strong> envoi de newsletters, offres personnalisées (avec votre consentement)</li>
-                <li><strong>Amélioration du service :</strong> analyse statistique, optimisation du site</li>
-                <li><strong>Obligations légales :</strong> comptabilité, lutte contre la fraude</li>
-            </ul>
-
-            <h2>5. Base légale</h2>
-            <p>Le traitement de vos données repose sur :</p>
-            <ul>
-                <li><strong>L'exécution du contrat :</strong> pour traiter vos commandes</li>
-                <li><strong>Votre consentement :</strong> pour les communications marketing</li>
-                <li><strong>L'intérêt légitime :</strong> pour améliorer nos services</li>
-                <li><strong>L'obligation légale :</strong> pour respecter nos obligations fiscales et comptables</li>
-            </ul>
-
-            <h2>6. Durée de conservation</h2>
-            <ul>
-                <li><strong>Données de compte :</strong> jusqu'à la suppression du compte + 3 ans</li>
-                <li><strong>Données de commande :</strong> 10 ans (obligations comptables)</li>
-                <li><strong>Données marketing :</strong> 3 ans à compter du dernier contact</li>
-                <li><strong>Cookies :</strong> 13 mois maximum</li>
-            </ul>
-
-            <h2>7. Destinataires des données</h2>
-            <p>Vos données peuvent être transmises à :</p>
-            <ul>
-                <li><strong>Prestataires de paiement :</strong> Stripe, PayPal</li>
-                <li><strong>Services de livraison :</strong> transporteurs sélectionnés</li>
-                <li><strong>Services techniques :</strong> hébergement, maintenance</li>
-                <li><strong>Services marketing :</strong> plateforme d'emailing (avec votre consentement)</li>
-            </ul>
-
-            <div class="highlight-box">
-                <p><strong>Important :</strong> Nous ne vendons jamais vos données personnelles à des tiers.</p>
-            </div>
-
-            <h2>8. Transferts hors UE</h2>
-            <p>Certains de nos prestataires peuvent être situés hors de l'Union Européenne. Dans ce cas, nous nous assurons que des garanties appropriées sont mises en place (clauses contractuelles types, Privacy Shield, etc.).</p>
-
-            <h2>9. Sécurité des données</h2>
-            <p>Nous mettons en œuvre des mesures techniques et organisationnelles pour protéger vos données :</p>
-            <ul>
-                <li>Chiffrement SSL/TLS des communications</li>
-                <li>Authentification sécurisée</li>
-                <li>Accès restreint aux données personnelles</li>
-                <li>Sauvegardes régulières</li>
-                <li>Audit de sécurité périodique</li>
-            </ul>
-
-            <h2>10. Vos droits</h2>
-            <p>Conformément au RGPD, vous disposez des droits suivants :</p>
-
-            <h3>10.1 Droit d'accès</h3>
-            <p>Vous pouvez obtenir une copie de vos données personnelles.</p>
-
-            <h3>10.2 Droit de rectification</h3>
-            <p>Vous pouvez demander la correction de données inexactes.</p>
-
-            <h3>10.3 Droit à l'effacement</h3>
-            <p>Vous pouvez demander la suppression de vos données dans certains cas.</p>
-
-            <h3>10.4 Droit à la limitation</h3>
-            <p>Vous pouvez demander la limitation du traitement de vos données.</p>
-
-            <h3>10.5 Droit à la portabilité</h3>
-            <p>Vous pouvez recevoir vos données dans un format structuré et lisible.</p>
-
-            <h3>10.6 Droit d'opposition</h3>
-            <p>Vous pouvez vous opposer au traitement de vos données à des fins marketing.</p>
-
-            <h3>10.7 Exercice de vos droits</h3>
-            <p>Pour exercer vos droits, contactez-nous à : <strong>privacy@zig-on.online</strong></p>
-            <p>Nous répondrons dans un délai maximum de <strong>1 mois</strong>.</p>
-
-            <h2>11. Cookies</h2>
-            <h3>11.1 Types de cookies utilisés</h3>
-            <ul>
-                <li><strong>Cookies essentiels :</strong> nécessaires au fonctionnement du site</li>
-                <li><strong>Cookies analytiques :</strong> statistiques de visite (avec consentement)</li>
-                <li><strong>Cookies marketing :</strong> publicité personnalisée (avec consentement)</li>
-            </ul>
-
-            <h3>11.2 Gestion des cookies</h3>
-            <p>Vous pouvez à tout moment modifier vos préférences en matière de cookies via les paramètres de votre navigateur ou notre bandeau de consentement.</p>
-
-            <h2>12. Mineurs</h2>
-            <p>Nos services ne sont pas destinés aux personnes de moins de 16 ans. Si vous avez moins de 16 ans, veuillez obtenir le consentement de vos parents avant de nous fournir vos données.</p>
-
-            <h2>13. Modifications</h2>
-            <p>Nous nous réservons le droit de modifier cette politique de confidentialité. Toute modification sera publiée sur cette page avec une nouvelle date de mise à jour.</p>
-
-            <h2>14. Réclamation</h2>
-            <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL :</p>
-            <p><strong>Commission Nationale de l'Informatique et des Libertés (CNIL)</strong></p>
-            <p>3 Place de Fontenoy - TSA 80715 - 75334 PARIS CEDEX 07</p>
-            <p>Tél : 01 53 73 22 22</p>
-            <p>Site : <a href="https://www.cnil.fr" style="color: var(--primary);">www.cnil.fr</a></p>
-
-            <h2>15. Contact</h2>
-            <p>Pour toute question concernant cette politique de confidentialité :</p>
-            <p>Email : <strong>privacy@zig-on.online</strong></p>
-            <p>Adresse : [Votre adresse complète]</p>
-        </div>
-    </div>
+    </section>
 
     <footer>
-        <p>© 2026 ZIG Gaming. Tous droits réservés.</p>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>⚡ ZIG</h3>
+                <p>Le poids plume qui frappe lourd. La révolution gaming commence ici.</p>
+            </div>
+            <div class="footer-section">
+                <h4>PRODUIT</h4>
+                <ul>
+                    <li><a href="#ia-promise">Technologie IA</a></li>
+                    <li><a href="#features">Spécifications</a></li>
+                    <li><a href="#ctaSection">Pré-commande</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>SUPPORT</h4>
+                <ul>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Garantie</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>LÉGAL</h4>
+                <ul>
+                    <li><a href="#">CGV</a></li>
+                    <li><a href="#">Mentions légales</a></li>
+                    <li><a href="#">Confidentialité</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 ZIG-on . Le poids plume qui frappe lourd.
+        </div>
     </footer>
 
     <script>
-        function showPage(pageId) {
-            // Cacher toutes les pages
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.classList.remove('active');
-            });
+        const SUPABASE_URL = 'https://fgqpcwxubjkylhbivibb.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZncXBjd3h1YmpreWxoYml2aWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1NzY0MzUsImV4cCI6MjA4MTE1MjQzNX0.mvGNiqqoGu4miqvBfh1lDATCm4vujiWkmishL9kO0Aw';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Compte à rebours jusqu'au lancement (Janvier 2026)
+        const launchDate = new Date("Jan 1, 2026 00:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = days < 10 ? '0' + days : days;
+            document.getElementById("hours").textContent = hours < 10 ? '0' + hours : hours;
+            document.getElementById("minutes").textContent = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById("seconds").textContent = seconds < 10 ? '0' + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector('.countdown').innerHTML = '<h2 style="color: var(--primary);">LANCÉ ! COMMANDER MAINTENANT !</h2>';
+            }
+        }, 1000);
+
+        // Inscription à la liste d'attente
+        async function joinWaitlist(e) {
+            e.preventDefault();
+            const email = document.getElementById('waitlistEmail').value;
+            const formMessage = document.getElementById('formMessage');
             
-            // Retirer l'état actif de tous les boutons
-            document.querySelectorAll('.page-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Afficher la page sélectionnée
-            document.getElementById(pageId).classList.add('active');
-            
-            // Activer le bouton correspondant
-            event.target.classList.add('active');
-            
-            // Scroll en haut de page
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            try {
+                const { error } = await supabase
+                    .from('newsletter_subscribers')
+                    .insert([{ email: email, is_active: true }]);
+                
+                if (error) {
+                    if (error.code === '23505') {
+                        formMessage.className = 'form-message error';
+                        formMessage.textContent = 'Cet email est déjà inscrit ! 🎯';
+                    } else {
+                        throw error;
+                    }
+                } else {
+                    formMessage.className = 'form-message success';
+                    formMessage.textContent = '🎉 Inscription réussie ! Bienvenue dans la famille ZIG. Vous recevrez un email de confirmation.';
+                    document.getElementById('waitlistEmail').value = '';
+                    
+                    const count = document.getElementById('waitlistCount');
+                    count.textContent = parseInt(count.textContent) + 1;
+                }
+            } catch (err) {
+                console.error('Erreur:', err);
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Erreur réseau. Veuillez réessayer plus tard.';
+            }
         }
+
+        // Scroll vers le CTA
+        function scrollToCTA() {
+            document.getElementById('ctaSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Charger le compteur d'inscrits
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const { count } = await supabase
+                    .from('newsletter_subscribers')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (count !== null) {
+                    document.getElementById('waitlistCount').textContent = count;
+                }
+            } catch (err) {
+                console.error('Erreur chargement compteur:', err);
+            }
+        });
     </script>
 </body>
 </html>

@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact & Support - ZIG-on</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" type="image/png" href="favicon.png">
+    <title>Contact & Support - ZIG Gaming</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -375,13 +373,12 @@
         <h1>Contactez-nous</h1>
         <p class="subtitle">Notre équipe est là pour répondre à toutes vos questions</p>
 
-        <!-- Moyens de contact rapides -->
         <div class="contact-grid">
             <div class="contact-card">
                 <div class="contact-icon">📧</div>
                 <h3 class="contact-title">Email Support</h3>
                 <p class="contact-description">Pour toute question technique ou assistance produit</p>
-                <a href="mailto:zig.support@gmail.com" class="contact-link">zig.support@gmail.com</a>
+                <a href="mailto:zig.suppoff@gmail.com" class="contact-link">zig.suppoff@gmail.com</a>
             </div>
 
             <div class="contact-card">
@@ -406,7 +403,6 @@
             </div>
         </div>
 
-        <!-- Réseaux sociaux -->
         <div class="social-section">
             <h2>Rejoignez notre Communauté</h2>
             <p>Suivez-nous sur les réseaux sociaux pour rester informé des dernières actualités</p>
@@ -450,7 +446,6 @@
             </div>
         </div>
 
-        <!-- Formulaire de contact -->
         <div class="form-section">
             <h2>Envoyez-nous un Message</h2>
             <p>Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24h</p>
@@ -527,7 +522,7 @@
             // Simulation d'envoi (vous devrez intégrer votre backend ici)
             try {
                 // Option 1 : Envoyer via FormSubmit.co (gratuit)
-                const response = await fetch('https://formsubmit.co/zig.support@gmail.com', {
+                const response = await fetch('https://formsubmit.co/zig.suppoff@gmail.com', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -553,7 +548,7 @@
                     `Message:\n${formData.message}`
                 );
                 
-                window.location.href = `mailto:zig.support@gmail.com?subject=${subject}&body=${body}`;
+                window.location.href = `mailto:zig.suppoff@gmail.com?subject=${subject}&body=${body}`;
                 
                 formMessage.className = 'form-message success';
                 formMessage.textContent = '📧 Votre client email va s\'ouvrir. Envoyez le message prérempli.';
@@ -561,6 +556,4 @@
         }
     </script>
 </body>
-
 </html>
-

@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIG-on — Le poids plume qui frappe lourd</title>
+    <meta name="description" content="ZIG Pro — Souris gaming 35g avec IA adaptative. Capteur PAW3950 26000 DPI, 100h d'autonomie. Redéfinissez votre performance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold:     #D4A017;
+            --gold-lt:  #F0C040;
+            --gold-dim: rgba(212,160,23,0.15);
+            --black:    #000000;
+            --bg:       #060606;
+            --bg-2:     #0D0D0D;
+            --bg-3:     #141414;
+            --border:   rgba(255,255,255,0.06);
+            --border-g: rgba(212,160,23,0.2);
+            --text:     #F0EDE8;
+            --text-2:   #A09890;
+            --text-3:   #5A5450;
+            --grad:     linear-gradient(135deg, #D4A017 0%, #F0C040 50%, #D4A017 100%);
+            --grad-v:   linear-gradient(180deg, #D4A017 0%, #8B6010 100%);
+            --radius:   12px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* ── CUSTOM CURSOR ── */
+        .cursor {
+            position: fixed;
+            width: 8px; height: 8px;
+            background: var(--gold-lt);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+            mix-blend-mode: difference;
+        }
+        .cursor-ring {
+            position: fixed;
+            width: 32px; height: 32px;
+            border: 1px solid rgba(212,160,23,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s;
+        }
+        .cursor.active { width: 14px; height: 14px; }
+        .cursor-ring.active { width: 48px; height: 48px; border-color: var(--gold); }
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0 5%;
+        }
+
+        .nav-wrap {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 4px;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-bar {
+            width: 4px;
+            height: 26px;
+            background: var(--grad);
+            border-radius: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-2);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-icon-btn {
+            width: 40px; height: 40px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-2);
+            font-size: 17px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-icon-btn:hover { border-color: var(--border-g); color: var(--text); }
+
+        .cart-dot {
+            position: absolute;
+            top: 6px; right: 6px;
+            width: 7px; height: 7px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: none;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 5% 80px;
+        }
+
+        /* Radial glow behind product */
+        .hero-glow {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(ellipse at center, rgba(212,160,23,0.12) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        /* Grid lines decoration */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(212,160,23,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212,160,23,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+        }
+
+        /* Top diagonal accent */
+        .hero-line {
+            position: absolute;
+            top: 0; right: 0;
+            width: 50%; height: 3px;
+            background: var(--grad);
+            transform-origin: right top;
+        }
+
+        .hero-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-left { display: flex; flex-direction: column; gap: 32px; }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: fit-content;
+            padding: 8px 16px;
+            border: 1px solid var(--border-g);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .hero-tag-dot {
+            width: 6px; height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(72px, 8vw, 120px);
+            line-height: 0.9;
+            letter-spacing: 2px;
+            animation: fadeInUp 0.7s 0.1s ease both;
+        }
+
+        .hero-title .line-1 { display: block; color: var(--text); }
+        .hero-title .line-2 {
+            display: block;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-title .line-3 { display: block; color: var(--text-3); font-size: 0.55em; letter-spacing: 8px; }
+
+        .hero-sub {
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--text-2);
+            max-width: 480px;
+            animation: fadeInUp 0.7s 0.2s ease both;
+        }
+
+        .hero-sub strong { color: var(--text); font-weight: 600; }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            animation: fadeInUp 0.7s 0.3s ease both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--grad);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #000;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.15);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover::after { opacity: 1; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(212,160,23,0.35); }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 28px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+
+        .btn-ghost:hover { border-color: var(--border-g); color: var(--text); }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            animation: fadeInUp 0.7s 0.4s ease both;
+        }
+
+        .stat { display: flex; flex-direction: column; gap: 4px; }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 1px;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-3);
+        }
+
+        /* Hero Product Image */
+        .hero-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: fadeInRight 0.9s 0.2s ease both;
+        }
+
+        .product-showcase {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .product-showcase-ring {
+            position: absolute;
+            inset: -40px;
+            border: 1px solid var(--border-g);
+            border-radius: 50%;
+            animation: rotateSlow 20s linear infinite;
+        }
+
+        .product-showcase-ring::after {
+            content: '';
+            position: absolute;
+            top: -3px; left: 50%;
+            transform: translateX(-50%);
+            width: 6px; height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .product-img-wrap {
+            position: relative;
+            padding: 40px;
+            background: radial-gradient(ellipse at center, rgba(212,160,23,0.07) 0%, transparent 70%);
+        }
+
+        .product-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 40px 80px rgba(212,160,23,0.2));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-16px); }
+        }
+
+        /* Price badge */
+        .price-badge {
+            position: absolute;
+            bottom: 20px;
+            left: -20px;
+            background: var(--bg-3);
+            border: 1px solid var(--border-g);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            backdrop-filter: blur(20px);
+            animation: fadeInUp 0.7s 0.6s ease both;
+        }
+
+        .price-badge-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 1px;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price-badge-label {
+            font-size: 11px;
+            color: var(--text-3);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .price-badge-old {
+            font-size: 13px;
+            color: var(--text-3);
+            text-decoration: line-through;
+            margin-top: 2px;
+        }
+
+        /* Weight badge */
+        .weight-badge {
+            position: absolute;
+            top: 20px;
+            right: -10px;
+            background: var(--gold);
+            border-radius: 8px;
+            padding: 12px 16px;
+            animation: fadeInUp 0.7s 0.7s ease both;
+        }
+
+        .weight-badge-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: #000;
+            line-height: 1;
+        }
+
+        .weight-badge-unit {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(0,0,0,0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ── SCROLL INDICATOR ── */
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .scroll-hint span {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-3);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+            100% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+        }
+
+        /* ── FEATURES STRIP ── */
+        .features-strip {
+            padding: 60px 5%;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-2);
+        }
+
+        .features-strip-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+
+        .feat-item {
+            background: var(--bg-2);
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: background 0.3s;
+        }
+
+        .feat-item:hover { background: var(--bg-3); }
+
+        .feat-icon {
+            font-size: 28px;
+            width: 52px; height: 52px;
+            background: var(--gold-dim);
+            border: 1px solid var(--border-g);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .feat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            letter-spacing: 1px;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .feat-value span {
+            font-size: 0.45em;
+            letter-spacing: 1px;
+            color: var(--text-3);
+        }
+
+        .feat-label {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.4;
+        }
+
+        /* ── PRODUCT SECTION ── */
+        .product-section {
+            padding: 120px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .section-label-line {
+            width: 40px; height: 2px;
+            background: var(--grad);
+        }
+
+        .section-label span {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 5vw, 72px);
+            letter-spacing: 2px;
+            line-height: 0.95;
+            margin-bottom: 60px;
+        }
+
+        .product-detail-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .product-detail-img {
+            position: relative;
+        }
+
+        .product-detail-img img {
+            width: 100%;
+            filter: drop-shadow(0 30px 60px rgba(212,160,23,0.15));
+        }
+
+        /* Specs overlay cards */
+        .spec-float {
+            position: absolute;
+            background: var(--bg-3);
+            border: 1px solid var(--border-g);
+            border-radius: 10px;
+            padding: 14px 18px;
+        }
+
+        .spec-float-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: var(--gold-lt);
+            letter-spacing: 1px;
+        }
+
+        .spec-float-key {
+            font-size: 11px;
+            color: var(--text-3);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sf-1 { top: 5%; right: -5%; }
+        .sf-2 { bottom: 15%; left: -5%; }
+        .sf-3 { top: 45%; right: -8%; }
+
+        .product-detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .product-detail-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 56px;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+
+        .product-detail-desc {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-2);
+        }
+
+        .spec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .spec-row:last-child { border-bottom: none; }
+        .spec-row:hover { background: var(--bg-2); }
+
+        .spec-key {
+            font-size: 13px;
+            color: var(--text-3);
+            font-weight: 500;
+        }
+
+        .spec-val {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .product-detail-price {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+        }
+
+        .price-main {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 56px;
+            letter-spacing: 1px;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price-old {
+            font-size: 22px;
+            color: var(--text-3);
+            text-decoration: line-through;
+        }
+
+        .price-save {
+            padding: 4px 10px;
+            background: rgba(16,185,129,0.12);
+            border: 1px solid rgba(16,185,129,0.3);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #10B981;
+        }
+
+        .product-detail-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* ── TESTIMONIALS / SOCIAL PROOF ── */
+        .proof-section {
+            padding: 80px 5%;
+            background: var(--bg-2);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .proof-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .proof-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 48px;
+        }
+
+        .proof-rating {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .proof-stars {
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: var(--gold);
+        }
+
+        .proof-count {
+            font-size: 14px;
+            color: var(--text-2);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .testimonial {
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: border-color 0.3s;
+        }
+
+        .testimonial:hover { border-color: var(--border-g); }
+
+        .test-stars { font-size: 14px; color: var(--gold); margin-bottom: 16px; }
+
+        .test-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-2);
+            margin-bottom: 20px;
+        }
+
+        .test-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .test-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--gold-dim);
+            border: 1px solid var(--border-g);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+
+        .test-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .test-role {
+            font-size: 12px;
+            color: var(--text-3);
+            margin-top: 2px;
+        }
+
+        /* ──  PREVIEW ── */
+        .-section {
+            padding: 120px 5%;
+        }
+
+        .-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 48px;
+        }
+
+        .-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .-card {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .-card:hover {
+            border-color: var(--border-g);
+            transform: translateY(-4px);
+        }
+
+        .-card-img {
+            height: 200px;
+            background: var(--bg-3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .-card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .-card.featured .-card-img { height: 280px; }
+
+        .-card-cat {
+            position: absolute;
+            top: 16px; left: 16px;
+            padding: 4px 10px;
+            background: var(--gold);
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        .-card-body {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--text);
+        }
+
+        .-card.featured .-card-title { font-size: 20px; }
+
+        .-card-excerpt {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .-card-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 11px;
+            color: var(--text-3);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── CTA BANNER ── */
+        .cta-section {
+            padding: 80px 5%;
+            background: var(--bg-2);
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 60px;
+            padding: 60px;
+            background: var(--bg-3);
+            border: 1px solid var(--border-g);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-inner::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(212,160,23,0.08) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            letter-spacing: 2px;
+            line-height: 0.95;
+            margin-bottom: 12px;
+        }
+
+        .cta-sub {
+            font-size: 15px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 60px 5% 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            letter-spacing: 4px;
+            color: var(--text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand-desc {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.7;
+            max-width: 280px;
+        }
+
+        .footer-col-title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            color: var(--text-2);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--text); }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-3);
+        }
+
+        .footer-bottom a { color: var(--text-3); text-decoration: none; }
+        .footer-bottom a:hover { color: var(--text-2); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Intersection observer animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .hero-inner         { grid-template-columns: 1fr; gap: 40px; }
+            .hero-right         { display: none; }
+            .product-detail-grid{ grid-template-columns: 1fr; }
+            .testimonials-grid  { grid-template-columns: 1fr; }
+            .-grid          { grid-template-columns: 1fr; }
+            .footer-top         { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .cta-inner          { grid-template-columns: 1fr; }
+            .features-strip-inner { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor, .cursor-ring { display: none; }
+            .nav-links    { display: none; }
+            .hero-title   { font-size: 64px; }
+            .hero-stats   { gap: 24px; flex-wrap: wrap; }
+            .footer-top   { grid-template-columns: 1fr; }
+            .features-strip-inner { grid-template-columns: 1fr; }
+            .proof-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ══ HEADER ══ -->
+    <header>
+        <div class="nav-wrap">
+            <a href="index.html" class="logo">
+                <div class="logo-bar"></div>
+                ZIG
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="shop.html">Boutique</a></li>
+
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="nav-icon-btn" title="Mon compte">👤</a>
+                <a href="cart.html" class="nav-icon-btn" title="Panier">
+                    🛒
+                    <span class="cart-dot" id="cartDot"></span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ══ HERO ══ -->
+    <section class="hero">
+        <div class="hero-line"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+
+        <div class="hero-inner">
+            <div class="hero-left">
+                <div class="hero-tag">
+                    <div class="hero-tag-dot"></div>
+                    Disponible maintenant
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="line-1">ZIG</span>
+                    <span class="line-2">PRO</span>
+                    <span class="line-3">Gaming Mouse</span>
+                </h1>
+
+                <p class="hero-sub">
+                    <strong>35 grammes.</strong> Un moteur IA qui apprend de votre jeu.
+                    Le capteur PAW3950 à 26 000 DPI. 100h d'autonomie.
+                    La souris qui évolue avec vous.
+                </p>
+
+                <div class="hero-ctas">
+                    <a href="shop.html" class="btn-primary">
+                        Commander — 95,99€
+                        <span>→</span>
+                    </a>
+                    <a href="product.html?slug=zig-pro-gaming-mouse" class="btn-ghost">
+                        Découvrir
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-value">35g</span>
+                        <span class="stat-label">Poids ultra-léger</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">26K</span>
+                        <span class="stat-label">DPI capteur</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">100h</span>
+                        <span class="stat-label">Autonomie</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">IA</span>
+                        <span class="stat-label">Adaptative</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="product-showcase">
+                    <div class="product-showcase-ring"></div>
+                    <div class="product-img-wrap">
+                        <img
+                            src="https://raw.githubusercontent.com/ZIG-on/zig-pro-launch/refs/heads/main/ZIG_Pro_render.png"
+                            alt="ZIG Pro Gaming Mouse"
+                            class="product-img"
+                        >
+                    </div>
+                    <div class="price-badge">
+                        <div class="price-badge-label">Prix de lancement</div>
+                        <div class="price-badge-amount">95,99€</div>
+                        <div class="price-badge-old">129,99€</div>
+                    </div>
+                    <div class="weight-badge">
+                        <div class="weight-badge-val">35</div>
+                        <div class="weight-badge-unit">grammes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ══ FEATURES STRIP ══ -->
+    <section class="features-strip">
+        <div class="features-strip-inner">
+            <div class="feat-item reveal">
+                <div class="feat-icon">⚖️</div>
+                <div class="feat-value">35<span>g</span></div>
+                <div class="feat-label">Design ultra-léger pour une fatigue réduite en session longue</div>
+            </div>
+            <div class="feat-item reveal">
+                <div class="feat-icon">🎯</div>
+                <div class="feat-value">26K<span>DPI</span></div>
+                <div class="feat-label">Capteur PAW3950 — la précision absolue à chaque pixel</div>
+            </div>
+            <div class="feat-item reveal">
+                <div class="feat-icon">🔋</div>
+                <div class="feat-value">100<span>h</span></div>
+                <div class="feat-label">Autonomie record — jouez des semaines sans recharger</div>
+            </div>
+            <div class="feat-item reveal">
+                <div class="feat-icon">🧠</div>
+                <div class="feat-value">AI<span>engine</span></div>
+                <div class="feat-label">S'adapte à votre style en temps réel — apprend, évolue</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ PRODUCT DETAIL ══ -->
+    <section class="product-section">
+        <div style="max-width:1400px;margin:0 auto;">
+            <div class="section-label">
+                <div class="section-label-line"></div>
+                <span>Le produit</span>
+            </div>
+            <h2 class="section-title reveal">
+                Conçue pour<br>les meilleurs.
+            </h2>
+
+            <div class="product-detail-grid">
+                <div class="product-detail-img reveal">
+                    <img
+                        src="https://raw.githubusercontent.com/ZIG-on/zig-pro-launch/refs/heads/main/ZIG_Pro_render.png"
+                        alt="ZIG Pro"
+                    >
+                    <div class="spec-float sf-1">
+                        <div class="spec-float-val">PAW3950</div>
+                        <div class="spec-float-key">Capteur</div>
+                    </div>
+                    <div class="spec-float sf-2">
+                        <div class="spec-float-val">2.4GHz</div>
+                        <div class="spec-float-key">Sans fil</div>
+                    </div>
+                    <div class="spec-float sf-3">
+                        <div class="spec-float-val">80M</div>
+                        <div class="spec-float-key">Clics garantis</div>
+                    </div>
+                </div>
+
+                <div class="product-detail-info reveal">
+                    <div class="product-detail-name">ZIG Pro<br>Gaming Mouse</div>
+                    <p class="product-detail-desc">
+                        La ZIG Pro n'est pas juste une souris gaming. C'est un partenaire qui observe, comprend et s'adapte à votre façon de jouer. Le ZIG AI Engine analyse en continu vos micro-mouvements pour optimiser précision et réactivité — en temps réel.
+                    </p>
+
+                    <div class="spec-list">
+                        <div class="spec-row">
+                            <span class="spec-key">Capteur</span>
+                            <span class="spec-val">PAW3950 — 26 000 DPI</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-key">Poids</span>
+                            <span class="spec-val">35g (coque honeycomb)</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-key">Connectivité</span>
+                            <span class="spec-val">2.4GHz / BT 5.2 / USB-C</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-key">Autonomie</span>
+                            <span class="spec-val">100h (sans fil)</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-key">Switches</span>
+                            <span class="spec-val">Kailh GM 8.0 — 80M clics</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-key">Intelligence</span>
+                            <span class="spec-val">ZIG AI Engine v2.0</span>
+                        </div>
+                    </div>
+
+                    <div class="product-detail-price">
+                        <span class="price-main">95,99€</span>
+                        <span class="price-old">129,99€</span>
+                        <span class="price-save">-26%</span>
+                    </div>
+
+                    <div class="product-detail-actions">
+                        <a href="shop.html" class="btn-primary">Commander →</a>
+                        <a href="product.html?slug=zig-pro-gaming-mouse" class="btn-ghost">Voir le détail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ TESTIMONIALS ══ -->
+    <section class="proof-section">
+        <div class="proof-inner">
+            <div class="proof-header">
+                <div>
+                    <div class="section-label" style="margin-bottom:12px;">
+                        <div class="section-label-line"></div>
+                        <span>Avis joueurs</span>
+                    </div>
+                    <h2 class="section-title" style="font-size:clamp(36px,4vw,52px);margin-bottom:0;">Ce qu'ils en pensent.</h2>
+                </div>
+                <div class="proof-rating">
+                    <span class="proof-stars">★★★★★</span>
+                    <span class="proof-count">4.9 / 5 · 127 avis</span>
+                </div>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial reveal">
+                    <div class="test-stars">★★★★★</div>
+                    <p class="test-text">"Je suis passé de Diamond 3 à Radiant en 2 semaines après avoir switch sur la ZIG Pro. La précision est d'un autre niveau, surtout les micro-ajustements sur les 180°."</p>
+                    <div class="test-author">
+                        <div class="test-avatar">🎮</div>
+                        <div>
+                            <div class="test-name">Théo M.</div>
+                            <div class="test-role">Valorant — Radiant</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial reveal">
+                    <div class="test-stars">★★★★★</div>
+                    <p class="test-text">"35g c'est hallucinant. Mes sessions de 6h ne fatiguent plus mon poignet. Et l'IA qui s'adapte, on sent vraiment la différence après quelques heures de jeu."</p>
+                    <div class="test-author">
+                        <div class="test-avatar">⚡</div>
+                        <div>
+                            <div class="test-name">Lucas D.</div>
+                            <div class="test-role">CS2 — Global Elite</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial reveal">
+                    <div class="test-stars">★★★★★</div>
+                    <p class="test-text">"J'ai testé des dizaines de souris gaming à ce tarif. Aucune ne rivalise avec le capteur PAW3950 de la ZIG Pro. Les clics sont nets, le scroll parfait."</p>
+                    <div class="test-author">
+                        <div class="test-avatar">🏆</div>
+                        <div>
+                            <div class="test-name">Sarah K.</div>
+                            <div class="test-role">Apex — Predator</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══ CTA ══ -->
+    <section class="cta-section">
+        <div class="cta-inner reveal">
+            <div>
+                <h2 class="cta-title">Prêt à dominer<br><span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">la compétition ?</span></h2>
+                <p class="cta-sub">Stock limité au prix de lancement. Livraison offerte dès 99€.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;align-items:center;">
+                <a href="shop.html" class="btn-primary" style="font-size:16px;padding:18px 40px;">Commander maintenant →</a>
+                <span style="font-size:12px;color:var(--text-3);">✓ Retour 14 jours &nbsp;·&nbsp; ✓ Garantie 2 ans</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ FOOTER ══ -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand-name">
+                        <div class="logo-bar"></div>
+                        ZIG
+                    </div>
+                    <p class="footer-brand-desc">
+                        ZIG-on fabrique des périphériques gaming de haute performance pour les joueurs qui refusent les compromis. Le poids plume qui frappe lourd.
+                    </p>
+                </div>
+                <div>
+                    <div class="footer-col-title">Boutique</div>
+                    <ul class="footer-links">
+                        <li><a href="shop.html">ZIG Pro</a></li>
+                        <li><a href="shop.html">Nouveautés</a></li>
+                        <li><a href="cart.html">Panier</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-col-title">Aide</div>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="dashboard-client.html">Mon compte</a></li>
+                        <li><a href="contact.html">Suivi de commande</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-col-title">ZIG-on</div>
+                    <ul class="footer-links">
+                        <li><a href="about.html">À propos</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 ZIG-on — Le poids plume qui frappe lourd.</span>
+                <span>Made with ⚡ for gamers</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    // ── CONFIG ──
+    const SUPABASE_URL = 'https://beuujevawwzvlvzhdjch.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_A2buKvsEM_YsoKp4e09M9w_mKZsxHNw';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ── CURSOR ──
+    const cursor     = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    function animCursor() {
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        cursor.style.left     = mx + 'px';
+        cursor.style.top      = my + 'px';
+        cursorRing.style.left = rx + 'px';
+        cursorRing.style.top  = ry + 'px';
+        requestAnimationFrame(animCursor);
+    }
+    animCursor();
+
+    document.querySelectorAll('a, button, .feat-item, .testimonial, .-card').forEach(el => {
+        el.addEventListener('mouseenter', () => { cursor.classList.add('active'); cursorRing.classList.add('active'); });
+        el.addEventListener('mouseleave', () => { cursor.classList.remove('active'); cursorRing.classList.remove('active'); });
+    });
+
+    // ── CART DOT ──
+    function updateCartDot() {
+        const cart = JSON.parse(localStorage.getItem('zig_cart') || '[]');
+        const total = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+        const dot = document.getElementById('cartDot');
+        if (dot) dot.style.display = total > 0 ? 'block' : 'none';
+    }
+    updateCartDot();
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+                setTimeout(() => e.target.classList.add('visible'), i * 80);
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ──  FROM SUPABASE ──
+    const catIcons = { actualites:'📰', guides:'🎯', tests:'⚖️', esport:'🏆' };
+    const catNames = { actualites:'Actualités', guides:'Guides', tests:'Tests', esport:'E-sport' };
+
+    async function load() {
+        const { data, error } = await sb
+            .from('_posts')
+            .select('id, title, excerpt, featured_image, category, read_time, published_at')
+            .eq('status', 'published')
+            .order('published_at', { ascending: false })
+            .limit(3);
+
+        if (error || !data || data.length === 0) return;
+
+        const grid = document.getElementById('Grid');
+        grid.innerHTML = data.map((p, i) => {
+            const icon = catIcons[p.category] || '🖱️';
+            const cat  = catNames[p.category] || p.category || 'Article';
+            const date = p.published_at ? new Date(p.published_at).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' }) : '';
+            const img  = p.featured_image;
+            return `
+            <a href="-post.html?id=${p.id}" class="-card ${i === 0 ? 'featured' : ''}">
+                <div class="-card-img">
+                    ${img ? `<img src="${img}" alt="${p.title}">` : icon}
+                    <span class="-card-cat">${cat}</span>
+                </div>
+                <div class="-card-body">
+                    <div class="-card-title">${p.title}</div>
+                    ${i === 0 ? `<div class="-card-excerpt">${p.excerpt || ''}</div>` : ''}
+                    <div class="-card-meta">
+                        <span>${date}</span>
+                        ${p.read_time ? `<span>⏱ ${p.read_time}</span>` : ''}
+                    </div>
+                </div>
+            </a>`;
+        }).join('');
+
+        // Re-observe new elements
+        document.querySelectorAll('#Grid .-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(24px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    }
+
+    load();
+    </script>
+</body>
+</html>

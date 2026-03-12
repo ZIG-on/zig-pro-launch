@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>À propos — ZIG-on</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#D4A017;--gold-lt:#F0C040;--gold-dim:rgba(212,160,23,.12);--bg:#060606;--bg-2:#0D0D0D;--bg-3:#141414;--border:rgba(255,255,255,.06);--border-g:rgba(212,160,23,.22);--text:#F0EDE8;--text-2:#A09890;--text-3:#5A5450;--grad:linear-gradient(135deg,#D4A017 0%,#F0C040 50%,#D4A017 100%);--success:#10B981;--radius:12px}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:1}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold-lt);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(212,160,23,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+.cursor.active{width:14px;height:14px}.cursor-ring.active{width:48px;height:48px;border-color:var(--gold)}
+
+/* NAV */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;background:rgba(6,6,6,.94);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-wrap{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bar{width:4px;height:24px;background:var(--grad);border-radius:2px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--text)}.nav-links a.active{color:var(--gold)}
+.nav-actions{display:flex;gap:6px}
+.nav-icon-btn{width:40px;height:40px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text-2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;position:relative}
+.nav-icon-btn:hover{border-color:var(--border-g);color:var(--text)}
+.cart-badge{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;background:var(--gold);border-radius:9px;font-size:10px;font-weight:700;color:#000;display:none;align-items:center;justify-content:center;padding:0 4px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 5% 0}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(212,160,23,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,160,23,.03) 1px,transparent 1px);background-size:72px 72px}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(212,160,23,.09) 0%,transparent 65%);pointer-events:none}
+.hero-inner{max-width:1400px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2}
+.hero-label{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.hero-label-line{width:40px;height:2px;background:var(--grad)}
+.hero-label span{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,7vw,100px);letter-spacing:2px;line-height:.88;margin-bottom:24px}
+.hero-title .gold{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:17px;color:var(--text-2);line-height:1.75;max-width:480px;margin-bottom:36px}
+.hero-cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn-gold{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;background:var(--grad);border:none;border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#000;cursor:pointer;text-decoration:none;transition:all .25s}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(212,160,23,.3)}
+.btn-ghost{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:transparent;border:1px solid var(--border);border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:14px;color:var(--text-2);cursor:pointer;text-decoration:none;transition:all .25s}
+.btn-ghost:hover{border-color:var(--border-g);color:var(--text)}
+/* Hero right — logo 3D */
+.hero-visual{display:flex;align-items:center;justify-content:center;position:relative}
+.logo-3d{width:340px;height:340px;background:var(--bg-2);border:1px solid var(--border-g);border-radius:32px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.logo-3d::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 30%,rgba(212,160,23,.18) 0%,transparent 60%)}
+.logo-3d-text{font-family:'Bebas Neue',sans-serif;font-size:112px;letter-spacing:8px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:2;text-shadow:none}
+.logo-3d-ring{position:absolute;width:420px;height:420px;border:1px solid rgba(212,160,23,.08);border-radius:50%;animation:rotate 20s linear infinite}
+.logo-3d-ring2{width:320px;height:320px;animation-duration:14s;animation-direction:reverse}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.float-badge{position:absolute;padding:8px 14px;background:var(--bg-3);border:1px solid var(--border-g);border-radius:10px;font-size:12px;font-weight:600;color:var(--text);animation:float 4s ease-in-out infinite}
+.float-badge-1{top:-20px;right:-20px;animation-delay:0s}
+.float-badge-2{bottom:-20px;left:-20px;animation-delay:2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--text-3);letter-spacing:2px;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* SECTIONS COMMON */
+section{max-width:1400px;margin:0 auto;padding:100px 5%}
+.section-label{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.section-label-line{width:32px;height:2px;background:var(--grad)}
+.section-label span{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,64px);letter-spacing:2px;line-height:.95;margin-bottom:16px}
+.section-sub{font-size:16px;color:var(--text-2);line-height:1.7;max-width:560px}
+
+/* STORY */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+.story-text p{font-size:16px;color:var(--text-2);line-height:1.85;margin-bottom:20px}
+.story-text p strong{color:var(--text)}
+.story-timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:20px;position:relative;padding-bottom:32px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item:last-child .tl-line{display:none}
+.tl-dot-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--bg-3);border:2px solid var(--border);flex-shrink:0;transition:all .3s}
+.tl-item.active .tl-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px rgba(212,160,23,.4)}
+.tl-line{flex:1;width:1px;background:var(--border);margin:4px 0}
+.tl-year{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--gold-lt);margin-bottom:4px}
+.tl-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.tl-desc{font-size:13px;color:var(--text-2);line-height:1.6}
+
+/* NUMBERS */
+.numbers-section{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 5%}
+.numbers-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center}
+.num-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,5vw,72px);letter-spacing:1px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.num-label{font-size:14px;color:var(--text-2);line-height:1.5}
+.num-sublabel{font-size:12px;color:var(--text-3);margin-top:3px}
+
+/* VALUES */
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.val-card{background:var(--bg-2);border:1px solid var(--border);border-radius:18px;padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.val-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);opacity:0;transition:opacity .3s}
+.val-card:hover{border-color:var(--border-g);transform:translateY(-4px)}.val-card:hover::before{opacity:1}
+.val-icon{font-size:32px;margin-bottom:16px;display:block}
+.val-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:10px}
+.val-desc{font-size:14px;color:var(--text-2);line-height:1.7}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px}
+.member-card{background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.member-card:hover{border-color:var(--border-g);transform:translateY(-4px)}
+.member-avatar{width:80px;height:80px;border-radius:50%;background:var(--bg-3);border:2px solid var(--border-g);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px;position:relative}
+.member-avatar::after{content:'';position:absolute;inset:-3px;border-radius:50%;background:var(--grad);opacity:0;transition:opacity .3s;z-index:-1}
+.member-card:hover .member-avatar::after{opacity:1}
+.member-name{font-size:16px;font-weight:700;margin-bottom:4px}
+.member-role{font-size:12px;color:var(--gold);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.member-desc{font-size:13px;color:var(--text-2);line-height:1.6}
+.member-social{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.msoc{width:30px;height:30px;background:var(--bg-3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text-2)}
+.msoc:hover{border-color:var(--border-g)}
+
+/* TECH */
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.tech-card{background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color .2s}
+.tech-card:hover{border-color:var(--border-g)}
+.tech-icon{font-size:28px;margin-bottom:12px}
+.tech-name{font-size:15px;font-weight:700;margin-bottom:8px}
+.tech-desc{font-size:13px;color:var(--text-2);line-height:1.65}
+.tech-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tech-tag{padding:3px 10px;background:var(--bg-3);border:1px solid var(--border);border-radius:10px;font-size:11px;color:var(--text-3)}
+
+/* CTA BAND */
+.cta-band{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 5%;text-align:center;position:relative;overflow:hidden}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(212,160,23,.07) 0%,transparent 65%);pointer-events:none}
+.cta-band-inner{max-width:600px;margin:0 auto;position:relative;z-index:2}
+.cta-band-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,64px);letter-spacing:2px;margin-bottom:14px}
+.cta-band-sub{font-size:16px;color:var(--text-2);line-height:1.65;margin-bottom:32px}
+.cta-band-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* PRESS */
+.press-logos{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:48px;opacity:.4;filter:grayscale(1)}
+.press-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--text-2)}
+
+/* FOOTER */
+footer{background:var(--bg-2);border-top:1px solid var(--border);padding:60px 5% 32px}
+.footer-grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+.footer-brand .logo{margin-bottom:14px}
+.footer-desc{font-size:13px;color:var(--text-3);line-height:1.7}
+.footer-col-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:16px}
+.footer-links{display:flex;flex-direction:column;gap:10px}
+.footer-links a{font-size:13px;color:var(--text-2);text-decoration:none;transition:color .2s}.footer-links a:hover{color:var(--gold)}
+.footer-bottom{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3)}
+
+@media(max-width:1100px){.team-grid{grid-template-columns:repeat(2,1fr)}.hero-inner{grid-template-columns:1fr}.hero-visual{display:none}.story-grid{grid-template-columns:1fr}.numbers-inner{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){body{cursor:auto}.cursor,.cursor-ring{display:none}.nav-links{display:none}.values-grid,.tech-grid,.team-grid{grid-template-columns:1fr}.numbers-inner{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<header>
+  <div class="nav-wrap">
+    <a href="index.html" class="logo"><div class="logo-bar"></div>ZIG</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="shop.html">Boutique</a></li>
+      <li><a href="about.html" class="active">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-icon-btn">👤</a>
+      <a href="cart.html" class="nav-icon-btn">🛒<span class="cart-badge" id="cartBadge"></span></a>
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label"><div class="hero-label-line"></div><span>Notre histoire</span></div>
+      <h1 class="hero-title">Derrière<br>chaque<br><span class="gold">clic.</span></h1>
+      <p class="hero-desc">ZIG-on est né d'une obsession : concevoir la souris gaming parfaite. Pas un compromis. Pas un produit de plus. Une arme pensée par des joueurs, pour des joueurs.</p>
+      <div class="hero-cta-row">
+        <a href="shop.html" class="btn-gold">Découvrir nos produits →</a>
+        <a href="contact.html" class="btn-ghost">Nous contacter</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="logo-3d">
+        <div class="logo-3d-ring"></div>
+        <div class="logo-3d-ring logo-3d-ring2"></div>
+        <div class="logo-3d-text">ZIG</div>
+      </div>
+      <div class="float-badge float-badge-1">🏆 Top Rated 2024</div>
+      <div class="float-badge float-badge-2">🖱️ Made in Belguim</div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>↓</span><span>Défiler</span></div>
+</div>
+
+<!-- ── STORY ── -->
+<section>
+  <div class="section-label"><div class="section-label-line"></div><span>Notre histoire</span></div>
+  <h2 class="section-title">De la passion<br>à l'innovation</h2>
+  <div class="story-grid">
+    <div class="story-text">
+      <p>Tout a commencé dans un garage en 2019. <strong>Trois amis passionnés d'esport</strong>, frustrés par les compromis des grandes marques, ont décidé de prendre les choses en main.</p>
+      <p>L'idée était simple : créer une souris qui <strong>ne force pas les joueurs à choisir</strong> entre précision, confort et style. Une souris qui s'adapte à votre jeu, pas l'inverse.</p>
+      <p>Après 18 mois de prototypes, des centaines de tests avec des joueurs professionnels et amateurs, la <strong>ZIG Pro Series</strong> est née. Et avec elle, ZIG-on.</p>
+      <p>Aujourd'hui, nous sommes une équipe de <strong>12 personnes</strong> basées à Paris, avec des produits vendus dans plus de 30 pays. Mais notre obsession reste la même : chaque joueur mérite les meilleurs outils.</p>
+    </div>
+    <div class="story-timeline">
+      <div class="tl-item active">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div><div class="tl-year">2019</div><div class="tl-title">La fondation</div><div class="tl-desc">Naissance du projet dans un garage parisien. Premier prototype de la ZIG Pro.</div></div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div><div class="tl-year">2020</div><div class="tl-title">Premier lancement</div><div class="tl-desc">Lancement de la ZIG Pro Gen 1. 500 unités vendues en 48h sur Kickstarter.</div></div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div><div class="tl-year">2022</div><div class="tl-title">Reconnaissance internationale</div><div class="tl-desc">Prix « Meilleure souris gaming » aux Tech Awards Europe. Partenariat avec 3 équipes esport.</div></div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div><div class="tl-year">2024</div><div class="tl-title">ZIG Pro Series II</div><div class="tl-desc">Nouvelle gamme complète. 12 produits, 30 pays, 50 000 clients satisfaits.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div><div class="tl-year">2025</div><div class="tl-title">Le futur</div><div class="tl-desc">Nouvelle technologie de capteur propriétaire. On ne peut pas en dire plus... encore.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NUMBERS ── -->
+<div class="numbers-section">
+  <div class="numbers-inner">
+    <div><div class="num-val" data-target="50000">0</div><div class="num-label">Clients satisfaits</div><div class="num-sublabel">Dans 30+ pays</div></div>
+    <div><div class="num-val" data-target="12">0</div><div class="num-label">Produits</div><div class="num-sublabel">Conçus à Paris</div></div>
+    <div><div class="num-val" data-target="99">0</div><div class="num-label">% de satisfaction</div><div class="num-sublabel">Service client 5 étoiles</div></div>
+    <div><div class="num-val" data-target="18">0</div><div class="num-label">Mois de R&D</div><div class="num-sublabel">Pour chaque produit</div></div>
+  </div>
+</div>
+
+<!-- ── VALUES ── -->
+<section>
+  <div class="section-label"><div class="section-label-line"></div><span>Nos valeurs</span></div>
+  <h2 class="section-title">Ce qui nous anime</h2>
+  <p class="section-sub">Trois piliers fondamentaux guident chaque décision que nous prenons, de la conception à la livraison.</p>
+  <div class="values-grid">
+    <div class="val-card">
+      <span class="val-icon">⚡</span>
+      <h3 class="val-title">Performance absolue</h3>
+      <p class="val-desc">Chaque composant est sélectionné pour ses performances. Capteur, switch, câble — rien n'est laissé au hasard. Nous testons jusqu'à l'extrême pour que vous dominiez.</p>
+    </div>
+    <div class="val-card">
+      <span class="val-icon">🔬</span>
+      <h3 class="val-title">Innovation permanente</h3>
+      <p class="val-desc">Notre équipe R&D travaille en permanence sur les technologies de demain. Nous déposons des brevets, collaborons avec des universités, et repoussons les limites du possible.</p>
+    </div>
+    <div class="val-card">
+      <span class="val-icon">🌍</span>
+      <h3 class="val-title">Responsabilité</h3>
+      <p class="val-desc">Performance et conscience environnementale ne sont pas incompatibles. Emballages recyclables, partenaires locaux, réparation facilitée — nous construisons pour durer.</p>
+    </div>
+    <div class="val-card">
+      <span class="val-icon">🤝</span>
+      <h3 class="val-title">Communauté d'abord</h3>
+      <p class="val-desc">Nos produits évoluent grâce à vous. Chaque retour client est analysé, chaque suggestion étudiée. Vous n'êtes pas des acheteurs — vous êtes des co-créateurs.</p>
+    </div>
+    <div class="val-card">
+      <span class="val-icon">🎯</span>
+      <h3 class="val-title">Précision obsessionnelle</h3>
+      <p class="val-desc">0,1mm de tolérance sur nos capteurs. Des milliers d'heures de tests. Une seule question guide tout : est-ce que ce produit est vraiment le meilleur possible ?</p>
+    </div>
+    <div class="val-card">
+      <span class="val-icon">💬</span>
+      <h3 class="val-title">Transparence totale</h3>
+      <p class="val-desc">Nos fiches techniques sont complètes, nos prix sont justes, nos délais sont honnêtes. Vous savez exactement ce que vous achetez, pourquoi, et comment c'est fait.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section style="padding-top:0">
+  <div class="section-label"><div class="section-label-line"></div><span>L'équipe</span></div>
+  <h2 class="section-title">Les visages<br>de ZIG-on</h2>
+  <p class="section-sub">Une équipe soudée par la passion du gaming et l'ambition de créer quelque chose d'unique.</p>
+  <div class="team-grid">
+    <div class="member-card">
+      <div class="member-avatar">🎮</div>
+      <div class="member-name">Alexandre Moreau</div>
+      <div class="member-role">CEO & Co-fondateur</div>
+      <div class="member-desc">Ex-joueur semi-pro CS:GO, 8 ans d'expérience dans l'industrie hardware. Obsédé par les capteurs optiques.</div>
+      <div class="member-social"><a class="msoc" href="#">🐦</a><a class="msoc" href="#">💼</a></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">⚙️</div>
+      <div class="member-name">Sophie Laurent</div>
+      <div class="member-role">CTO & Co-fondatrice</div>
+      <div class="member-desc">Ingénieure électronique diplômée de l'École Polytechnique. Architecte du capteur ZIG-Optic 9.0.</div>
+      <div class="member-social"><a class="msoc" href="#">🐦</a><a class="msoc" href="#">💼</a></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">🎨</div>
+      <div class="member-name">Thomas Dubois</div>
+      <div class="member-role">Design Lead</div>
+      <div class="member-desc">Ancien designer chez Logitech et Razer. Créateur du design iconique de la ZIG Pro Series.</div>
+      <div class="member-social"><a class="msoc" href="#">🐦</a><a class="msoc" href="#">📸</a></div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">📊</div>
+      <div class="member-name">Camille Petit</div>
+      <div class="member-role">Head of Community</div>
+      <div class="member-desc">Streameuse passionnée et voix de la communauté ZIG-on. Gère 80 000 membres sur Discord.</div>
+      <div class="member-social"><a class="msoc" href="#">🐦</a><a class="msoc" href="#">📸</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECH ── -->
+<section style="padding-top:0">
+  <div class="section-label"><div class="section-label-line"></div><span>Technologie</span></div>
+  <h2 class="section-title">Ce qui se passe<br>sous le capot</h2>
+  <p class="section-sub">Chaque innovation ZIG-on est le résultat de mois de recherche et de tests intensifs avec des joueurs de haut niveau.</p>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-icon">👁️</div>
+      <div class="tech-name">ZIG-Optic 9.0</div>
+      <div class="tech-desc">Notre capteur propriétaire offre 25 600 DPI, zéro accélération, et une précision sub-millimétrique sur toutes les surfaces.</div>
+      <div class="tech-tags"><span class="tech-tag">25 600 DPI</span><span class="tech-tag">Zéro accélération</span><span class="tech-tag">450 IPS</span></div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">⚡</div>
+      <div class="tech-name">SwiftClick™ Switches</div>
+      <div class="tech-desc">Nos switches mécaniques brevetés offrent un temps de réponse de 0.2ms et une durée de vie certifiée à 100 millions de clics.</div>
+      <div class="tech-tags"><span class="tech-tag">0.2ms</span><span class="tech-tag">100M clics</span><span class="tech-tag">Hot-swap</span></div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">📡</div>
+      <div class="tech-name">ZIG-Link 2.4GHz</div>
+      <div class="tech-desc">Connexion sans fil avec latence inférieure à 1ms, jusqu'à 70h d'autonomie, et recharge rapide USB-C (10min = 10h).</div>
+      <div class="tech-tags"><span class="tech-tag">&lt;1ms latence</span><span class="tech-tag">70h autonomie</span><span class="tech-tag">USB-C</span></div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">🏗️</div>
+      <div class="tech-name">Shell AeroForm™</div>
+      <div class="tech-desc">Coque en polymère aérospatial. 20% plus légère que la concurrence, résistante aux chocs, et texturée pour une prise en main parfaite.</div>
+      <div class="tech-tags"><span class="tech-tag">58g</span><span class="tech-tag">Polymère ABS+</span><span class="tech-tag">Anti-slip</span></div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">💡</div>
+      <div class="tech-name">RGBow Lighting</div>
+      <div class="tech-desc">16.8 millions de couleurs, synchronisation avec votre setup et vos jeux, effets personnalisables via notre logiciel ZIG Studio.</div>
+      <div class="tech-tags"><span class="tech-tag">16.8M couleurs</span><span class="tech-tag">Sync jeux</span><span class="tech-tag">ZIG Studio</span></div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">🧠</div>
+      <div class="tech-name">ZIG Intelligence</div>
+      <div class="tech-desc">Microprocesseur embarqué avec mémoire onboard. Sauvegardez vos profils directement dans la souris — aucun logiciel requis en tournoi.</div>
+      <div class="tech-tags"><span class="tech-tag">5 profils</span><span class="tech-tag">Onboard memory</span><span class="tech-tag">No driver</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRESS ── -->
+<section style="padding-top:0;padding-bottom:60px">
+  <div class="section-label"><div class="section-label-line"></div><span>Ils parlent de nous</span></div>
+  <div class="press-logos">
+    <div class="press-logo">JEUXVIDEO.COM</div>
+    <div class="press-logo">·</div>
+    <div class="press-logo">NUMERAMA</div>
+    <div class="press-logo">·</div>
+    <div class="press-logo">CLUBIC</div>
+    <div class="press-logo">·</div>
+    <div class="press-logo">01NET</div>
+    <div class="press-logo">·</div>
+    <div class="press-logo">GAMEKULT</div>
+    <div class="press-logo">·</div>
+    <div class="press-logo">THE VERGE</div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<div class="cta-band">
+  <div class="cta-band-inner">
+    <h2 class="cta-band-title">Prêt à passer<br>au niveau supérieur ?</h2>
+    <p class="cta-band-sub">Rejoignez les 50 000 joueurs qui font confiance à ZIG-on pour dominer leurs parties.</p>
+    <div class="cta-band-btns">
+      <a href="shop.html" class="btn-gold">Voir nos produits →</a>
+      <a href="contact.html" class="btn-ghost">Parler à l'équipe</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="display:inline-flex;margin-bottom:14px"><div class="logo-bar"></div>ZIG</a>
+      <p class="footer-desc">Périphériques gaming de haute performance, conçus à Paris pour les joueurs qui refusent les compromis.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Boutique</div>
+      <div class="footer-links">
+        <a href="shop.html">Tous les produits</a>
+        <a href="shop.html?cat=souris">Souris gaming</a>
+        <a href="shop.html?cat=tapis">Tapis</a>
+        <a href="shop.html?cat=accessoires">Accessoires</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Entreprise</div>
+      <div class="footer-links">
+        <a href="about.html">À propos</a>
+        <a href="contact.html">Contact</a>
+        <a href="#">Presse</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Support</div>
+      <div class="footer-links">
+        <a href="dashboard-client.html">Mon compte</a>
+        <a href="#">FAQ</a>
+        <a href="#">Retours</a>
+        <a href="#">Garantie</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 ZIG-on. Tous droits réservés.</span>
+    <span>Made with ❤️ in Paris</span>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const curEl=document.getElementById('cursor'),ringEl=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function a(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;curEl.style.left=mx+'px';curEl.style.top=my+'px';ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(a)})();
+
+// Cart badge
+try{const c=JSON.parse(localStorage.getItem('zig_cart')||'[]');const n=c.reduce((s,i)=>s+(i.quantity||1),0);if(n){const el=document.getElementById('cartBadge');el.textContent=n;el.style.display='flex'}}catch(e){}
+
+// Counter animation
+const counters=document.querySelectorAll('[data-target]');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting) return;
+    const el=entry.target;
+    const target=parseInt(el.dataset.target);
+    const suffix=target>=1000?'K+':target>=100?'+':'';
+    const displayTarget=target>=1000?target/1000:target;
+    const duration=1800;
+    const step=displayTarget/(duration/16);
+    let cur=0;
+    const timer=setInterval(()=>{
+      cur+=step;
+      if(cur>=displayTarget){cur=displayTarget;clearInterval(timer)}
+      el.textContent=target>=1000?(cur%1===0?cur.toFixed(0):cur.toFixed(1))+suffix:Math.round(cur)+(target===99?'%':'+');
+    },16);
+    observer.unobserve(el);
+  });
+},{threshold:.4});
+counters.forEach(c=>observer.observe(c));
+
+// Reveal on scroll
+const reveals=document.querySelectorAll('.val-card,.member-card,.tech-card,.tl-item');
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(!e.isIntersecting) return;
+    e.target.style.cssText+=`opacity:0;transform:translateY(20px);transition:opacity .5s ${(e.target.dataset.idx||0)*60}ms,transform .5s ${(e.target.dataset.idx||0)*60}ms`;
+    requestAnimationFrame(()=>{e.target.style.opacity='1';e.target.style.transform='translateY(0)'});
+    revObs.unobserve(e.target);
+  });
+},{threshold:.1});
+reveals.forEach((el,i)=>{el.dataset.idx=i%6;revObs.observe(el)});
+</script>
+</body>
+</html>

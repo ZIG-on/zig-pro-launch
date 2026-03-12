@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — ZIG-on</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--gold:#D4A017;--gold-lt:#F0C040;--gold-dim:rgba(212,160,23,.12);--bg:#060606;--bg-2:#0D0D0D;--bg-3:#141414;--border:rgba(255,255,255,.06);--border-g:rgba(212,160,23,.22);--text:#F0EDE8;--text-2:#A09890;--text-3:#5A5450;--grad:linear-gradient(135deg,#D4A017 0%,#F0C040 50%,#D4A017 100%);--success:#10B981;--error:#EF4444;--radius:12px}
+        html{scroll-behavior:smooth}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;min-height:100vh;display:flex;flex-direction:column}
+        body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:1}
+        body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(212,160,23,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(212,160,23,.025) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
+        .cursor{position:fixed;width:8px;height:8px;background:var(--gold-lt);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
+        .cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(212,160,23,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+        .cursor.active{width:14px;height:14px}.cursor-ring.active{width:48px;height:48px;border-color:var(--gold)}
+        header{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;background:rgba(6,6,6,.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+        .nav-wrap{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+        .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+        .logo-bar{width:4px;height:24px;background:var(--grad);border-radius:2px}
+        .nav-back{font-size:13px;color:var(--text-3);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
+        .nav-back:hover{color:var(--text-2)}
+        .glow{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(ellipse at center,rgba(212,160,23,.07) 0%,transparent 65%);pointer-events:none;z-index:0}
+        .main{flex:1;display:flex;align-items:center;justify-content:center;padding:100px 20px 60px;position:relative;z-index:2}
+        .auth-card{width:100%;max-width:460px}
+        .auth-header{text-align:center;margin-bottom:32px}
+        .auth-logo{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:6px;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
+        .auth-logo .bar{width:5px;height:36px;background:var(--grad);border-radius:2px}
+        .auth-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;margin-bottom:7px}
+        .auth-sub{font-size:14px;color:var(--text-2)}
+        .tabs{display:flex;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:20px}
+        .tab-btn{flex:1;padding:10px;background:transparent;border:none;border-radius:7px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text-3);cursor:pointer;transition:all .2s}
+        .tab-btn.active{background:var(--bg-3);color:var(--text);border:1px solid var(--border-g)}
+        .alert{padding:12px 16px;border-radius:9px;font-size:13px;line-height:1.5;display:none;align-items:center;gap:8px;margin-bottom:4px}
+        .alert.show{display:flex}
+        .alert.success{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--success)}
+        .alert.error{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:var(--error)}
+        .form-wrap{background:var(--bg-2);border:1px solid var(--border);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:16px;transition:border-color .3s}
+        .form-wrap:focus-within{border-color:var(--border-g)}
+        .form-panel{display:none;flex-direction:column;gap:16px}
+        .form-panel.active,.reset-panel.active{display:flex}
+        .reset-panel{display:none;flex-direction:column;gap:16px}
+        .form-group{display:flex;flex-direction:column;gap:6px}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .form-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3)}
+        .input-wrap{position:relative}
+        .form-input{width:100%;padding:12px 42px 12px 14px;background:var(--bg-3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s,background .2s}
+        .form-input::placeholder{color:var(--text-3)}
+        .form-input:focus{border-color:var(--border-g);background:var(--bg-2)}
+        .form-input.err{border-color:rgba(239,68,68,.5)}
+        .input-icon{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text-3);cursor:pointer;user-select:none;transition:color .2s}
+        .input-icon:hover{color:var(--text-2)}
+        .field-err{font-size:11px;color:var(--error);min-height:14px}
+        .pw-strength{display:flex;gap:4px}
+        .pw-bar{flex:1;height:3px;background:var(--border);border-radius:2px;transition:background .3s}
+        .pw-bar.weak{background:var(--error)}.pw-bar.fair{background:#f59e0b}.pw-bar.strong{background:var(--success)}
+        .pw-label{font-size:11px;color:var(--text-3);text-align:right}
+        .check-row{display:flex;align-items:flex-start;gap:9px;cursor:pointer}
+        .check-row input{accent-color:var(--gold);width:14px;height:14px;margin-top:2px;flex-shrink:0}
+        .check-row span{font-size:13px;color:var(--text-2);line-height:1.5}
+        .check-row a{color:var(--gold);text-decoration:none}
+        .forgot-link{font-size:12px;color:var(--gold);text-decoration:none;align-self:flex-end;opacity:.8;transition:opacity .2s;margin-top:-8px}
+        .forgot-link:hover{opacity:1}
+        .divider{display:flex;align-items:center;gap:10px}
+        .divider-line{flex:1;height:1px;background:var(--border)}
+        .divider-text{font-size:11px;color:var(--text-3);font-weight:500}
+        .btn-primary{width:100%;padding:14px;background:var(--grad);border:none;border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#000;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+        .btn-primary::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);opacity:0;transition:opacity .2s}
+        .btn-primary:hover::after{opacity:1}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,.3)}
+        .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+        .btn-ghost{width:100%;padding:12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-2);cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px}
+        .btn-ghost:hover{border-color:var(--border-g);color:var(--text)}
+        .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+        .benefit{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
+        .benefit-icon{font-size:18px}
+        .benefit-text{font-size:11px;color:var(--text-3);line-height:1.3}
+        .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @media(max-width:768px){body{cursor:auto}.cursor,.cursor-ring{display:none}.form-row{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="glow"></div>
+
+    <header>
+        <div class="nav-wrap">
+            <a href="index.html" class="logo"><div class="logo-bar"></div>ZIG</a>
+            <a href="shop.html" class="nav-back">← Retour à la boutique</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo"><div class="bar"></div>ZIG</div>
+                <h1 class="auth-title" id="authTitle">Bienvenue</h1>
+                <p class="auth-sub" id="authSub">Connectez-vous ou créez votre compte</p>
+            </div>
+
+            <div class="tabs" id="tabsEl">
+                <button class="tab-btn active" onclick="switchTab('login')">Connexion</button>
+                <button class="tab-btn" onclick="switchTab('register')">Créer un compte</button>
+            </div>
+
+            <div class="alert" id="alertEl"></div>
+
+            <div class="form-wrap">
+
+                <!-- LOGIN -->
+                <div class="form-panel active" id="panel-login">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <div class="input-wrap">
+                            <input class="form-input" id="loginEmail" type="email" placeholder="jean@example.com" autocomplete="email">
+                            <span class="input-icon">📧</span>
+                        </div>
+                        <span class="field-err" id="err-loginEmail"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <div class="input-wrap">
+                            <input class="form-input" id="loginPw" type="password" placeholder="••••••••" autocomplete="current-password">
+                            <span class="input-icon" onclick="togglePw('loginPw',this)">👁️</span>
+                        </div>
+                        <span class="field-err" id="err-loginPw"></span>
+                    </div>
+                    <a href="#" class="forgot-link" onclick="showReset();return false">Mot de passe oublié ?</a>
+                    <button class="btn-primary" id="loginBtn" onclick="doLogin()">Se connecter →</button>
+                    <div class="divider"><div class="divider-line"></div><span class="divider-text">ou</span><div class="divider-line"></div></div>
+                    <button class="btn-ghost" onclick="switchTab('register')">Créer un compte ZIG-on</button>
+                </div>
+
+                <!-- REGISTER -->
+                <div class="form-panel" id="panel-register">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Prénom</label>
+                            <div class="input-wrap"><input class="form-input" id="regFirst" placeholder="Jean" autocomplete="given-name"></div>
+                            <span class="field-err" id="err-regFirst"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nom</label>
+                            <div class="input-wrap"><input class="form-input" id="regLast" placeholder="Dupont" autocomplete="family-name"></div>
+                            <span class="field-err" id="err-regLast"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <div class="input-wrap">
+                            <input class="form-input" id="regEmail" type="email" placeholder="jean@example.com" autocomplete="email">
+                            <span class="input-icon">📧</span>
+                        </div>
+                        <span class="field-err" id="err-regEmail"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <div class="input-wrap">
+                            <input class="form-input" id="regPw" type="password" placeholder="8 caractères minimum" oninput="checkPwStrength(this.value)">
+                            <span class="input-icon" onclick="togglePw('regPw',this)">👁️</span>
+                        </div>
+                        <div class="pw-strength"><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div><div class="pw-bar" id="pb4"></div></div>
+                        <span class="pw-label" id="pwLbl"></span>
+                        <span class="field-err" id="err-regPw"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirmer</label>
+                        <div class="input-wrap"><input class="form-input" id="regConfirm" type="password" placeholder="••••••••"></div>
+                        <span class="field-err" id="err-regConfirm"></span>
+                    </div>
+                    <label class="check-row">
+                        <input type="checkbox" id="regTerms">
+                        <span>J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a></span>
+                    </label>
+                    <label class="check-row">
+                        <input type="checkbox" id="regMkt">
+                        <span>Recevoir les actualités et offres ZIG-on</span>
+                    </label>
+                    <button class="btn-primary" id="registerBtn" onclick="doRegister()">Créer mon compte →</button>
+                    <div class="divider"><div class="divider-line"></div><span class="divider-text">ou</span><div class="divider-line"></div></div>
+                    <button class="btn-ghost" onclick="switchTab('login')">J'ai déjà un compte</button>
+                </div>
+
+                <!-- RESET -->
+                <div class="reset-panel" id="panel-reset">
+                    <p style="font-size:14px;color:var(--text-2);line-height:1.6">Entrez votre email, nous vous enverrons un lien de réinitialisation.</p>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <div class="input-wrap">
+                            <input class="form-input" id="resetEmail" type="email" placeholder="jean@example.com">
+                            <span class="input-icon">📧</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="doReset()">Envoyer le lien →</button>
+                    <button class="btn-ghost" onclick="switchTab('login')">← Retour à la connexion</button>
+                </div>
+
+            </div>
+
+            <div class="benefits" id="benefits">
+                <div class="benefit"><div class="benefit-icon">📦</div><div class="benefit-text">Suivez vos commandes</div></div>
+                <div class="benefit"><div class="benefit-icon">❤️</div><div class="benefit-text">Sauvegardez vos favoris</div></div>
+                <div class="benefit"><div class="benefit-icon">⚡</div><div class="benefit-text">Checkout express</div></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    const SUPABASE_URL='https://beuujevawwzvlvzhdjch.supabase.co';
+    const SUPABASE_KEY='sb_publishable_A2buKvsEM_YsoKp4e09M9w_mKZsxHNw';
+    const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+    const curEl=document.getElementById('cursor'),ringEl=document.getElementById('cursorRing');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function a(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;curEl.style.left=mx+'px';curEl.style.top=my+'px';ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(a)})();
+
+    // Redirect if already logged in
+    (async()=>{
+        const{data:{session}}=await sb.auth.getSession();
+        if(session){
+            const r=new URLSearchParams(window.location.search).get('redirect')||'dashboard-client.html';
+            window.location.href=r;
+        }
+    })();
+
+    // Handle password recovery hash
+    if(window.location.hash.includes('type=recovery')) window.location.href='reset-password.html'+window.location.hash;
+
+    function switchTab(tab){
+        document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['login','register'][i]===tab));
+        document.getElementById('panel-login').classList.toggle('active',tab==='login');
+        document.getElementById('panel-register').classList.toggle('active',tab==='register');
+        document.getElementById('panel-reset').classList.remove('active');
+        document.getElementById('tabsEl').style.display='flex';
+        document.getElementById('benefits').style.display='grid';
+        clearAlert();
+        const titles={login:['Connexion','Bon retour parmi nous !'],register:['Créer un compte','Rejoignez la communauté ZIG']};
+        const[t,s]=titles[tab];
+        document.getElementById('authTitle').textContent=t;
+        document.getElementById('authSub').textContent=s;
+    }
+
+    function showReset(){
+        ['login','register'].forEach(p=>{document.getElementById('panel-'+p).classList.remove('active')});
+        document.getElementById('panel-reset').classList.add('active');
+        document.getElementById('tabsEl').style.display='none';
+        document.getElementById('benefits').style.display='none';
+        document.getElementById('authTitle').textContent='Mot de passe oublié';
+        document.getElementById('authSub').textContent='Réinitialisez votre mot de passe';
+        clearAlert();
+    }
+
+    async function doLogin(){
+        clearErrors();
+        const email=v('loginEmail'),pw=v('loginPw');
+        let ok=true;
+        if(!email){setErr('loginEmail','Email requis');ok=false}
+        if(!pw){setErr('loginPw','Mot de passe requis');ok=false}
+        if(!ok) return;
+        setBtnLoading('loginBtn',true);
+        const{error}=await sb.auth.signInWithPassword({email,password:pw});
+        if(error){
+            setBtnLoading('loginBtn',false,'Se connecter →');
+            showAlert('error','❌ '+(error.message.includes('invalid')||error.message.includes('Invalid')?'Email ou mot de passe incorrect.':error.message));
+        } else {
+            showAlert('success','✓ Connexion réussie ! Redirection...');
+            setTimeout(()=>{window.location.href=new URLSearchParams(window.location.search).get('redirect')||'dashboard-client.html'},800);
+        }
+    }
+
+    async function doRegister(){
+        clearErrors();
+        const first=v('regFirst'),last=v('regLast'),email=v('regEmail'),pw=v('regPw'),conf=v('regConfirm');
+        let ok=true;
+        if(!first){setErr('regFirst','Requis');ok=false}
+        if(!last){setErr('regLast','Requis');ok=false}
+        if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setErr('regEmail','Email invalide');ok=false}
+        if(pw.length<8){setErr('regPw','8 caractères minimum');ok=false}
+        if(pw!==conf){setErr('regConfirm','Ne correspondent pas');ok=false}
+        if(!document.getElementById('regTerms').checked){showAlert('error','⚠️ Acceptez les conditions d\'utilisation');ok=false}
+        if(!ok) return;
+        setBtnLoading('registerBtn',true);
+        const{data,error}=await sb.auth.signUp({email,password:pw,options:{data:{first_name:first,last_name:last},emailRedirectTo:window.location.origin+'/login.html'}});
+        setBtnLoading('registerBtn',false,'Créer mon compte →');
+        if(error||data?.user?.identities?.length===0){
+            showAlert('error','❌ '+(error?.message.includes('registered')?'Cet email est déjà utilisé.':error?.message||'Email déjà utilisé.'));
+        } else {
+            showAlert('success','✅ Compte créé ! Vérifiez votre email pour confirmer votre inscription.');
+            document.getElementById('panel-register').querySelectorAll('input[type=text],input[type=email],input[type=password]').forEach(i=>i.value='');
+        }
+    }
+
+    async function doReset(){
+        const email=v('resetEmail');
+        if(!email){showAlert('error','⚠️ Entrez votre email');return}
+        const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/reset-password.html'});
+        if(error) showAlert('error','❌ '+error.message);
+        else showAlert('success','✅ Email envoyé ! Vérifiez votre boîte de réception.');
+    }
+
+    function checkPwStrength(pw){
+        const bars=['pb1','pb2','pb3','pb4'].map(id=>document.getElementById(id));
+        const lbl=document.getElementById('pwLbl');
+        bars.forEach(b=>{b.className='pw-bar'});
+        if(!pw){lbl.textContent='';return}
+        let s=0;
+        if(pw.length>=8)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
+        const map=[{c:'weak',t:'Faible'},{c:'weak',t:'Faible'},{c:'fair',t:'Moyen'},{c:'strong',t:'Fort'},{c:'strong',t:'Excellent'}];
+        const l=map[s];
+        for(let i=0;i<s;i++) bars[i].classList.add(l.c);
+        lbl.textContent=l.t;
+        lbl.style.color=s<=1?'var(--error)':s<=2?'#f59e0b':'var(--success)';
+    }
+
+    function v(id){return document.getElementById(id)?.value.trim()||''}
+    function setErr(id,msg){document.getElementById(id)?.classList.add('err');const e=document.getElementById('err-'+id);if(e)e.textContent=msg}
+    function clearErrors(){document.querySelectorAll('.form-input').forEach(i=>i.classList.remove('err'));document.querySelectorAll('.field-err').forEach(e=>e.textContent='')}
+    function clearAlert(){const a=document.getElementById('alertEl');a.className='alert';a.innerHTML=''}
+    function showAlert(type,html){const a=document.getElementById('alertEl');a.className='alert '+type+' show';a.innerHTML=html}
+    function togglePw(id,icon){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';icon.textContent=i.type==='password'?'👁️':'🙈'}
+    function setBtnLoading(id,on,label=''){const b=document.getElementById(id);b.disabled=on;b.innerHTML=on?'<div class="spinner"></div>':(label||b.innerHTML)}
+
+    document.addEventListener('keydown',e=>{
+        if(e.key!=='Enter') return;
+        if(document.getElementById('panel-login').classList.contains('active')) doLogin();
+        else if(document.getElementById('panel-register').classList.contains('active')) doRegister();
+        else if(document.getElementById('panel-reset').classList.contains('active')) doReset();
+    });
+    </script>
+</body>
+</html>

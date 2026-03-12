@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — ZIG-on</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--gold:#D4A017;--gold-lt:#F0C040;--gold-dim:rgba(212,160,23,.12);--bg:#060606;--bg-2:#0D0D0D;--bg-3:#141414;--border:rgba(255,255,255,.06);--border-g:rgba(212,160,23,.22);--text:#F0EDE8;--text-2:#A09890;--text-3:#5A5450;--grad:linear-gradient(135deg,#D4A017 0%,#F0C040 50%,#D4A017 100%);--success:#10B981;--error:#EF4444;--radius:12px}
+        html{scroll-behavior:smooth}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;min-height:100vh}
+        body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:1}
+        .cursor{position:fixed;width:8px;height:8px;background:var(--gold-lt);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
+        .cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(212,160,23,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+        .cursor.active{width:14px;height:14px}.cursor-ring.active{width:48px;height:48px;border-color:var(--gold)}
+
+        header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;background:rgba(6,6,6,.94);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+        .nav-wrap{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+        .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+        .logo-bar{width:4px;height:24px;background:var(--grad);border-radius:2px}
+        .nav-links{display:flex;gap:36px;list-style:none}
+        .nav-links a{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color .2s}
+        .nav-links a:hover{color:var(--text)}.nav-links a.active{color:var(--gold)}
+        .nav-actions{display:flex;gap:6px}
+        .nav-icon-btn{width:40px;height:40px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text-2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;position:relative}
+        .nav-icon-btn:hover{border-color:var(--border-g);color:var(--text)}
+        .cart-badge{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;background:var(--gold);border-radius:9px;font-size:10px;font-weight:700;color:#000;display:none;align-items:center;justify-content:center;padding:0 4px}
+
+        /* PAGE */
+        .page-wrap{max-width:1400px;margin:0 auto;padding:110px 5% 100px}
+
+        .page-header{margin-bottom:56px}
+        .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-3);margin-bottom:14px}
+        .breadcrumb a{color:var(--text-3);text-decoration:none;transition:color .2s}.breadcrumb a:hover{color:var(--text-2)}
+        .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,6vw,80px);letter-spacing:2px;line-height:.95;margin-bottom:10px}
+        .page-sub{font-size:16px;color:var(--text-2);max-width:500px;line-height:1.6}
+
+        /* CONTACT LAYOUT */
+        .contact-layout{display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:start}
+
+        /* FORM */
+        .contact-form{background:var(--bg-2);border:1px solid var(--border);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:20px;transition:border-color .3s}
+        .contact-form:focus-within{border-color:var(--border-g)}
+
+        .form-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;margin-bottom:4px}
+        .form-sub{font-size:14px;color:var(--text-2)}
+
+        /* Subject tabs */
+        .subject-tabs{display:flex;flex-wrap:wrap;gap:8px}
+        .sub-tab{padding:8px 16px;background:var(--bg-3);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+        .sub-tab:hover{border-color:var(--border-g);color:var(--text)}
+        .sub-tab.active{background:var(--gold-dim);border-color:var(--border-g);color:var(--gold)}
+
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .form-row.full{grid-template-columns:1fr}
+        .form-group{display:flex;flex-direction:column;gap:7px}
+        .form-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-3)}
+        .input-wrap{position:relative}
+        .form-input{width:100%;padding:13px 14px;background:var(--bg-3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s,background .2s}
+        .form-input::placeholder{color:var(--text-3)}.form-input:focus{border-color:var(--border-g);background:var(--bg-2)}
+        .form-input.err{border-color:rgba(239,68,68,.5)}
+        .field-err{font-size:11px;color:var(--error);min-height:14px}
+        textarea.form-input{resize:vertical;min-height:130px}
+
+        /* Rating */
+        .rating-wrap{display:flex;gap:6px}
+        .star{font-size:24px;cursor:pointer;transition:transform .15s;filter:grayscale(1);opacity:.4}
+        .star:hover,.star.active{filter:none;opacity:1;transform:scale(1.15)}
+
+        /* Checkbox */
+        .check-row{display:flex;align-items:flex-start;gap:10px}
+        .check-row input{accent-color:var(--gold);width:15px;height:15px;margin-top:2px;flex-shrink:0}
+        .check-row span{font-size:13px;color:var(--text-2);line-height:1.5}
+        .check-row a{color:var(--gold);text-decoration:none}
+
+        /* Buttons */
+        .btn-primary{width:100%;padding:15px;background:var(--grad);border:none;border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:#000;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+        .btn-primary::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);opacity:0;transition:opacity .2s}
+        .btn-primary:hover::after{opacity:1}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(212,160,23,.3)}
+        .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+        .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* Success state */
+        .success-msg{display:none;flex-direction:column;align-items:center;text-align:center;padding:32px;gap:16px}
+        .success-msg.show{display:flex}
+        .success-icon{font-size:56px;animation:popIn .4s ease}
+        @keyframes popIn{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+        .success-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px}
+        .success-sub{font-size:14px;color:var(--text-2);line-height:1.6;max-width:320px}
+
+        /* RIGHT SIDEBAR */
+        .contact-sidebar{display:flex;flex-direction:column;gap:20px}
+
+        /* Info cards */
+        .info-card{background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px;transition:border-color .2s}
+        .info-card:hover{border-color:var(--border-g)}
+        .info-card-title{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:2px}
+        .info-item{display:flex;align-items:flex-start;gap:12px}
+        .info-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+        .info-label{font-size:13px;font-weight:600;margin-bottom:2px}
+        .info-value{font-size:13px;color:var(--text-2)}
+
+        /* Hours */
+        .hours-grid{display:flex;flex-direction:column;gap:8px}
+        .hour-row{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)}
+        .hour-row:last-child{border-bottom:none}
+        .hour-day{color:var(--text-2)}
+        .hour-time{font-weight:600;color:var(--text)}
+        .hour-row.today .hour-day,.hour-row.today .hour-time{color:var(--gold)}
+        .closed{color:var(--text-3)!important}
+
+        /* FAQ */
+        .faq-card{background:var(--bg-2);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+        .faq-title{padding:20px 24px 16px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border)}
+        .faq-item{border-bottom:1px solid var(--border)}
+        .faq-item:last-child{border-bottom:none}
+        .faq-q{padding:16px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s;user-select:none}
+        .faq-q:hover{background:var(--bg-3)}
+        .faq-chevron{font-size:11px;color:var(--text-3);transition:transform .3s}
+        .faq-q.open .faq-chevron{transform:rotate(180deg);color:var(--gold)}
+        .faq-a{font-size:13px;color:var(--text-2);line-height:1.6;padding:0 20px;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s}
+        .faq-a.open{max-height:200px;padding:0 20px 16px}
+
+        /* Social */
+        .social-card{background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:22px}
+        .social-title{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+        .social-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .social-link{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg-3);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text-2);font-size:13px;font-weight:500;transition:all .2s}
+        .social-link:hover{border-color:var(--border-g);color:var(--text)}
+        .social-icon{font-size:18px}
+
+        /* TOAST */
+        .toast-container{position:fixed;bottom:28px;right:28px;z-index:10000;display:flex;flex-direction:column;gap:8px}
+        .toast{padding:13px 18px;background:var(--bg-3);border:1px solid var(--border-g);border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:8px;animation:toastIn .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.5);min-width:240px}
+        @keyframes toastIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+        @media(max-width:1024px){.contact-layout{grid-template-columns:1fr}}
+        @media(max-width:768px){body{cursor:auto}.cursor,.cursor-ring{display:none}.nav-links{display:none}.form-row{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <header>
+        <div class="nav-wrap">
+            <a href="index.html" class="logo"><div class="logo-bar"></div>ZIG</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="shop.html">Boutique</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="nav-icon-btn">👤</a>
+                <a href="cart.html" class="nav-icon-btn">🛒<span class="cart-badge" id="cartBadge"></span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-wrap">
+        <div class="page-header">
+            <div class="breadcrumb"><a href="index.html">Accueil</a><span>›</span><span>Contact</span></div>
+            <h1 class="page-title">Contactez-nous</h1>
+            <p class="page-sub">Une question, un problème, un retour ? Notre équipe est là pour vous répondre sous 24h.</p>
+        </div>
+
+        <div class="contact-layout">
+            <!-- FORM -->
+            <div class="contact-form" id="contactForm">
+                <div>
+                    <div class="form-title">Envoyer un message</div>
+                    <div class="form-sub">Remplissez le formulaire, nous vous répondrons rapidement.</div>
+                </div>
+
+                <!-- Subject tabs -->
+                <div>
+                    <div class="form-label" style="margin-bottom:10px">Objet de votre demande</div>
+                    <div class="subject-tabs">
+                        <div class="sub-tab active" data-val="commande" onclick="setSubject('commande',this)">📦 Commande</div>
+                        <div class="sub-tab" data-val="produit" onclick="setSubject('produit',this)">🖱️ Produit</div>
+                        <div class="sub-tab" data-val="livraison" onclick="setSubject('livraison',this)">🚚 Livraison</div>
+                        <div class="sub-tab" data-val="retour" onclick="setSubject('retour',this)">↩️ Retour</div>
+                        <div class="sub-tab" data-val="partenariat" onclick="setSubject('partenariat',this)">🤝 Partenariat</div>
+                        <div class="sub-tab" data-val="autre" onclick="setSubject('autre',this)">💬 Autre</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Prénom *</label>
+                        <input class="form-input" id="firstName" placeholder="Jean" autocomplete="given-name">
+                        <span class="field-err" id="err-firstName"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom *</label>
+                        <input class="form-input" id="lastName" placeholder="Dupont" autocomplete="family-name">
+                        <span class="field-err" id="err-lastName"></span>
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input class="form-input" id="email" type="email" placeholder="jean@example.com" autocomplete="email">
+                        <span class="field-err" id="err-email"></span>
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label class="form-label">N° de commande (optionnel)</label>
+                        <input class="form-input" id="orderNum" placeholder="ZIG-XXXXXXX">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label class="form-label">Message *</label>
+                        <textarea class="form-input" id="message" placeholder="Décrivez votre demande en détail..."></textarea>
+                        <span class="field-err" id="err-message"></span>
+                    </div>
+                </div>
+
+                <!-- Rating -->
+                <div class="form-group" id="ratingGroup">
+                    <label class="form-label">Note de votre expérience (optionnel)</label>
+                    <div class="rating-wrap" id="ratingWrap">
+                        <span class="star" data-val="1" onclick="setRating(1)">⭐</span>
+                        <span class="star" data-val="2" onclick="setRating(2)">⭐</span>
+                        <span class="star" data-val="3" onclick="setRating(3)">⭐</span>
+                        <span class="star" data-val="4" onclick="setRating(4)">⭐</span>
+                        <span class="star" data-val="5" onclick="setRating(5)">⭐</span>
+                    </div>
+                </div>
+
+                <label class="check-row">
+                    <input type="checkbox" id="consent" checked>
+                    <span>J'accepte que mes données soient utilisées pour traiter ma demande. <a href="#">Politique de confidentialité.</a></span>
+                </label>
+
+                <button class="btn-primary" id="submitBtn" onclick="submitForm()">
+                    Envoyer le message →
+                </button>
+
+                <!-- Success state -->
+                <div class="success-msg" id="successMsg">
+                    <div class="success-icon">✅</div>
+                    <div class="success-title">Message envoyé !</div>
+                    <div class="success-sub">Nous avons bien reçu votre message et vous répondrons sous 24h ouvrés à l'adresse <strong id="successEmail">—</strong>.</div>
+                    <button onclick="resetForm()" style="padding:11px 22px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-2);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--border-g)'" onmouseout="this.style.borderColor='var(--border)'">Envoyer un autre message</button>
+                </div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="contact-sidebar">
+
+                <!-- Contact Info -->
+                <div class="info-card">
+                    <div class="info-card-title">Nos coordonnées</div>
+                    <div class="info-item">
+                        <span class="info-icon">📧</span>
+                        <div><div class="info-label">Email</div><div class="info-value">zig.suppoff@gmail.com</div></div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📞</span>
+                        <div><div class="info-label">Téléphone</div><div class="info-value">+32 4 93 36 48 48</div></div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📍</span>
+                        <div><div class="info-label">Adresse</div><div class="info-value">Heystraat 9 <br>1570 Gallmaarden, Belgique</div></div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">⏱</span>
+                        <div><div class="info-label">Délai de réponse</div><div class="info-value">Sous 24h ouvrés</div></div>
+                    </div>
+                </div>
+
+                <!-- Hours -->
+                <div class="info-card">
+                    <div class="info-card-title">Horaires du support</div>
+                    <div class="hours-grid" id="hoursGrid">
+                        <!-- rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- FAQ -->
+                <div class="faq-card">
+                    <div class="faq-title">Questions fréquentes</div>
+                    <div id="faqList">
+                        <!-- rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Social -->
+                <div class="social-card">
+                    <div class="social-title">Suivez-nous</div>
+                    <div class="social-links">
+                        <a class="social-link" href="#"><span class="social-icon">🐦</span>Twitter</a>
+                        <a class="social-link" href="#"><span class="social-icon">📸</span>Instagram</a>
+                        <a class="social-link" href="#"><span class="social-icon">🎮</span>Discord</a>
+                        <a class="social-link" href="#"><span class="social-icon">▶️</span>YouTube</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    const SUPABASE_URL='https://beuujevawwzvlvzhdjch.supabase.co';
+    const SUPABASE_KEY='sb_publishable_A2buKvsEM_YsoKp4e09M9w_mKZsxHNw';
+    const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+    const curEl=document.getElementById('cursor'),ringEl=document.getElementById('cursorRing');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function a(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;curEl.style.left=mx+'px';curEl.style.top=my+'px';ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(a)})();
+
+    // Cart badge
+    try{const c=JSON.parse(localStorage.getItem('zig_cart')||'[]');const n=c.reduce((s,i)=>s+(i.quantity||1),0);if(n){const el=document.getElementById('cartBadge');el.textContent=n;el.style.display='flex'}}catch(e){}
+
+    let selectedSubject='commande', selectedRating=0;
+
+    // Hours
+    const HOURS=[
+        {day:'Lundi',    h:'9h – 18h'},
+        {day:'Mardi',    h:'9h – 18h'},
+        {day:'Mercredi', h:'9h – 18h'},
+        {day:'Jeudi',    h:'9h – 18h'},
+        {day:'Vendredi', h:'9h – 17h'},
+        {day:'Samedi',   h:'10h – 14h'},
+        {day:'Dimanche', h:'Fermé',closed:true},
+    ];
+    const todayIdx=new Date().getDay()===0?6:new Date().getDay()-1;
+    document.getElementById('hoursGrid').innerHTML=HOURS.map((h,i)=>`
+        <div class="hour-row${i===todayIdx?' today':''}">
+            <span class="hour-day">${h.day}${i===todayIdx?' (aujourd\'hui)':''}</span>
+            <span class="hour-time${h.closed?' closed':''}">${h.h}</span>
+        </div>`).join('');
+
+    // FAQ
+    const FAQS=[
+        {q:'Quel est le délai de livraison ?',a:'La livraison standard prend 5–7 jours ouvrés. La livraison express 2–3 jours. La livraison 24h est disponible pour les commandes passées avant 14h.'},
+        {q:'Comment retourner un produit ?',a:'Vous disposez de 14 jours pour retourner votre produit. Contactez-nous par email avec votre numéro de commande et nous vous enverrons une étiquette de retour gratuite.'},
+        {q:'Ma souris est défectueuse, que faire ?',a:'Tous nos produits sont garantis 2 ans. Si vous constatez un défaut, contactez-nous avec une vidéo ou des photos du problème et nous vous enverrons un remplacement.'},
+        {q:'Puis-je modifier ma commande ?',a:'Vous pouvez modifier votre commande dans les 2 heures suivant la validation, avant qu\'elle soit préparée. Contactez-nous rapidement via ce formulaire.'},
+        {q:'Livrez-vous à l\'international ?',a:'Nous livrons actuellement en France, Belgique, Suisse, Luxembourg et Canada. D\'autres pays seront ajoutés prochainement.'},
+    ];
+    document.getElementById('faqList').innerHTML=FAQS.map((f,i)=>`
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(${i},this)">${f.q}<span class="faq-chevron">▼</span></div>
+            <div class="faq-a" id="faq-${i}">${f.a}</div>
+        </div>`).join('');
+
+    function toggleFaq(i,btn){
+        const a=document.getElementById('faq-'+i);
+        const wasOpen=a.classList.contains('open');
+        document.querySelectorAll('.faq-a').forEach(el=>el.classList.remove('open'));
+        document.querySelectorAll('.faq-q').forEach(el=>el.classList.remove('open'));
+        if(!wasOpen){a.classList.add('open');btn.classList.add('open')}
+    }
+
+    // Subject
+    function setSubject(val,btn){
+        selectedSubject=val;
+        document.querySelectorAll('.sub-tab').forEach(t=>t.classList.toggle('active',t.dataset.val===val));
+        // Show/hide rating for relevant subjects
+        document.getElementById('ratingGroup').style.display=['partenariat','autre'].includes(val)?'none':'flex';
+    }
+
+    // Rating
+    function setRating(val){
+        selectedRating=val;
+        document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<val));
+    }
+
+    // Submit
+    async function submitForm(){
+        clearErrors();
+        const first=v('firstName'),last=v('lastName'),email=v('email'),msg=v('message');
+        let ok=true;
+        if(!first){setErr('firstName','Prénom requis');ok=false}
+        if(!last){setErr('lastName','Nom requis');ok=false}
+        if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setErr('email','Email invalide');ok=false}
+        if(msg.length<20){setErr('message','Votre message doit faire au moins 20 caractères');ok=false}
+        if(!document.getElementById('consent').checked){toast('⚠️ Veuillez accepter notre politique de confidentialité');ok=false}
+        if(!ok) return;
+
+        const btn=document.getElementById('submitBtn');
+        btn.disabled=true;btn.innerHTML='<div class="spinner"></div>';
+
+        const ticketNum='MSG-'+Date.now().toString(36).toUpperCase();
+        const payload={
+            ticket_number: ticketNum,
+            name:          first+' '+last,
+            email,
+            category:      selectedSubject,
+            subject:       selectedSubject.charAt(0).toUpperCase()+selectedSubject.slice(1)+' - Message web',
+            message:       msg,
+            order_number:  v('orderNum')||null,
+            status:        'open',
+            priority:      'normal',
+            rating:        selectedRating||null,
+            source:        'contact_form',
+        };
+
+        const{error}=await sb.from('support_tickets').insert(payload);
+
+        if(error){
+            btn.disabled=false;btn.innerHTML='Envoyer le message →';
+            toast('❌ Erreur lors de l\'envoi : '+error.message);
+        } else {
+            // Show success
+            document.querySelectorAll('.contact-form > *:not(#successMsg)').forEach(el=>el.style.display='none');
+            document.getElementById('successEmail').textContent=email;
+            document.getElementById('successMsg').classList.add('show');
+        }
+    }
+
+    function resetForm(){
+        document.querySelectorAll('.contact-form > *:not(#successMsg)').forEach(el=>el.style.display='');
+        document.getElementById('successMsg').classList.remove('show');
+        ['firstName','lastName','email','orderNum','message'].forEach(id=>document.getElementById(id).value='');
+        selectedRating=0;
+        document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
+        const btn=document.getElementById('submitBtn');
+        btn.disabled=false;btn.innerHTML='Envoyer le message →';
+    }
+
+    // Utils
+    function v(id){return document.getElementById(id)?.value.trim()||''}
+    function setErr(id,msg){document.getElementById(id)?.classList.add('err');const e=document.getElementById('err-'+id);if(e)e.textContent=msg}
+    function clearErrors(){document.querySelectorAll('.form-input').forEach(i=>i.classList.remove('err'));document.querySelectorAll('.field-err').forEach(e=>e.textContent='')}
+    function toast(html){const t=document.createElement('div');t.className='toast';t.innerHTML=html;document.getElementById('toastContainer').appendChild(t);setTimeout(()=>{t.style.cssText+='opacity:0;transform:translateX(80px);transition:.3s;';setTimeout(()=>t.remove(),300)},3500)}
+
+    // Prefill from session
+    (async()=>{
+        const{data:{session}}=await sb.auth.getSession();
+        if(!session) return;
+        const{data:c}=await sb.from('customers').select('first_name,last_name').eq('id',session.user.id).single();
+        if(c?.first_name) document.getElementById('firstName').value=c.first_name;
+        if(c?.last_name)  document.getElementById('lastName').value=c.last_name;
+        document.getElementById('email').value=session.user.email;
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mon compte — ZIG-on</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#D4A017;--gold-lt:#F0C040;--gold-dim:rgba(212,160,23,.12);--bg:#060606;--bg-2:#0D0D0D;--bg-3:#141414;--border:rgba(255,255,255,.06);--border-g:rgba(212,160,23,.22);--text:#F0EDE8;--text-2:#A09890;--text-3:#5A5450;--grad:linear-gradient(135deg,#D4A017 0%,#F0C040 50%,#D4A017 100%);--success:#10B981;--error:#EF4444;--radius:12px}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:1}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold-lt);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(212,160,23,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;background:rgba(6,6,6,.94);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-wrap{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bar{width:4px;height:24px;background:var(--grad);border-radius:2px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:6px}
+.nav-icon-btn{width:40px;height:40px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text-2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;position:relative}
+.nav-icon-btn:hover{border-color:var(--border-g);color:var(--text)}
+.cart-badge{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;background:var(--gold);border-radius:9px;font-size:10px;font-weight:700;color:#000;display:none;align-items:center;justify-content:center;padding:0 4px}
+.page-wrap{max-width:1400px;margin:0 auto;padding:90px 5% 100px;display:grid;grid-template-columns:250px 1fr;gap:36px;align-items:start}
+.sidebar{position:sticky;top:90px;display:flex;flex-direction:column;gap:4px}
+.user-card{background:var(--bg-2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.user-avatar{width:46px;height:46px;border-radius:50%;background:var(--gold-dim);border:2px solid var(--border-g);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0}
+.user-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.user-email{font-size:11px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:155px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:11px 13px;background:transparent;border:1px solid transparent;border-radius:8px;color:var(--text-2);font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;text-align:left;width:100%}
+.nav-item:hover{background:var(--bg-2);border-color:var(--border);color:var(--text)}
+.nav-item.active{background:var(--gold-dim);border-color:var(--border-g);color:var(--gold)}
+.nav-item-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;min-width:18px;height:18px;background:var(--gold);border-radius:9px;font-size:10px;font-weight:700;color:#000;display:none;align-items:center;justify-content:center;padding:0 4px}
+.sidebar-sep{height:1px;background:var(--border);margin:6px 0}
+.logout-btn{display:flex;align-items:center;gap:11px;padding:11px 13px;background:transparent;border:1px solid transparent;border-radius:8px;color:var(--text-3);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;width:100%}
+.logout-btn:hover{border-color:rgba(239,68,68,.3);color:var(--error);background:rgba(239,68,68,.05)}
+.content{min-height:600px}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.section-head{margin-bottom:26px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:2px;line-height:.95}
+.section-sub{font-size:14px;color:var(--text-2);margin-top:5px}
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:18px;transition:border-color .2s}
+.stat-card:hover{border-color:var(--border-g)}
+.stat-icon{font-size:20px;margin-bottom:8px}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1px;line-height:1;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:11px;color:var(--text-3);margin-top:3px}
+.quick-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.quick-link{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+.quick-link:hover{border-color:var(--border-g);transform:translateY(-2px)}
+.quick-link-icon{font-size:22px}
+.quick-link-label{font-size:13px;font-weight:600}
+.quick-link-sub{font-size:11px;color:var(--text-3)}
+/* Orders */
+.order-card{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px;transition:border-color .2s}
+.order-card:hover{border-color:var(--border-g)}
+.order-head{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.order-head-left{display:flex;flex-direction:column;gap:3px}
+.order-num{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px}
+.order-date{font-size:11px;color:var(--text-3)}
+.order-head-right{display:flex;align-items:center;gap:10px}
+.order-total{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--gold-lt)}
+.order-status{padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.s-pending   {background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#f59e0b}
+.s-processing{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);color:#818cf8}
+.s-shipped   {background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--success)}
+.s-delivered {background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);color:var(--success)}
+.s-cancelled {background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--error)}
+.tog{color:var(--text-3);font-size:11px;transition:transform .3s}.tog.open{transform:rotate(180deg)}
+.order-body{padding:18px;display:none}.order-body.open{display:block}
+.oi-list{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.oi{display:flex;align-items:center;gap:10px}
+.oi-img{width:44px;height:44px;background:var(--bg-3);border:1px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.oi-img img{width:80%;height:80%;object-fit:contain}
+.oi-name{flex:1;font-size:13px;font-weight:600}
+.oi-qty{font-size:11px;color:var(--text-3)}
+.oi-price{font-size:13px;font-weight:700}
+.order-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:14px;border-top:1px solid var(--border)}
+.ometa-label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px}
+.ometa-val{font-size:12px;font-weight:600;margin-top:2px}
+/* Profile */
+.profile-form{background:var(--bg-2);border:1px solid var(--border);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:18px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row.full{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3)}
+.form-input{padding:11px 13px;background:var(--bg-3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s;width:100%}
+.form-input::placeholder{color:var(--text-3)}.form-input:focus{border-color:var(--border-g)}
+.form-select{padding:11px 13px;background:var(--bg-3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;width:100%;cursor:pointer}
+.form-select:focus{border-color:var(--border-g)}
+.sep{height:1px;background:var(--border)}
+.check-row{display:flex;align-items:flex-start;gap:9px}
+.check-row input{accent-color:var(--gold);width:14px;height:14px;margin-top:2px;flex-shrink:0}
+.check-row span{font-size:13px;color:var(--text-2);line-height:1.5}
+.btn-save{padding:12px 24px;background:var(--grad);border:none;border-radius:var(--radius);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#000;cursor:pointer;transition:all .25s;align-self:flex-start}
+.btn-save:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,.3)}
+.pw-box{background:var(--bg-3);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.pw-box-title{font-size:13px;font-weight:700;margin-bottom:4px}
+/* Wishlist */
+.wish-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.wish-card{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .3s;position:relative}
+.wish-card:hover{border-color:var(--border-g);transform:translateY(-3px)}
+.wish-img{aspect-ratio:1;background:var(--bg-3);display:flex;align-items:center;justify-content:center;padding:14px;cursor:pointer}
+.wish-img img{width:75%;height:75%;object-fit:contain}
+.wish-body{padding:12px}
+.wish-name{font-size:13px;font-weight:700;margin-bottom:3px;cursor:pointer}
+.wish-price{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--gold-lt)}
+.wish-actions{display:flex;gap:8px;margin-top:10px}
+.wish-add{flex:1;padding:9px;background:var(--grad);border:none;border-radius:7px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:#000;cursor:pointer}
+.wish-rm{width:34px;padding:9px;background:transparent;border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .2s;font-size:13px;display:flex;align-items:center;justify-content:center}
+.wish-rm:hover{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08)}
+/* Support */
+.support-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.tickets-col{display:flex;flex-direction:column;gap:10px}
+.ticket-card{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color .2s}
+.ticket-card:hover{border-color:var(--border-g)}
+.ticket-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px}
+.ticket-num{font-size:11px;color:var(--text-3)}
+.ticket-status{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.ts-open{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);color:#818cf8}
+.ts-inprog{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#f59e0b}
+.ts-done{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--success)}
+.ticket-subject{font-size:13px;font-weight:700;margin-bottom:4px}
+.ticket-preview{font-size:12px;color:var(--text-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ticket-date{font-size:10px;color:var(--text-3);margin-top:7px}
+.new-ticket{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:13px}
+.new-ticket-title{font-size:14px;font-weight:700}
+.new-ticket-sub{font-size:12px;color:var(--text-3);margin-top:-8px}
+textarea.form-input{resize:vertical;min-height:90px}
+.prio-row{display:flex;gap:8px}
+.prio-opt{flex:1;padding:9px 10px;background:var(--bg-3);border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:12px;font-weight:500;transition:all .2s;text-align:center;user-select:none}
+.prio-opt.active{border-color:var(--border-g);background:var(--gold-dim);color:var(--gold)}
+/* Empty + toast */
+.empty{padding:48px 32px;text-align:center;border:1px dashed var(--border);border-radius:12px}
+.empty-icon{font-size:44px;opacity:.2;margin-bottom:12px}
+.empty-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;margin-bottom:7px;color:var(--text-2)}
+.empty-sub{font-size:13px;color:var(--text-3)}
+.btn-cta{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;background:var(--grad);border-radius:var(--radius);font-size:13px;font-weight:700;color:#000;text-decoration:none;margin-top:14px;border:none;cursor:pointer;font-family:'Outfit',sans-serif}
+.toast-container{position:fixed;bottom:28px;right:28px;z-index:10000;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 17px;background:var(--bg-3);border:1px solid var(--border-g);border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:8px;animation:toastIn .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.5);min-width:230px}
+@keyframes toastIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
+.sk{background:linear-gradient(90deg,var(--bg-2) 25%,var(--bg-3) 50%,var(--bg-2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@media(max-width:1024px){.page-wrap{grid-template-columns:1fr}.sidebar{position:static}.wish-grid{grid-template-columns:repeat(2,1fr)}.support-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){body{cursor:auto}.cursor,.cursor-ring{display:none}.nav-links{display:none}.wish-grid,.form-row,.stats-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<header>
+  <div class="nav-wrap">
+    <a href="index.html" class="logo"><div class="logo-bar"></div>ZIG</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="shop.html">Boutique</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="nav-icon-btn">🛒<span class="cart-badge" id="cartBadge"></span></a>
+    </div>
+  </div>
+</header>
+
+<div class="page-wrap">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="user-card">
+      <div class="user-avatar" id="userAvatar">👤</div>
+      <div><div class="user-name" id="userName">Chargement...</div><div class="user-email" id="userEmail">—</div></div>
+    </div>
+    <button class="nav-item active" data-tab="overview" onclick="goTab('overview',this)"><span class="nav-item-icon">🏠</span> Vue d'ensemble</button>
+    <button class="nav-item" data-tab="orders" onclick="goTab('orders',this)"><span class="nav-item-icon">📦</span> Mes commandes <span class="nav-badge" id="ordersBadge"></span></button>
+    <button class="nav-item" data-tab="wishlist" onclick="goTab('wishlist',this)"><span class="nav-item-icon">❤️</span> Mes favoris <span class="nav-badge" id="wishBadge"></span></button>
+    <button class="nav-item" data-tab="profile" onclick="goTab('profile',this)"><span class="nav-item-icon">👤</span> Mon profil</button>
+    <button class="nav-item" data-tab="support" onclick="goTab('support',this)"><span class="nav-item-icon">💬</span> Support</button>
+    <div class="sidebar-sep"></div>
+    <button class="logout-btn" onclick="logout()"><span>🚪</span> Se déconnecter</button>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="tab-panel active" id="tab-overview">
+      <div class="section-head">
+        <div class="section-title" id="welcomeTitle">Bonjour !</div>
+        <div class="section-sub">Résumé de votre compte</div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-val" id="statOrders">—</div><div class="stat-label">Commandes</div></div>
+        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-val" id="statSpent">—</div><div class="stat-label">Total dépensé</div></div>
+        <div class="stat-card"><div class="stat-icon">❤️</div><div class="stat-val" id="statWish">—</div><div class="stat-label">Favoris</div></div>
+      </div>
+      <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px">Dernières commandes</div>
+      <div id="recentOrders"><div class="sk" style="height:72px;margin-bottom:10px"></div><div class="sk" style="height:72px"></div></div>
+      <div class="quick-links">
+        <a class="quick-link" href="shop.html"><div class="quick-link-icon">🛒</div><div class="quick-link-label">Boutique</div><div class="quick-link-sub">Nos produits</div></a>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="tab-panel" id="tab-orders">
+      <div class="section-head"><div class="section-title">Mes commandes</div><div class="section-sub">Historique et suivi</div></div>
+      <div id="ordersList"><div class="sk" style="height:80px;margin-bottom:10px"></div></div>
+    </div>
+
+    <!-- WISHLIST -->
+    <div class="tab-panel" id="tab-wishlist">
+      <div class="section-head"><div class="section-title">Mes favoris</div><div class="section-sub">Produits sauvegardés</div></div>
+      <div class="wish-grid" id="wishGrid"><div class="sk" style="height:220px"></div><div class="sk" style="height:220px"></div><div class="sk" style="height:220px"></div></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="tab-panel" id="tab-profile">
+      <div class="section-head"><div class="section-title">Mon profil</div><div class="section-sub">Informations personnelles</div></div>
+      <div class="profile-form">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Prénom</label><input class="form-input" id="pFirst" placeholder="Jean"></div>
+          <div class="form-group"><label class="form-label">Nom</label><input class="form-input" id="pLast" placeholder="Dupont"></div>
+        </div>
+        <div class="form-row full"><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="pEmail" disabled style="opacity:.55"></div></div>
+        <div class="form-row full"><div class="form-group"><label class="form-label">Téléphone</label><input class="form-input" id="pPhone" placeholder="+33 6 12 34 56 78"></div></div>
+        <div class="sep"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Adresse</label><input class="form-input" id="pAddr1" placeholder="12 Rue de la Paix"></div>
+          <div class="form-group"><label class="form-label">Complément</label><input class="form-input" id="pAddr2" placeholder="Appt, bâtiment..."></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Code postal</label><input class="form-input" id="pPostal" placeholder="75001"></div>
+          <div class="form-group"><label class="form-label">Ville</label><input class="form-input" id="pCity" placeholder="Paris"></div>
+        </div>
+        <div class="form-row full"><div class="form-group"><label class="form-label">Pays</label>
+          <select class="form-select" id="pCountry"><option value="FR">🇫🇷 France</option><option value="BE">🇧🇪 Belgique</option><option value="CH">🇨🇭 Suisse</option><option value="LU">🇱🇺 Luxembourg</option><option value="CA">🇨🇦 Canada</option></select>
+        </div></div>
+        <label class="check-row"><input type="checkbox" id="pMkt"><span>Recevoir les actualités et offres ZIG-on</span></label>
+        <button class="btn-save" onclick="saveProfile()">💾 Enregistrer</button>
+        <div class="sep"></div>
+        <div class="pw-box">
+          <div class="pw-box-title">🔒 Changer le mot de passe</div>
+          <div class="form-group"><label class="form-label">Nouveau mot de passe</label><input class="form-input" id="newPw" type="password" placeholder="8 caractères minimum"></div>
+          <div class="form-group"><label class="form-label">Confirmer</label><input class="form-input" id="confirmPw" type="password" placeholder="••••••••"></div>
+          <button class="btn-save" onclick="changePw()">Changer →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="tab-panel" id="tab-support">
+      <div class="section-head"><div class="section-title">Support</div><div class="section-sub">Vos tickets d'assistance</div></div>
+      <div class="support-grid">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px">Mes tickets</div>
+          <div class="tickets-col" id="ticketsList"><div class="sk" style="height:90px"></div></div>
+        </div>
+        <div class="new-ticket">
+          <div><div class="new-ticket-title">Nouveau ticket</div><div class="new-ticket-sub">Réponse sous 24h</div></div>
+          <div class="form-group"><label class="form-label">Catégorie</label>
+            <select class="form-select" id="tCat"><option value="order">Commande</option><option value="product">Produit</option><option value="delivery">Livraison</option><option value="return">Retour / Remboursement</option><option value="technical">Problème technique</option><option value="other">Autre</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Sujet</label><input class="form-input" id="tSubject" placeholder="Décrivez brièvement le problème"></div>
+          <div class="form-group"><label class="form-label">Message</label><textarea class="form-input" id="tMsg" rows="4" placeholder="Décrivez votre problème en détail..."></textarea></div>
+          <div>
+            <div style="font-size:10px;color:var(--text-3);margin-bottom:7px;font-weight:700;letter-spacing:.5px;text-transform:uppercase">Priorité</div>
+            <div class="prio-row">
+              <div class="prio-opt active" id="prioN" onclick="setPrio('normal',this)">🟡 Normale</div>
+              <div class="prio-opt" id="prioH" onclick="setPrio('high',this)">🔴 Urgente</div>
+            </div>
+          </div>
+          <button class="btn-save" onclick="submitTicket()">Envoyer →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://beuujevawwzvlvzhdjch.supabase.co';
+const SUPABASE_KEY='sb_publishable_A2buKvsEM_YsoKp4e09M9w_mKZsxHNw';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const curEl=document.getElementById('cursor'),ringEl=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function a(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;curEl.style.left=mx+'px';curEl.style.top=my+'px';ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(a)})();
+
+let session=null,customer=null,orders=[],wishlist=[],wishProducts=[],tickets=[],prio='normal';
+let wishLoaded=false,tickLoaded=false;
+
+async function init(){
+  // Cart badge
+  try{const c=JSON.parse(localStorage.getItem('zig_cart')||'[]');const n=c.reduce((s,i)=>s+(i.quantity||1),0);if(n){const el=document.getElementById('cartBadge');el.textContent=n;el.style.display='flex'}}catch(e){}
+
+  const{data:{session:s}}=await sb.auth.getSession();
+  if(!s){location.href='login.html?redirect=dashboard-client.html';return}
+  session=s;
+
+  const{data:cust}=await sb.from('customers').select('*').eq('id',s.user.id).single();
+  customer=cust;
+
+  const first=cust?.first_name||s.user.user_metadata?.first_name||'';
+  const last =cust?.last_name ||s.user.user_metadata?.last_name||'';
+  const full =(first+' '+last).trim()||s.user.email.split('@')[0];
+  document.getElementById('userName').textContent=full;
+  document.getElementById('userEmail').textContent=s.user.email;
+  const av=document.getElementById('userAvatar');
+  av.textContent=full.charAt(0).toUpperCase();
+  av.style.fontSize='18px';av.style.fontWeight='700';av.style.fontFamily="'Bebas Neue',sans-serif";
+  document.getElementById('welcomeTitle').textContent='Bonjour'+(first?' '+first:'')+'!';
+
+  // Wishlist
+  try{wishlist=JSON.parse(localStorage.getItem('zig_wishlist')||'[]')}catch(e){wishlist=[]}
+  document.getElementById('statWish').textContent=wishlist.length;
+  if(wishlist.length){showBadge('wishBadge',wishlist.length)}
+
+  // Orders
+  await loadOrders(s.user.id);
+  fillProfile(cust,s.user.email);
+}
+
+async function loadOrders(uid){
+  const{data}=await sb.from('orders').select('*,order_items(*)').eq('customer_id',uid).order('created_at',{ascending:false});
+  orders=data||[];
+  document.getElementById('statOrders').textContent=orders.length;
+  document.getElementById('statSpent').textContent=orders.reduce((s,o)=>s+(o.total||0),0).toFixed(0)+'€';
+  if(orders.length) showBadge('ordersBadge',orders.length);
+  renderOrders();renderRecent();
+}
+
+const SLBL={pending:'En attente',processing:'En préparation',shipped:'Expédiée',delivered:'Livrée',cancelled:'Annulée'};
+const SCLS={pending:'s-pending',processing:'s-processing',shipped:'s-shipped',delivered:'s-delivered',cancelled:'s-cancelled'};
+
+function renderOrders(){
+  const el=document.getElementById('ordersList');
+  if(!orders.length){el.innerHTML=empty('📦','Aucune commande','Vos commandes apparaîtront ici.','shop.html','Découvrir la boutique →');return}
+  el.innerHTML=orders.map((o,i)=>{
+    const items=o.order_items||[];
+    const d=new Date(o.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+    return `<div class="order-card"><div class="order-head" onclick="togOrder(${i})">
+      <div class="order-head-left"><div class="order-num">${o.order_number}</div><div class="order-date">${d} · ${items.length} article${items.length>1?'s':''}</div></div>
+      <div class="order-head-right"><div class="order-total">${(o.total||0).toFixed(2)}€</div><div class="order-status ${SCLS[o.status]||'s-pending'}">${SLBL[o.status]||o.status}</div><div class="tog" id="tog${i}">▼</div></div>
+    </div>
+    <div class="order-body" id="ob${i}">
+      <div class="oi-list">${items.map(it=>`<div class="oi"><div class="oi-img">${it.product_image?`<img src="${it.product_image}" alt="" onerror="this.style.display='none'">`:'<span style="font-size:16px;opacity:.15">🖱️</span>'}</div><div class="oi-name">${it.product_name}</div><div class="oi-qty">×${it.quantity}</div><div class="oi-price">${(it.total||0).toFixed(2)}€</div></div>`).join('')}</div>
+      <div class="order-meta">
+        <div><div class="ometa-label">Livraison</div><div class="ometa-val">${o.shipping_method||'Standard'}</div></div>
+        <div><div class="ometa-label">Ville</div><div class="ometa-val">${o.shipping_city||'—'}</div></div>
+        <div><div class="ometa-label">Paiement</div><div class="ometa-val">${o.payment_status==='paid'?'✓ Payé':'En attente'}</div></div>
+      </div>
+      ${o.tracking_number?`<div style="margin-top:12px;padding:10px 13px;background:var(--bg-3);border-radius:7px;font-size:12px">🚚 Suivi : <strong>${o.tracking_number}</strong></div>`:''}
+    </div></div>`;
+  }).join('');
+}
+
+function renderRecent(){
+  const el=document.getElementById('recentOrders');
+  if(!orders.length){el.innerHTML='<p style="font-size:13px;color:var(--text-3)">Aucune commande pour l\'instant.</p>';return}
+  el.innerHTML=orders.slice(0,3).map(o=>{
+    const d=new Date(o.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+    return `<div class="order-card" style="cursor:pointer;margin-bottom:8px" onclick="goTab('orders',document.querySelector('[data-tab=orders]'))">
+      <div class="order-head"><div class="order-head-left"><div class="order-num">${o.order_number}</div><div class="order-date">${d}</div></div>
+      <div class="order-head-right"><div class="order-total">${(o.total||0).toFixed(2)}€</div><div class="order-status ${SCLS[o.status]||'s-pending'}">${SLBL[o.status]||o.status}</div></div></div>
+    </div>`;
+  }).join('');
+}
+
+function togOrder(i){
+  const b=document.getElementById('ob'+i),t=document.getElementById('tog'+i),open=b.classList.contains('open');
+  b.classList.toggle('open',!open);t.classList.toggle('open',!open);
+}
+
+// WISHLIST
+async function loadWishlist(){
+  if(!wishlist.length){document.getElementById('wishGrid').innerHTML=empty('❤️','Aucun favori','Ajoutez des produits depuis la boutique.','shop.html','Découvrir la boutique →');return}
+  const{data}=await sb.from('products').select('id,name,price,images').in('id',wishlist);
+  wishProducts=data||[];
+  const g=document.getElementById('wishGrid');
+  if(!wishProducts.length){g.innerHTML='<p style="color:var(--text-3)">Produits introuvables.</p>';return}
+  g.innerHTML=wishProducts.map(p=>{
+    const img=p.images&&p.images[0];
+    return `<div class="wish-card">
+      <div class="wish-img" onclick="location.href='product.html?id=${p.id}'">${img?`<img src="${img}" alt="${p.name}" loading="lazy">`:'<span style="font-size:36px;opacity:.12">🖱️</span>'}</div>
+      <div class="wish-body">
+        <div class="wish-name" onclick="location.href='product.html?id=${p.id}'">${p.name}</div>
+        <div class="wish-price">${p.price.toFixed(2)}€</div>
+        <div class="wish-actions">
+          <button class="wish-add" onclick="addWishToCart(${JSON.stringify(p).replace(/"/g,'&quot;')})">+ Panier</button>
+          <button class="wish-rm" onclick="rmWish('${p.id}')">✕</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addWishToCart(p){
+  let c=[];try{c=JSON.parse(localStorage.getItem('zig_cart')||'[]')}catch(e){}
+  const ex=c.find(i=>i.id===p.id);
+  if(ex)ex.quantity=(ex.quantity||1)+1;
+  else c.push({id:p.id,name:p.name,price:p.price,image:(p.images&&p.images[0])||'',quantity:1});
+  localStorage.setItem('zig_cart',JSON.stringify(c));
+  toast('🛒 <strong>'+p.name+'</strong> ajouté au panier');
+}
+
+function rmWish(pid){
+  wishlist=wishlist.filter(id=>id!==pid);wishProducts=wishProducts.filter(p=>p.id!==pid);
+  localStorage.setItem('zig_wishlist',JSON.stringify(wishlist));
+  document.getElementById('statWish').textContent=wishlist.length;
+  const b=document.getElementById('wishBadge');
+  if(wishlist.length){b.textContent=wishlist.length;b.style.display='flex'}else b.style.display='none';
+  loadWishlist();toast('💔 Retiré des favoris');
+}
+
+// PROFILE
+function fillProfile(c,email){
+  if(!c)return;
+  document.getElementById('pFirst').value=c.first_name||'';
+  document.getElementById('pLast').value=c.last_name||'';
+  document.getElementById('pEmail').value=email||'';
+  document.getElementById('pPhone').value=c.phone||'';
+  document.getElementById('pAddr1').value=c.address_line1||'';
+  document.getElementById('pAddr2').value=c.address_line2||'';
+  document.getElementById('pPostal').value=c.postal_code||'';
+  document.getElementById('pCity').value=c.city||'';
+  document.getElementById('pCountry').value=c.country||'FR';
+  document.getElementById('pMkt').checked=c.accepts_marketing||false;
+}
+
+async function saveProfile(){
+  const{error}=await sb.from('customers').update({
+    first_name:g('pFirst'),last_name:g('pLast'),phone:g('pPhone')||null,
+    address_line1:g('pAddr1')||null,address_line2:g('pAddr2')||null,
+    postal_code:g('pPostal')||null,city:g('pCity')||null,
+    country:document.getElementById('pCountry').value,
+    accepts_marketing:document.getElementById('pMkt').checked,
+  }).eq('id',session.user.id);
+  if(error)toast('❌ '+error.message);else toast('✅ Profil mis à jour !');
+}
+
+async function changePw(){
+  const pw=document.getElementById('newPw').value,conf=document.getElementById('confirmPw').value;
+  if(pw.length<8){toast('⚠️ 8 caractères minimum');return}
+  if(pw!==conf){toast('⚠️ Les mots de passe ne correspondent pas');return}
+  const{error}=await sb.auth.updateUser({password:pw});
+  if(error)toast('❌ '+error.message);
+  else{toast('✅ Mot de passe modifié !');document.getElementById('newPw').value='';document.getElementById('confirmPw').value=''}
+}
+
+// SUPPORT
+async function loadTickets(){
+  const{data}=await sb.from('support_tickets').select('*').eq('customer_id',session.user.id).order('created_at',{ascending:false}).limit(10);
+  tickets=data||[];
+  const el=document.getElementById('ticketsList');
+  if(!tickets.length){el.innerHTML='<p style="font-size:13px;color:var(--text-3);padding:12px 0">Aucun ticket pour l\'instant.</p>';return}
+  const smap={open:'ts-open',in_progress:'ts-inprog',resolved:'ts-done',closed:'ts-done'};
+  const slbl={open:'Ouvert',in_progress:'En cours',resolved:'Résolu',closed:'Clôturé'};
+  el.innerHTML=tickets.map(t=>{
+    const d=new Date(t.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+    return `<div class="ticket-card"><div class="ticket-head"><div class="ticket-num">#${(t.ticket_number||t.id.slice(0,8)).toUpperCase()}</div><div class="ticket-status ${smap[t.status]||'ts-open'}">${slbl[t.status]||'Ouvert'}</div></div><div class="ticket-subject">${t.subject}</div><div class="ticket-preview">${t.message}</div><div class="ticket-date">${d} · ${t.category||'Général'}</div></div>`;
+  }).join('');
+}
+
+function setPrio(val,el){prio=val;document.querySelectorAll('.prio-opt').forEach(o=>o.classList.remove('active'));el.classList.add('active')}
+
+async function submitTicket(){
+  const sub=g('tSubject'),msg=g('tMsg');
+  if(!sub||!msg){toast('⚠️ Remplissez le sujet et le message');return}
+  const num='TK-'+Date.now().toString(36).toUpperCase();
+  const{error}=await sb.from('support_tickets').insert({
+    ticket_number:num,customer_id:session.user.id,
+    name:(customer?.first_name||'')+' '+(customer?.last_name||''),
+    email:session.user.email,category:document.getElementById('tCat').value,
+    subject:sub,message:msg,status:'open',priority:prio,
+  });
+  if(error)toast('❌ '+error.message);
+  else{toast('✅ Ticket <strong>'+num+'</strong> créé !');document.getElementById('tSubject').value='';document.getElementById('tMsg').value='';loadTickets()}
+}
+
+// NAVIGATION
+function goTab(name,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+name));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  if(name==='wishlist'&&!wishLoaded){loadWishlist();wishLoaded=true}
+  if(name==='support'&&!tickLoaded){loadTickets();tickLoaded=true}
+}
+
+async function logout(){await sb.auth.signOut();location.href='index.html'}
+
+// UTILS
+function g(id){return document.getElementById(id)?.value.trim()||''}
+function showBadge(id,n){const el=document.getElementById(id);if(el){el.textContent=n;el.style.display='flex'}}
+function empty(icon,title,sub,href,cta){return`<div class="empty"><div class="empty-icon">${icon}</div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div><a href="${href}" class="btn-cta">${cta}</a></div>`}
+function toast(html){const t=document.createElement('div');t.className='toast';t.innerHTML=html;document.getElementById('toastContainer').appendChild(t);setTimeout(()=>{t.style.cssText+='opacity:0;transform:translateX(80px);transition:.3s;';setTimeout(()=>t.remove(),300)},3500)}
+
+init();
+</script>
+</body>
+</html>

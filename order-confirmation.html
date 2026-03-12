@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande confirmée | ZIG-on</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" type="image/png" href="favicon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #FFD700;
+            --dark: #000000;
+            --dark-2: #0F0F0F;
+            --dark-3: #1A1A1A;
+            --text: #FFFFFF;
+            --text-gray: #9CA3AF;
+            --gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            --success: #22c55e;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 6%;
+            border-bottom: 1px solid var(--dark-3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-accent {
+            width: 6px;
+            height: 28px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* Main Content */
+        .confirmation-section {
+            flex: 1;
+            padding: 80px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirmation-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin: 0 auto 32px;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--text-gray);
+            margin-bottom: 48px;
+        }
+
+        .order-info-card {
+            background: var(--dark-2);
+            border: 1px solid var(--dark-3);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .order-number {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--dark);
+            border: 1px solid var(--dark-3);
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+
+        .order-number-label {
+            font-size: 14px;
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .order-number-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: var(--text-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .email-notice {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .email-icon {
+            font-size: 32px;
+        }
+
+        .email-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .email-text strong {
+            color: var(--success);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 48px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--dark);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--dark-3);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .next-steps {
+            background: var(--dark-2);
+            border: 1px solid var(--dark-3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: left;
+        }
+
+        .next-steps h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 16px;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 6%;
+            border-top: 1px solid var(--dark-3);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            top: -10px;
+            animation: confetti-fall 3s linear;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 32px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .action-buttons { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-accent"></div>
+                ZIG
+            </a>
+        </div>
+    </header>
+
+    <section class="confirmation-section">
+        <div class="confirmation-container">
+            <div class="success-icon">✓</div>
+            
+            <h1>Commande confirmée !</h1>
+            <p class="subtitle">Merci pour votre confiance. Votre commande a été enregistrée avec succès.</p>
+
+            <div class="order-info-card">
+                <div class="order-number">
+                    <span class="order-number-label">Numéro de commande</span>
+                    <span class="order-number-value" id="orderNumber">-</span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Date de commande</div>
+                        <div class="info-value" id="orderDate">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Total payé</div>
+                        <div class="info-value" id="orderTotal">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" id="orderEmail">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Mode de paiement</div>
+                        <div class="info-value">Carte bancaire</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="email-notice">
+                <div class="email-icon">📧</div>
+                <div class="email-text">
+                    <strong>Un email de confirmation vous a été envoyé</strong><br>
+                    Vous y trouverez tous les détails de votre commande et le lien de suivi de livraison.
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="dashboard-client.html" class="btn btn-primary">
+                    📦 Suivre ma commande
+                </a>
+                <a href="shop.html" class="btn btn-secondary">
+                    🛍️ Continuer mes achats
+                </a>
+            </div>
+
+            <div class="next-steps">
+                <h2>Prochaines étapes</h2>
+                <div class="steps-list">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Préparation de votre commande</div>
+                            <div class="step-description">Nos équipes préparent votre colis avec soin (1-2 jours ouvrés)</div>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Expédition</div>
+                            <div class="step-description">Vous recevrez un email avec le numéro de suivi de votre colis</div>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Livraison</div>
+                            <div class="step-description">Réception de votre commande sous 3-5 jours ouvrés</div>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Profitez de votre ZIG Pro !</div>
+                            <div class="step-description">Installez le logiciel ZIG AI Engine et dominez la compétition</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2026 ZIG-on. Le poids plume qui frappe lourd.</p>
+        </div>
+    </footer>
+
+    <script>
+        function loadOrderInfo() {
+            const orderData = localStorage.getItem('zig_last_order');
+            
+            if (!orderData) {
+                // Redirect to shop if no order data
+                setTimeout(() => {
+                    window.location.href = 'shop.html';
+                }, 3000);
+                return;
+            }
+
+            const order = JSON.parse(orderData);
+            
+            document.getElementById('orderNumber').textContent = order.order_number;
+            document.getElementById('orderTotal').textContent = order.total.toFixed(2) + '€';
+            document.getElementById('orderEmail').textContent = order.email;
+            
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            document.getElementById('orderDate').textContent = dateStr;
+        }
+
+        function createConfetti() {
+            const colors = ['#FFD700', '#FFA500', '#22c55e', '#FFFFFF'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Initialize
+        loadOrderInfo();
+        createConfetti();
+    </script>
+</body>
+</html>

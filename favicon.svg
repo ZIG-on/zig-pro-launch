@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Black background with rounded corners -->
+  <rect width="64" height="64" rx="10" fill="#0a0a0a"/>
+  <!-- Yellow bar -->
+  <rect x="9" y="14" width="7" height="36" rx="1" fill="#F5C400"/>
+  <!-- ZIG text in white -->
+  <text x="21" y="48" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="31" fill="#FFFFFF" letter-spacing="-1">ZIG</text>
+</svg>

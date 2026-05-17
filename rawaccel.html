@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZIG-ON — Smart Raw Accel Generator</title>
+  <link rel="icon" href="favicon2.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── Smart RA Generator overrides & new components ── */
+    :root {
+      --accent-2: #4fd1c5;
+      --accent:   #f6ad55;
+      --bg:       #0d0f14;
+      --bg-2:     #12151c;
+      --bg-3:     #181c26;
+      --border:   rgba(255,255,255,.08);
+      --text:     #e2e8f0;
+      --text-muted: #718096;
+      --radius:   8px;
+    }
+
+    /* ──────────────────────────────────────────────
+       GENERATOR FORM — Hardware Profile
+    ─────────────────────────────────────────────── */
+    .gen-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* Section title strip */
+    .section-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-strip-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-strip-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .15em;
+      color: var(--accent-2);
+      white-space: nowrap;
+    }
+
+    /* Hardware profile card */
+    .hw-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+    .hw-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 900px) { .hw-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 540px) { .hw-grid { grid-template-columns: 1fr; } }
+
+    .hw-field label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .hw-field select,
+    .hw-field input[type="text"],
+    .hw-field input[type="number"] {
+      width: 100%;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color .2s;
+      -webkit-appearance: none;
+      appearance: none;
+      box-sizing: border-box;
+    }
+    .hw-field select:focus,
+    .hw-field input:focus { border-color: var(--accent-2); }
+
+    /* Objective radio row */
+    .objective-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .obj-btn {
+      flex: 1;
+      min-width: 180px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: left;
+    }
+    .obj-btn input[type="radio"] { display: none; }
+    .obj-icon { font-size: 22px; line-height: 1; }
+    .obj-text { display: flex; flex-direction: column; gap: 2px; }
+    .obj-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .obj-sub   { font-size: 11px; font-weight: 400; color: var(--text-muted); letter-spacing: .05em; }
+    .obj-btn.selected {
+      border-color: var(--accent-2);
+      background: rgba(79,209,197,.08);
+      color: var(--accent-2);
+    }
+    .obj-btn.selected .obj-title { color: var(--accent-2); }
+
+    /* ──────────────────────────────────────────────
+       MODE + PARAMS CARD
+    ─────────────────────────────────────────────── */
+    .mode-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+
+    /* Mode selector tabs */
+    .mode-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .mode-tab {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 8px 18px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-3);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .mode-tab:hover { border-color: rgba(79,209,197,.4); color: var(--text); }
+    .mode-tab.active {
+      background: rgba(79,209,197,.12);
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+    }
+
+    /* Dynamic param fields */
+    .param-fields {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 700px) { .param-fields { grid-template-columns: 1fr 1fr; } }
+
+    .param-group {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .param-group.visible { display: flex; }
+
+    .param-group label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .param-group select,
+    .param-group input[type="number"],
+    .param-group input[type="text"] {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color .2s;
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .param-group input:focus,
+    .param-group select:focus { border-color: var(--accent-2); }
+
+    .param-hint {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    /* Generate CTA */
+    .gen-cta {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 0;
+    }
+    .btn-generate {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 16px 56px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-2) 0%, #38b2ac 100%);
+      color: #0d0f14;
+      box-shadow: 0 0 32px rgba(79,209,197,.25);
+      transition: transform .15s, box-shadow .15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-generate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 48px rgba(79,209,197,.45);
+    }
+    .btn-generate:active { transform: translateY(0); }
+    .btn-generate::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ──────────────────────────────────────────────
+       OUTPUT ZONE
+    ─────────────────────────────────────────────── */
+    .output-zone {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .output-zone.visible { display: grid; }
+    @media (max-width: 800px) { .output-zone { grid-template-columns: 1fr; } }
+
+    /* Synthesis table */
+    .synth-card {
+      background: var(--bg-2);
+      border: 1px solid rgba(79,209,197,.3);
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 0 0 40px rgba(79,209,197,.06);
+    }
+    .synth-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .15em;
+      color: var(--accent-2);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .synth-title::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 8px var(--accent-2);
+    }
+
+    .synth-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .synth-table tr:not(:last-child) td {
+      border-bottom: 1px solid var(--border);
+    }
+    .synth-table td {
+      padding: 11px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+    .synth-table td:first-child { color: var(--text-muted); font-size: 11px; letter-spacing: .05em; }
+    .synth-table td:last-child  { color: var(--text); text-align: right; font-weight: 700; }
+    .synth-table td.val-highlight { color: var(--accent-2); }
+
+    .copy-hint {
+      margin-top: 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      background: var(--bg-3);
+      border-radius: 6px;
+      padding: 10px 14px;
+      line-height: 1.7;
+    }
+    .copy-hint strong { color: var(--text); }
+
+    /* Canvas card */
+    .chart-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chart-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .chart-card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .12em;
+      color: var(--text-muted);
+    }
+    .chart-card-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      opacity: .6;
+      margin-top: 3px;
+    }
+    #ra-canvas {
+      width: 100%;
+      flex: 1;
+      border-radius: 6px;
+      display: block;
+    }
+    .canvas-legend {
+      display: flex;
+      gap: 20px;
+      margin-top: 12px;
+    }
+    .legend-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .legend-item {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Stats row under output */
+    .stats-strip {
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .stats-strip.visible { display: grid; }
+    @media (max-width: 700px) { .stats-strip { grid-template-columns: repeat(2,1fr); } }
+
+    .stat-tile {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .stat-tile-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .stat-tile-val {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent-2);
+      line-height: 1;
+    }
+    .stat-tile-unit {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Info cards (reuse existing style) */
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+    @media (max-width: 700px) { .info-cards { grid-template-columns: 1fr; } }
+    .info-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+    }
+    .info-card-icon { font-size: 22px; margin-bottom: 10px; }
+    .info-card-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .info-card-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Notification toast for copy */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--accent-2);
+      color: #0d0f14;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Hero overrides */
+    .hero { padding-bottom: 40px; }
+
+    /* Navbar & footer — inherit from style.css, just ensure vars are present */
+    .ra-main { padding-top: 32px; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-bracket">[</span><span class="logo-text">ZIG</span><span class="logo-accent">-ON</span><span class="logo-bracket">]</span>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html">Sensitivity Randomizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item active"><a href="rawaccel.html">Raw Accel Visualizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="polling.html">Polling Rate Analyzer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="loadout.html">Loadout Optimizer</a><span class="nav-badge">LIVE</span></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="nav-tags"><span class="game-tag">VALORANT</span><span class="game-tag">CS2</span></div>
+        <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="btn-coffee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Buy me a Coffee
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <header class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow" style="background:radial-gradient(ellipse,rgba(79,209,197,.35) 0%,transparent 70%)"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span class="pulse-dot" style="background:var(--accent-2)"></span>OUTIL #02 — SMART MOUSE ACCELERATION</div>
+      <h1 class="hero-title">Raw Accel<br /><span class="title-accent" style="color:var(--accent-2);-webkit-text-stroke-color:var(--accent-2)">Generator</span></h1>
+      <p class="hero-desc">Entre ton matériel, choisis ton objectif — l'outil calcule les paramètres exacts à coller dans Raw Accel.</p>
+    </div>
+  </header>
+
+  <div class="ad-zone ad-top">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <!-- ═══════════════ MAIN ═══════════════ -->
+  <main class="main-tool ra-main">
+  <div class="gen-wrap">
+
+    <!-- ── STEP 1 — Hardware Profile ── -->
+    <div class="section-strip">
+      <span class="section-strip-label">ÉTAPE 01 — PROFIL MATÉRIEL</span>
+      <div class="section-strip-line"></div>
+    </div>
+
+    <div class="hw-card">
+      <div class="hw-grid">
+        <div class="hw-field">
+          <label>DPI Souris</label>
+          <select id="hw-dpi">
+            <option value="400">400 DPI</option>
+            <option value="800" selected>800 DPI</option>
+            <option value="1000">1 000 DPI</option>
+            <option value="1600">1 600 DPI</option>
+            <option value="3200">3 200 DPI</option>
+            <option value="6400">6 400 DPI</option>
+          </select>
+        </div>
+        <div class="hw-field">
+          <label>Sensibilité In-Game</label>
+          <input type="number" id="hw-sens" value="0.35" min="0.01" max="100" step="0.01" placeholder="ex: 0.35" />
+        </div>
+        <div class="hw-field">
+          <label>Polling Rate</label>
+          <select id="hw-poll">
+            <option value="500">500 Hz</option>
+            <option value="1000" selected>1 000 Hz</option>
+            <option value="2000">2 000 Hz</option>
+            <option value="4000">4 000 Hz</option>
+            <option value="8000">8 000 Hz</option>
+          </select>
+        </div>
+        <div class="hw-field">
+          <label>Résolution écran</label>
+          <select id="hw-res">
+            <option value="1920">1920 × 1080</option>
+            <option value="2560">2560 × 1440</option>
+            <option value="3840">3840 × 2160</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-strip" style="margin-bottom:16px">
+        <span class="section-strip-label">OBJECTIF</span>
+        <div class="section-strip-line"></div>
+      </div>
+      <div class="objective-row">
+        <label class="obj-btn selected" id="obj-stable">
+          <input type="radio" name="objective" value="stable" checked />
+          <span class="obj-icon">🎯</span>
+          <span class="obj-text">
+            <span class="obj-title">Stabilité / Tracking</span>
+            <span class="obj-sub">Courbe douce · contrôle au pixel</span>
+          </span>
+        </label>
+        <label class="obj-btn" id="obj-aggro">
+          <input type="radio" name="objective" value="aggro" />
+          <span class="obj-icon">⚡</span>
+          <span class="obj-text">
+            <span class="obj-title">Flicks / Aggro</span>
+            <span class="obj-sub">Boost rapide · réactivité maximale</span>
+          </span>
+        </label>
+        <label class="obj-btn" id="obj-hybrid">
+          <input type="radio" name="objective" value="hybrid" />
+          <span class="obj-icon">🔀</span>
+          <span class="obj-text">
+            <span class="obj-title">Hybride Équilibré</span>
+            <span class="obj-sub">Début stable · accélération modérée</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── STEP 2 — Mode & Params ── -->
+    <div class="section-strip">
+      <span class="section-strip-label">ÉTAPE 02 — MODE RAW ACCEL</span>
+      <div class="section-strip-line"></div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-tabs" id="mode-tabs">
+        <button class="mode-tab active" data-mode="linear">Linear</button>
+        <button class="mode-tab" data-mode="classic">Classic</button>
+        <button class="mode-tab" data-mode="jump">Jump</button>
+        <button class="mode-tab" data-mode="natural">Natural</button>
+        <button class="mode-tab" data-mode="power">Power</button>
+      </div>
+
+      <!-- Param fields per mode -->
+      <div class="param-fields" id="param-fields">
+
+        <!-- LINEAR -->
+        <div class="param-group visible" data-for="linear" id="p-lin-accel">
+          <label>Acceleration</label>
+          <input type="number" id="lin-accel" value="" placeholder="auto-calculé" step="0.001" min="0" />
+          <span class="param-hint">Gain de sens par count/ms. Calculé selon ton DPI.</span>
+        </div>
+        <div class="param-group visible" data-for="linear" id="p-lin-cap-type">
+          <label>Cap Type</label>
+          <select id="lin-cap-type">
+            <option value="output" selected>Output</option>
+            <option value="input">Input</option>
+            <option value="both">Both</option>
+          </select>
+          <span class="param-hint">Type de plafonnement de la courbe.</span>
+        </div>
+        <div class="param-group visible" data-for="linear" id="p-lin-cap">
+          <label>Cap: Output</label>
+          <input type="number" id="lin-cap" value="" placeholder="auto-calculé" step="0.01" min="0" />
+          <span class="param-hint">Valeur max de sensibilité effective.</span>
+        </div>
+        <div class="param-group visible" data-for="linear" id="p-lin-offset">
+          <label>Input Offset</label>
+          <input type="number" id="lin-offset" value="" placeholder="auto-calculé" step="0.01" min="0" />
+          <span class="param-hint">Vitesse seuil avant que l'accel se déclenche.</span>
+        </div>
+
+        <!-- CLASSIC -->
+        <div class="param-group" data-for="classic" id="p-cl-accel">
+          <label>Acceleration</label>
+          <input type="number" id="cl-accel" value="" placeholder="auto-calculé" step="0.001" min="0" />
+          <span class="param-hint">Coefficient quadratique. Comportement proche accel Windows.</span>
+        </div>
+        <div class="param-group" data-for="classic" id="p-cl-cap-type">
+          <label>Cap Type</label>
+          <select id="cl-cap-type">
+            <option value="output" selected>Output</option>
+            <option value="input">Input</option>
+          </select>
+        </div>
+        <div class="param-group" data-for="classic" id="p-cl-cap">
+          <label>Cap: Output</label>
+          <input type="number" id="cl-cap" value="" placeholder="auto-calculé" step="0.01" min="0" />
+        </div>
+        <div class="param-group" data-for="classic" id="p-cl-offset">
+          <label>Input Offset</label>
+          <input type="number" id="cl-offset" value="" placeholder="auto-calculé" step="0.1" min="0" />
+        </div>
+        <div class="param-group" data-for="classic" id="p-cl-power">
+          <label>Power</label>
+          <input type="number" id="cl-power" value="" placeholder="auto-calculé" step="0.1" min="1" max="5" />
+          <span class="param-hint">Exposant de la courbe. 2 = quadratique.</span>
+        </div>
+
+        <!-- JUMP -->
+        <div class="param-group" data-for="jump" id="p-jmp-smooth">
+          <label>Smooth</label>
+          <input type="number" id="jmp-smooth" value="" placeholder="auto-calculé" step="0.1" min="0" />
+          <span class="param-hint">Douceur de la transition. Plus élevé = transition plus longue.</span>
+        </div>
+        <div class="param-group" data-for="jump" id="p-jmp-input">
+          <label>Input (counts/ms)</label>
+          <input type="number" id="jmp-input" value="" placeholder="auto-calculé" step="0.1" min="0" />
+          <span class="param-hint">Vitesse souris au point de saut.</span>
+        </div>
+        <div class="param-group" data-for="jump" id="p-jmp-output">
+          <label>Output (multiplicateur)</label>
+          <input type="number" id="jmp-output" value="" placeholder="auto-calculé" step="0.1" min="1" />
+          <span class="param-hint">Facteur de sens après le saut.</span>
+        </div>
+
+        <!-- NATURAL -->
+        <div class="param-group" data-for="natural" id="p-nat-decay">
+          <label>Decay Rate</label>
+          <input type="number" id="nat-decay" value="" placeholder="auto-calculé" step="0.01" min="0" />
+          <span class="param-hint">Rapidité de saturation vers la limite.</span>
+        </div>
+        <div class="param-group" data-for="natural" id="p-nat-offset">
+          <label>Input Offset</label>
+          <input type="number" id="nat-offset" value="" placeholder="auto-calculé" step="0.1" min="0" />
+        </div>
+        <div class="param-group" data-for="natural" id="p-nat-limit">
+          <label>Limit</label>
+          <input type="number" id="nat-limit" value="" placeholder="auto-calculé" step="0.1" min="1" />
+          <span class="param-hint">Multiplicateur max de sensibilité.</span>
+        </div>
+
+        <!-- POWER -->
+        <div class="param-group" data-for="power" id="p-pw-scale">
+          <label>Scale</label>
+          <input type="number" id="pw-scale" value="" placeholder="auto-calculé" step="0.001" min="0" />
+          <span class="param-hint">Coefficient principal de la courbe Power.</span>
+        </div>
+        <div class="param-group" data-for="power" id="p-pw-cap-type">
+          <label>Cap Type</label>
+          <select id="pw-cap-type">
+            <option value="output" selected>Output</option>
+            <option value="input">Input</option>
+          </select>
+        </div>
+        <div class="param-group" data-for="power" id="p-pw-cap">
+          <label>Cap: Output</label>
+          <input type="number" id="pw-cap" value="" placeholder="auto-calculé" step="0.01" min="0" />
+        </div>
+        <div class="param-group" data-for="power" id="p-pw-exp">
+          <label>Exponent</label>
+          <input type="number" id="pw-exp" value="" placeholder="auto-calculé" step="0.05" min="0.1" max="5" />
+          <span class="param-hint">Forme de la courbe. &lt;1 = concave, &gt;1 = convexe.</span>
+        </div>
+        <div class="param-group" data-for="power" id="p-pw-offset">
+          <label>Output Offset</label>
+          <input type="number" id="pw-offset" value="" placeholder="auto-calculé" step="0.01" min="0" />
+          <span class="param-hint">Décalage vertical de la courbe.</span>
+        </div>
+      </div>
+
+      <div class="gen-cta" style="margin-top:28px">
+        <button class="btn-generate" id="btn-generate">
+          ⚡ Générer ma courbe
+        </button>
+      </div>
+    </div>
+
+    <!-- ── STEP 3 — Output ── -->
+    <div class="section-strip" id="output-strip" style="display:none">
+      <span class="section-strip-label">ÉTAPE 03 — PARAMÈTRES GÉNÉRÉS</span>
+      <div class="section-strip-line"></div>
+    </div>
+
+    <!-- Stats tiles -->
+    <div class="stats-strip" id="stats-strip">
+      <div class="stat-tile">
+        <div class="stat-tile-label">Sens @ slow (1 c/ms)</div>
+        <div class="stat-tile-val" id="st-slow">—</div>
+        <div class="stat-tile-unit">sens effective</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-tile-label">Sens @ medium (5 c/ms)</div>
+        <div class="stat-tile-val" id="st-med">—</div>
+        <div class="stat-tile-unit">sens effective</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-tile-label">Sens @ fast (15 c/ms)</div>
+        <div class="stat-tile-val" id="st-fast">—</div>
+        <div class="stat-tile-unit">sens effective</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-tile-label">Boost max</div>
+        <div class="stat-tile-val" id="st-boost">—</div>
+        <div class="stat-tile-unit">× multiplicateur</div>
+      </div>
+    </div>
+
+    <!-- Synthesis + Chart -->
+    <div class="output-zone" id="output-zone">
+      <div class="synth-card">
+        <div class="synth-title">PARAMÈTRES À COPIER DANS RAW ACCEL</div>
+        <table class="synth-table" id="synth-table">
+          <!-- filled by JS -->
+        </table>
+        <div class="copy-hint" id="copy-hint">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-label">COURBE DE SENSIBILITÉ GÉNÉRÉE</div>
+            <div class="chart-card-sub">X = Vitesse souris (counts/ms) · Y = Multiplicateur de sens</div>
+          </div>
+        </div>
+        <canvas id="ra-canvas" height="260"></canvas>
+        <div class="canvas-legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#4fd1c5"></span>Courbe générée</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,.2)"></span>Baseline (×1)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info cards -->
+    <section class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">📐</div>
+        <div class="info-card-title">Formule de base</div>
+        <div class="info-card-text">Les paramètres sont calculés à partir de ta sensibilité EDPi (sens × DPI), normalisée à 1000 Hz. Un DPI ou polling rate différent ajuste automatiquement les seuils de vitesse.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🎮</div>
+        <div class="info-card-title">Comment l'appliquer</div>
+        <div class="info-card-text">Ouvre Raw Accel → onglet <strong>Graphs</strong> → sélectionne le mode correspondant → copie les valeurs exactes du tableau de synthèse → clique sur <strong>Apply</strong>.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">⚠️</div>
+        <div class="info-card-title">Ajustement fin</div>
+        <div class="info-card-text">Les valeurs générées sont un <em>point de départ</em> optimal. Teste 15–30 min en DM, puis affine l'Acceleration ou le Cap selon ton ressenti.</div>
+      </div>
+    </section>
+
+  </div><!-- /gen-wrap -->
+  </main>
+
+  <div class="ad-zone ad-bottom">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">[ZIG<span style="color:var(--accent)">-ON</span>]</span>
+      <span class="footer-copy">Outils nichés pour joueurs compétitifs · Valorant & CS2</span>
+      <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="footer-coffee">☕ Support the project</a>
+      <p class="footer-copy">© 2025 zig-on. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">✓ Valeurs copiées !</div>
+
+  <script src="rawaccel-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZIG-ON — Smart Sensitivity Randomizer</title>
+  <link rel="icon" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">ZIG</span>
+        <span class="logo-accent">-ON</span>
+        <span class="logo-bracket">]</span>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item active">
+          <a href="index.html">Sensitivity Randomizer</a>
+          <span class="nav-badge">LIVE</span>
+        </li>
+        <li class="nav-item">
+          <a href="rawaccel.html">Raw Accel Visualizer</a>
+          <span class="nav-badge">LIVE</span>
+        </li>
+        <li class="nav-item">
+          <a href="polling.html">Polling Rate Analyzer</a>
+          <span class="nav-badge">LIVE</span>
+        </li>
+        <li class="nav-item">
+          <a href="loadout.html">Loadout Optimizer</a>
+          <span class="nav-badge">LIVE</span>
+        </li>
+      </ul>
+      <div class="nav-actions">
+        <div class="nav-tags">
+          <span class="game-tag">VALORANT</span>
+          <span class="game-tag">CS2</span>
+        </div>
+        <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="btn-coffee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Buy me a Coffee
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <header class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span class="pulse-dot"></span>OUTIL #01 — CHALLENGE MODE</div>
+      <h1 class="hero-title">Smart Sensitivity<br /><span class="title-accent">Randomizer</span></h1>
+      <p class="hero-desc">Tire une sensibilité aléatoire jouable et relève le challenge pendant 24h. Développe ta mémoire musculaire, casse tes mauvaises habitudes.</p>
+    </div>
+  </header>
+
+  <div class="ad-zone ad-top">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <!-- ═══════════════════════ MAIN TOOL ═══════════════════════ -->
+  <main class="main-tool">
+
+    <section class="results-panel">
+      <div class="result-card card-edpi">
+        <div class="card-label">eDPI</div>
+        <div class="card-value"><span class="slot" id="slot-edpi">—</span></div>
+        <div class="card-sub">Effective DPI</div>
+      </div>
+      <div class="result-divider"><div class="divider-line"></div><div class="divider-icon">÷</div><div class="divider-line"></div></div>
+      <div class="result-card card-dpi">
+        <div class="card-label">DPI Souris</div>
+        <div class="card-value"><span class="slot" id="slot-dpi">—</span></div>
+        <div class="card-sub">Hardware DPI</div>
+      </div>
+      <div class="result-divider"><div class="divider-line"></div><div class="divider-icon">=</div><div class="divider-line"></div></div>
+      <div class="result-card card-sens card-highlight">
+        <div class="card-label">Sensibilité</div>
+        <div class="card-value"><span class="slot" id="slot-sens">—</span></div>
+        <div class="card-sub">In-Game Sensitivity</div>
+      </div>
+    </section>
+
+    <section class="game-breakdown" id="game-breakdown">
+      <div class="breakdown-item">
+        <div class="breakdown-game"><span class="breakdown-game-name">VALORANT</span></div>
+        <div class="breakdown-value" id="val-sens">—</div>
+      </div>
+      <div class="breakdown-separator"></div>
+      <div class="breakdown-item">
+        <div class="breakdown-game"><span class="breakdown-game-name">CS2</span></div>
+        <div class="breakdown-value" id="cs2-sens">—</div>
+      </div>
+    </section>
+
+    <section class="gauge-section" id="gauge-section">
+      <div class="gauge-header">
+        <span class="gauge-label-left">BRAS</span>
+        <span class="gauge-title">STYLE DE JEU</span>
+        <span class="gauge-label-right">POIGNET</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill" id="gauge-fill"></div>
+        <div class="gauge-cursor" id="gauge-cursor"></div>
+        <div class="gauge-zones">
+          <div class="gauge-zone zone-arm">ARM</div>
+          <div class="gauge-zone zone-hybrid">HYBRID</div>
+          <div class="gauge-zone zone-wrist">WRIST</div>
+        </div>
+      </div>
+      <div class="gauge-verdict" id="gauge-verdict">—</div>
+    </section>
+
+    <div class="roll-section">
+      <button class="btn-roll" id="btn-roll">
+        <span class="btn-roll-bg"></span>
+        <span class="btn-roll-content">
+          <svg class="btn-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          ROLL CHALLENGE
+        </span>
+      </button>
+      <p class="roll-hint">Joue avec cette sensibilité pendant <strong>24 heures</strong> minimum.</p>
+    </div>
+
+    <section class="info-cards">
+      <div class="info-card"><div class="info-card-icon">🎯</div><div class="info-card-title">eDPI jouable</div><div class="info-card-text">Plage 150–400 eDPI, calibrée sur les stats des pros compétitifs Valorant & CS2.</div></div>
+      <div class="info-card"><div class="info-card-icon">⚡</div><div class="info-card-title">DPI standard</div><div class="info-card-text">Parmi 400, 800, 1600 et 3200 DPI — les valeurs les plus précises sur la majorité des capteurs.</div></div>
+      <div class="info-card"><div class="info-card-icon">🧠</div><div class="info-card-title">Mémoire musculaire</div><div class="info-card-text">Changer régulièrement de sensibilité entraîne ton cerveau à s'adapter plus vite.</div></div>
+    </section>
+  </main>
+
+  <div class="ad-zone ad-bottom">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">[ZIG<span style="color:var(--accent)">-ON</span>]</span>
+      <span class="footer-copy">Outils nichés pour joueurs compétitifs · Valorant & CS2</span>
+      <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="footer-coffee">☕ Support the project</a>
+      <p class="footer-copy">© 2025 zig-on. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

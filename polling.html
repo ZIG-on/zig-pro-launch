@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZIG-ON — Polling Rate Analyzer</title>
+  <link rel="icon" href="favicon2.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ══════════════════════════════════════════════
+       POLLING RATE ANALYZER — scoped styles
+    ══════════════════════════════════════════════ */
+    :root {
+      --bg:          #0d0f14;
+      --bg-2:        #12151c;
+      --bg-3:        #181c26;
+      --border:      rgba(255,255,255,.07);
+      --text:        #e2e8f0;
+      --text-muted:  #718096;
+      --accent:      #f6ad55;
+      --accent-2:    #4fd1c5;
+      --safe:        #48bb78;
+      --warn:        #ed8936;
+      --danger:      #fc5c7d;
+      --safe-glow:   rgba(72,187,120,.18);
+      --warn-glow:   rgba(237,137,54,.18);
+      --danger-glow: rgba(252,92,125,.18);
+      --radius:      10px;
+    }
+
+    /* ── Layout ── */
+    .poll-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .poll-split {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .poll-split { grid-template-columns: 1fr; }
+    }
+
+    /* ── Section strip ── */
+    .section-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-strip-line  { flex: 1; height: 1px; background: var(--border); }
+    .section-strip-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .18em;
+      color: var(--accent-2);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    /* ── Config panel (left) ── */
+    .config-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 28px 32px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .config-card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      color: var(--accent-2);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .config-card-title::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 8px var(--accent-2);
+    }
+
+    .config-field { margin-bottom: 20px; }
+    .config-field label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .config-field select {
+      width: 100%;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23718096' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      transition: border-color .2s;
+      box-sizing: border-box;
+    }
+    .config-field select:focus { border-color: var(--accent-2); }
+    .config-field select option { background: #181c26; }
+
+    /* Select highlight chips below each field */
+    .field-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .field-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .08em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    /* CTA Button */
+    .btn-analyze {
+      width: 100%;
+      margin-top: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      background: linear-gradient(135deg, #4fd1c5 0%, #38b2ac 100%);
+      color: #0d0f14;
+      box-shadow: 0 0 28px rgba(79,209,197,.2);
+      transition: transform .15s, box-shadow .15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-analyze::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .btn-analyze:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 44px rgba(79,209,197,.4);
+    }
+    .btn-analyze:active { transform: translateY(0); }
+
+    /* ── Diagnostic panel (right) ── */
+    .diag-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Gauge card */
+    .gauge-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      transition: border-color .4s, box-shadow .4s;
+    }
+    .gauge-card.state-safe   { border-color: rgba(72,187,120,.4);  box-shadow: 0 0 40px var(--safe-glow); }
+    .gauge-card.state-warn   { border-color: rgba(237,137,54,.4);  box-shadow: 0 0 40px var(--warn-glow); }
+    .gauge-card.state-danger { border-color: rgba(252,92,125,.4);  box-shadow: 0 0 40px var(--danger-glow); }
+
+    .gauge-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      align-self: flex-start;
+    }
+
+    /* SVG gauge */
+    .gauge-svg-wrap {
+      position: relative;
+      width: 220px;
+      height: 130px;
+      margin-bottom: 4px;
+    }
+    .gauge-svg { width: 220px; height: 130px; overflow: visible; }
+
+    /* Gauge needle */
+    .gauge-needle-group {
+      transform-origin: 110px 110px;
+      transform: rotate(-90deg);
+      transition: transform .8s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    /* Risk level badge */
+    .risk-badge {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 36px;
+      letter-spacing: .04em;
+      line-height: 1;
+      margin: 14px 0 4px;
+      transition: color .4s;
+      color: var(--text-muted);
+    }
+    .risk-badge.safe   { color: var(--safe); text-shadow: 0 0 24px rgba(72,187,120,.5); }
+    .risk-badge.warn   { color: var(--warn); text-shadow: 0 0 24px rgba(237,137,54,.5); }
+    .risk-badge.danger { color: var(--danger); text-shadow: 0 0 24px rgba(252,92,125,.5); }
+
+    .risk-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: .08em;
+      text-align: center;
+    }
+
+    /* ── Score bars ── */
+    .score-bars {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+    }
+    .score-bars-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .score-row:last-child { margin-bottom: 0; }
+    .score-row-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      width: 130px;
+      flex-shrink: 0;
+    }
+    .score-bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-3);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0%;
+      transition: width .7s cubic-bezier(.22,1,.36,1);
+    }
+    .score-bar-fill.safe   { background: var(--safe); }
+    .score-bar-fill.warn   { background: var(--warn); }
+    .score-bar-fill.danger { background: var(--danger); }
+    .score-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text);
+      width: 32px;
+      text-align: right;
+    }
+
+    /* ── Diagnostic card ── */
+    .diag-card {
+      border-radius: 14px;
+      padding: 24px 28px;
+      border: 1px solid var(--border);
+      background: var(--bg-2);
+      transition: border-color .4s, background .4s;
+    }
+    .diag-card.safe   { border-color: rgba(72,187,120,.3);  background: linear-gradient(135deg, var(--bg-2) 60%, rgba(72,187,120,.06)); }
+    .diag-card.warn   { border-color: rgba(237,137,54,.3);  background: linear-gradient(135deg, var(--bg-2) 60%, rgba(237,137,54,.06)); }
+    .diag-card.danger { border-color: rgba(252,92,125,.3);  background: linear-gradient(135deg, var(--bg-2) 60%, rgba(252,92,125,.06)); }
+
+    .diag-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .diag-status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse-dot 2s infinite;
+    }
+    .diag-status-dot.safe   { background: var(--safe);   box-shadow: 0 0 8px var(--safe); }
+    .diag-status-dot.warn   { background: var(--warn);   box-shadow: 0 0 8px var(--warn); }
+    .diag-status-dot.danger { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .6; transform: scale(1.3); }
+    }
+
+    .diag-status-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .diag-status-label.safe   { color: var(--safe); }
+    .diag-status-label.warn   { color: var(--warn); }
+    .diag-status-label.danger { color: var(--danger); }
+
+    .diag-headline {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .diag-body {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .diag-body strong { color: var(--text); }
+
+    /* ── Recommendations list ── */
+    .reco-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+    }
+    .reco-card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .reco-list { list-style: none; padding: 0; margin: 0; }
+    .reco-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .reco-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .reco-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .reco-item strong { color: var(--text); }
+
+    /* ── Placeholder (before analysis) ── */
+    .diag-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 60px 20px;
+      text-align: center;
+      background: var(--bg-2);
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+    }
+    .diag-placeholder-icon { font-size: 40px; opacity: .4; }
+    .diag-placeholder-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .08em;
+      color: var(--text-muted);
+    }
+
+    /* Hidden by default */
+    .diag-result { display: none; flex-direction: column; gap: 20px; }
+    .diag-result.visible { display: flex; }
+
+    /* ── Info cards ── */
+    .info-cards-poll {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 32px;
+    }
+    @media (max-width: 700px) { .info-cards-poll { grid-template-columns: 1fr; } }
+
+    .info-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .info-card-icon  { font-size: 20px; margin-bottom: 8px; }
+    .info-card-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .info-card-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Scan animation on button ── */
+    .btn-analyze.scanning {
+      pointer-events: none;
+      opacity: .8;
+    }
+    .btn-analyze.scanning::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+      animation: scan-sweep .8s linear forwards;
+    }
+    @keyframes scan-sweep {
+      to { left: 160%; }
+    }
+
+    /* ── Stagger reveal ── */
+    .diag-result > * {
+      animation: slide-up .35s ease both;
+    }
+    .diag-result > *:nth-child(1) { animation-delay: 0s; }
+    .diag-result > *:nth-child(2) { animation-delay: .07s; }
+    .diag-result > *:nth-child(3) { animation-delay: .14s; }
+    .diag-result > *:nth-child(4) { animation-delay: .21s; }
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-bracket">[</span><span class="logo-text">ZIG</span><span class="logo-accent">-ON</span><span class="logo-bracket">]</span>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html">Sensitivity Randomizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="rawaccel.html">Raw Accel Visualizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item active"><a href="polling.html">Polling Rate Analyzer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="loadout.html">Loadout Optimizer</a><span class="nav-badge">LIVE</span></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="nav-tags"><span class="game-tag">VALORANT</span><span class="game-tag">CS2</span></div>
+        <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="btn-coffee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Buy me a Coffee
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow" style="background:radial-gradient(ellipse,rgba(252,92,125,.28) 0%,transparent 70%)"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="pulse-dot" style="background:#fc5c7d"></span>OUTIL #03 — DIAGNOSTIC HARDWARE
+      </div>
+      <h1 class="hero-title">Polling Rate<br />
+        <span class="title-accent" style="color:#fc5c7d;-webkit-text-stroke-color:#fc5c7d">Analyzer</span>
+      </h1>
+      <p class="hero-desc">Détecte si ton polling rate risque de causer des micro-saccades selon ton CPU et ton jeu principal.</p>
+    </div>
+  </header>
+
+  <div class="ad-zone ad-top">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <!-- ═══════════ MAIN ═══════════ -->
+  <main class="main-tool">
+  <div class="poll-wrap">
+
+    <div class="section-strip">
+      <span class="section-strip-label">CONFIGURATION</span>
+      <div class="section-strip-line"></div>
+    </div>
+
+    <div class="poll-split">
+
+      <!-- ── LEFT : Config ── -->
+      <aside class="config-card">
+        <div class="config-card-title">PROFIL MATÉRIEL</div>
+
+        <div class="config-field">
+          <label>Polling Rate actuel</label>
+          <select id="cfg-polling">
+            <option value="500">500 Hz</option>
+            <option value="1000" selected>1 000 Hz</option>
+            <option value="2000">2 000 Hz</option>
+            <option value="4000">4 000 Hz</option>
+            <option value="8000">8 000 Hz</option>
+          </select>
+          <div class="field-chips">
+            <span class="field-chip">Intervalle : <span id="chip-interval">1.0 ms</span></span>
+            <span class="field-chip">Reports/s : <span id="chip-rps">1 000</span></span>
+          </div>
+        </div>
+
+        <div class="config-field">
+          <label>Génération du CPU</label>
+          <select id="cfg-cpu">
+            <option value="low">Entrée de gamme / Ancien (&lt; i5-10th / Ryzen 5 3000)</option>
+            <option value="mid" selected>Milieu de gamme (i5/i7-12th · Ryzen 5/7 5000)</option>
+            <option value="high">Haut de gamme / Très récent (i9 · Ryzen 9 · Core Ultra)</option>
+          </select>
+        </div>
+
+        <div class="config-field">
+          <label>Jeu principal</label>
+          <select id="cfg-game">
+            <option value="valorant">VALORANT</option>
+            <option value="cs2">CS2</option>
+            <option value="apex">Apex Legends</option>
+          </select>
+          <div class="field-chips" id="game-chips"></div>
+        </div>
+
+        <button class="btn-analyze" id="btn-analyze">
+          ⚡ &nbsp;Analyser ma config
+        </button>
+      </aside>
+
+      <!-- ── RIGHT : Diagnostic ── -->
+      <div class="diag-panel">
+
+        <!-- Placeholder before any analysis -->
+        <div class="diag-placeholder" id="diag-placeholder">
+          <div class="diag-placeholder-icon">🖱️</div>
+          <div class="diag-placeholder-text">Configure ton matériel et clique sur<br />"Analyser ma config" pour lancer le diagnostic.</div>
+        </div>
+
+        <!-- Result (hidden until analysis) -->
+        <div class="diag-result" id="diag-result">
+
+          <!-- Gauge -->
+          <div class="gauge-card" id="gauge-card">
+            <div class="gauge-label">RISQUE DE MICRO-STUTTERING</div>
+            <div class="gauge-svg-wrap">
+              <svg class="gauge-svg" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Track arc: half-circle from 180° to 0° (left to right) -->
+                <path d="M 15 110 A 95 95 0 0 1 205 110" stroke="rgba(255,255,255,.06)" stroke-width="14" stroke-linecap="round" fill="none"/>
+                <!-- Colored arc fill (safe/warn/danger zones) -->
+                <!-- Safe zone (left third) -->
+                <path d="M 15 110 A 95 95 0 0 1 64 24" stroke="var(--safe)" stroke-width="14" stroke-linecap="round" fill="none" opacity=".25"/>
+                <!-- Warn zone (middle third) -->
+                <path d="M 64 24 A 95 95 0 0 1 156 24" stroke="var(--warn)" stroke-width="14" stroke-linecap="round" fill="none" opacity=".25"/>
+                <!-- Danger zone (right third) -->
+                <path d="M 156 24 A 95 95 0 0 1 205 110" stroke="var(--danger)" stroke-width="14" stroke-linecap="round" fill="none" opacity=".25"/>
+
+                <!-- Active arc (animated) -->
+                <path id="gauge-arc-active"
+                  d="M 15 110 A 95 95 0 0 1 205 110"
+                  stroke="var(--safe)" stroke-width="14" stroke-linecap="round" fill="none"
+                  stroke-dasharray="298" stroke-dashoffset="298"
+                  style="transition: stroke-dashoffset .9s cubic-bezier(.22,1,.36,1), stroke .4s;"
+                />
+
+                <!-- Zone ticks -->
+                <line x1="110" y1="18" x2="110" y2="28" stroke="rgba(255,255,255,.15)" stroke-width="2"/>
+                <line x1="64"  y1="24" x2="69"  y2="33" stroke="rgba(255,255,255,.15)" stroke-width="2" transform="rotate(-60 110 110)"/>
+                <line x1="156" y1="24" x2="151" y2="33" stroke="rgba(255,255,255,.15)" stroke-width="2" transform="rotate(60 110 110)"/>
+
+                <!-- Zone labels -->
+                <text x="25"  y="100" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--safe)"   letter-spacing="0.05em">FAIBLE</text>
+                <text x="92"  y="22"  font-family="JetBrains Mono,monospace" font-size="8" fill="var(--warn)"   letter-spacing="0.05em">MOYEN</text>
+                <text x="163" y="100" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--danger)" letter-spacing="0.05em">ÉLEVÉ</text>
+
+                <!-- Needle pivot -->
+                <g id="gauge-needle" style="transform-origin:110px 110px; transform:rotate(-90deg); transition: transform .9s cubic-bezier(.34,1.56,.64,1);">
+                  <line x1="110" y1="110" x2="110" y2="26" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity=".9"/>
+                  <circle cx="110" cy="110" r="7" fill="var(--bg-3)" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+                  <circle cx="110" cy="110" r="3" fill="white" opacity=".8"/>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Risk level text -->
+            <div class="risk-badge" id="risk-badge">—</div>
+            <div class="risk-sub"  id="risk-sub">Risque de micro-stuttering</div>
+          </div>
+
+          <!-- Score bars -->
+          <div class="score-bars">
+            <div class="score-bars-title">ANALYSE DÉTAILLÉE</div>
+            <div class="score-row">
+              <span class="score-row-label">Charge CPU interrupt</span>
+              <div class="score-bar-track">
+                <div class="score-bar-fill safe" id="bar-cpu" style="width:0%"></div>
+              </div>
+              <span class="score-val" id="val-cpu">—</span>
+            </div>
+            <div class="score-row">
+              <span class="score-row-label">Compatibilité moteur</span>
+              <div class="score-bar-track">
+                <div class="score-bar-fill safe" id="bar-engine" style="width:0%"></div>
+              </div>
+              <span class="score-val" id="val-engine">—</span>
+            </div>
+            <div class="score-row">
+              <span class="score-row-label">Gain de précision</span>
+              <div class="score-bar-track">
+                <div class="score-bar-fill safe" id="bar-prec" style="width:0%"></div>
+              </div>
+              <span class="score-val" id="val-prec">—</span>
+            </div>
+            <div class="score-row">
+              <span class="score-row-label">Risque de stutter</span>
+              <div class="score-bar-track">
+                <div class="score-bar-fill safe" id="bar-stutter" style="width:0%"></div>
+              </div>
+              <span class="score-val" id="val-stutter">—</span>
+            </div>
+          </div>
+
+          <!-- Diagnostic card -->
+          <div class="diag-card" id="diag-card">
+            <div class="diag-card-head">
+              <span class="diag-status-dot" id="diag-dot"></span>
+              <span class="diag-status-label" id="diag-status-label">—</span>
+            </div>
+            <div class="diag-headline" id="diag-headline">—</div>
+            <div class="diag-body" id="diag-body">—</div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="reco-card">
+            <div class="reco-card-title">RECOMMANDATIONS</div>
+            <ul class="reco-list" id="reco-list"></ul>
+          </div>
+
+        </div><!-- /diag-result -->
+      </div><!-- /diag-panel -->
+    </div><!-- /poll-split -->
+
+    <!-- Info cards -->
+    <section class="info-cards-poll">
+      <div class="info-card">
+        <div class="info-card-icon">⚡</div>
+        <div class="info-card-title">Pourquoi ça stuttering ?</div>
+        <div class="info-card-text">À 8000 Hz, ta souris envoie 1 rapport toutes les <strong>0.125 ms</strong>. Chaque rapport génère une interruption CPU. Sur un CPU moyen, le scheduler Windows peut saturer et créer des micro-freezes perceptibles à l'écran.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🎮</div>
+        <div class="info-card-title">CS2 & hauts polling rates</div>
+        <div class="info-card-text">Le moteur Source 2 de CS2 est particulièrement sensible aux interruptions haute fréquence. Valve recommande officiellement 1000 Hz comme valeur standard pour la plupart des configs.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📊</div>
+        <div class="info-card-title">Le vrai gain de 8000 Hz</div>
+        <div class="info-card-text">Le gain de précision réel entre 1000 Hz et 8000 Hz est quasi imperceptible pour la majorité des joueurs. En revanche, l'impact CPU peut être très concret, surtout sur des CPUs &lt; 12th gen Intel.</div>
+      </div>
+    </section>
+
+  </div>
+  </main>
+
+  <div class="ad-zone ad-bottom">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">[ZIG<span style="color:var(--accent)">-ON</span>]</span>
+      <span class="footer-copy">Outils nichés pour joueurs compétitifs · Valorant & CS2</span>
+      <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="footer-coffee">☕ Support the project</a>
+      <p class="footer-copy">© 2025 zig-on. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="polling-script.js"></script>
+</body>
+</html>

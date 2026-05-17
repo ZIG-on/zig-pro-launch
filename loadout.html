@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZIG-ON — Loadout Optimizer</title>
+  <link rel="icon" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ══════════════════════════════════════════════
+       LOADOUT OPTIMIZER — scoped styles
+    ══════════════════════════════════════════════ */
+    :root {
+      --bg:         #0d0f14;
+      --bg-2:       #12151c;
+      --bg-3:       #181c26;
+      --bg-4:       #1e2330;
+      --border:     rgba(255,255,255,.07);
+      --border-hi:  rgba(255,255,255,.13);
+      --text:       #e2e8f0;
+      --text-muted: #718096;
+      --accent:     #f6ad55;
+      --accent-2:   #4fd1c5;
+      --gold:       #f6e05e;
+      --radius:     10px;
+
+      /* Category accent colors */
+      --cat-bios:    #a78bfa;  /* violet */
+      --cat-windows: #60a5fa;  /* blue   */
+      --cat-gpu:     #34d399;  /* emerald */
+      --cat-game:    #fb923c;  /* orange  */
+    }
+
+    /* ── Layout ── */
+    .lo-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .lo-split {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 920px) {
+      .lo-split { grid-template-columns: 1fr; }
+    }
+
+    /* ── Section strip ── */
+    .section-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .section-strip-line  { flex: 1; height: 1px; background: var(--border); }
+    .section-strip-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .18em;
+      color: var(--accent);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════════
+       CONFIG PANEL (left)
+    ══════════════════════════════════════════════ */
+    .config-panel {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 26px 30px;
+      position: sticky;
+      top: 96px;
+    }
+
+    .config-panel-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      color: var(--accent);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .config-panel-title::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    /* Segmented selectors */
+    .cfg-field { margin-bottom: 20px; }
+    .cfg-field-label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    /* Toggle button group */
+    .btn-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .btn-toggle {
+      flex: 1;
+      min-width: 70px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 9px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg-3);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .18s;
+      text-align: center;
+    }
+    .btn-toggle:hover { border-color: rgba(246,173,85,.35); color: var(--text); }
+    .btn-toggle.active {
+      background: rgba(246,173,85,.1);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Divider */
+    .cfg-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    /* Generate CTA */
+    .btn-gen-loadout {
+      width: 100%;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+      color: #0d0f14;
+      box-shadow: 0 0 28px rgba(246,173,85,.22);
+      transition: transform .15s, box-shadow .15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-gen-loadout::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .btn-gen-loadout:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 44px rgba(246,173,85,.4);
+    }
+    .btn-gen-loadout:active { transform: translateY(0); }
+
+    /* Config summary chips */
+    .config-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .cfg-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .08em;
+      padding: 4px 9px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      background: var(--bg-3);
+    }
+    .cfg-chip.active {
+      border-color: rgba(246,173,85,.4);
+      color: var(--accent);
+      background: rgba(246,173,85,.08);
+    }
+
+    /* ══════════════════════════════════════════════
+       MAIN OUTPUT ZONE (right)
+    ══════════════════════════════════════════════ */
+    .output-zone { flex: 1; }
+
+    /* ── Global progress bar ── */
+    .progress-header {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px 22px;
+      margin-bottom: 20px;
+    }
+    .progress-top-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .progress-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .progress-pct {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: var(--accent);
+      line-height: 1;
+      transition: color .4s;
+    }
+    .progress-pct.done { color: #48bb78; text-shadow: 0 0 20px rgba(72,187,120,.5); }
+    .progress-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Segmented progress track */
+    .progress-track {
+      height: 8px;
+      background: var(--bg-3);
+      border-radius: 99px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #f6ad55 0%, #48bb78 100%);
+      width: 0%;
+      transition: width .5s cubic-bezier(.22,1,.36,1);
+      box-shadow: 0 0 12px rgba(246,173,85,.4);
+      position: relative;
+    }
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0;
+      width: 20px; height: 100%;
+      background: rgba(255,255,255,.3);
+      filter: blur(4px);
+    }
+
+    /* Category mini-progress pills */
+    .cat-progress-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .cat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .08em;
+      color: var(--text-muted);
+    }
+    .cat-pill-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+    }
+    .cat-pill-count {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ── Placeholder ── */
+    .loadout-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 80px 20px;
+      text-align: center;
+      background: var(--bg-2);
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+    }
+    .loadout-placeholder-icon { font-size: 48px; opacity: .35; }
+    .loadout-placeholder-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .08em;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ── Checklist container ── */
+    .checklist-wrap {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .checklist-wrap.visible { display: flex; }
+
+    /* ── Category card ── */
+    .cat-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      animation: card-in .4s ease both;
+    }
+    @keyframes card-in {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cat-card:nth-child(1) { animation-delay: .00s; }
+    .cat-card:nth-child(2) { animation-delay: .07s; }
+    .cat-card:nth-child(3) { animation-delay: .14s; }
+    .cat-card:nth-child(4) { animation-delay: .21s; }
+
+    /* Category header */
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 22px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid var(--border);
+      transition: background .18s;
+    }
+    .cat-header:hover { background: rgba(255,255,255,.02); }
+
+    .cat-icon-wrap {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .cat-icon-wrap.bios    { background: rgba(167,139,250,.12); }
+    .cat-icon-wrap.windows { background: rgba(96,165,250,.12);  }
+    .cat-icon-wrap.gpu     { background: rgba(52,211,153,.12);  }
+    .cat-icon-wrap.game    { background: rgba(251,146,60,.12);  }
+
+    .cat-header-info { flex: 1; }
+    .cat-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .cat-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: .05em;
+    }
+
+    /* Mini progress in header */
+    .cat-mini-prog {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .cat-mini-track {
+      width: 80px; height: 4px;
+      background: var(--bg-3);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .cat-mini-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0%;
+      transition: width .4s cubic-bezier(.22,1,.36,1);
+    }
+    .cat-mini-fill.bios    { background: var(--cat-bios); }
+    .cat-mini-fill.windows { background: var(--cat-windows); }
+    .cat-mini-fill.gpu     { background: var(--cat-gpu); }
+    .cat-mini-fill.game    { background: var(--cat-game); }
+
+    .cat-mini-pct {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      width: 32px;
+      text-align: right;
+    }
+    .cat-mini-pct.bios    { color: var(--cat-bios); }
+    .cat-mini-pct.windows { color: var(--cat-windows); }
+    .cat-mini-pct.gpu     { color: var(--cat-gpu); }
+    .cat-mini-pct.game    { color: var(--cat-game); }
+
+    /* Collapse chevron */
+    .cat-chevron {
+      font-size: 12px;
+      color: var(--text-muted);
+      transition: transform .25s;
+      flex-shrink: 0;
+    }
+    .cat-card.collapsed .cat-chevron { transform: rotate(-90deg); }
+
+    /* Items list */
+    .cat-items {
+      padding: 8px 0 12px;
+      overflow: hidden;
+      transition: max-height .35s cubic-bezier(.22,1,.36,1), opacity .3s;
+      max-height: 2000px;
+      opacity: 1;
+    }
+    .cat-card.collapsed .cat-items {
+      max-height: 0;
+      opacity: 0;
+    }
+
+    /* ── Checklist item ── */
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 22px;
+      border-radius: 0;
+      transition: background .15s;
+      cursor: pointer;
+      position: relative;
+    }
+    .check-item:hover { background: rgba(255,255,255,.025); }
+    .check-item.checked { background: rgba(255,255,255,.015); }
+
+    /* Impact badge (left of checkbox) */
+    .impact-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+    .impact-badge.high   { background: rgba(252,92,125,.15); color: #fc5c7d; border: 1px solid rgba(252,92,125,.25); }
+    .impact-badge.medium { background: rgba(246,173,85,.12); color: #f6ad55; border: 1px solid rgba(246,173,85,.2); }
+    .impact-badge.low    { background: rgba(113,128,150,.12); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* Custom checkbox */
+    .custom-cb {
+      position: relative;
+      width: 20px; height: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .custom-cb input {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .custom-cb-box {
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid var(--border-hi);
+      border-radius: 5px;
+      background: var(--bg-3);
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .custom-cb-box::after {
+      content: '';
+      width: 10px; height: 6px;
+      border-left: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      transform: rotate(-45deg) translate(1px,-1px);
+      transition: border-color .18s;
+    }
+    .custom-cb input:checked ~ .custom-cb-box {
+      background: rgba(79,209,197,.12);
+      border-color: var(--accent-2);
+    }
+    .custom-cb input:checked ~ .custom-cb-box::after {
+      border-color: var(--accent-2);
+    }
+
+    /* Item text */
+    .check-item-body { flex: 1; }
+    .check-item-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 3px;
+      transition: color .2s;
+    }
+    .check-item.checked .check-item-title {
+      color: var(--text-muted);
+      text-decoration: line-through;
+      text-decoration-color: rgba(113,128,150,.4);
+    }
+    .check-item-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .check-item.checked .check-item-desc { opacity: .6; }
+
+    /* How-to expandable */
+    .check-item-howto {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent-2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 5px;
+      opacity: .8;
+      transition: opacity .15s;
+    }
+    .check-item-howto:hover { opacity: 1; }
+    .howto-detail {
+      display: none;
+      margin-top: 8px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--accent-2);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .howto-detail.open { display: block; }
+    .howto-detail code {
+      background: rgba(79,209,197,.08);
+      color: var(--accent-2);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 10px;
+    }
+
+    /* Item separator */
+    .check-item + .check-item { border-top: 1px solid rgba(255,255,255,.03); }
+
+    /* ── Completion banner ── */
+    .completion-banner {
+      display: none;
+      background: linear-gradient(135deg, rgba(72,187,120,.12) 0%, rgba(79,209,197,.08) 100%);
+      border: 1px solid rgba(72,187,120,.3);
+      border-radius: 12px;
+      padding: 22px 26px;
+      text-align: center;
+    }
+    .completion-banner.visible { display: block; }
+    .completion-banner-icon { font-size: 32px; margin-bottom: 8px; }
+    .completion-banner-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: #48bb78;
+      margin-bottom: 6px;
+    }
+    .completion-banner-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: .05em;
+    }
+
+    /* ── Reset / Export actions ── */
+    .checklist-actions {
+      display: none;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .checklist-actions.visible { display: flex; }
+
+    .btn-action {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 9px 18px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg-2);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .btn-action:hover { border-color: var(--border-hi); color: var(--text); }
+    .btn-action.danger:hover { border-color: rgba(252,92,125,.4); color: #fc5c7d; }
+
+    /* ── Info cards at bottom ── */
+    .info-cards-lo {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 14px;
+      margin-top: 32px;
+    }
+    @media (max-width: 700px) { .info-cards-lo { grid-template-columns: 1fr; } }
+    .info-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .info-card-icon  { font-size: 20px; margin-bottom: 8px; }
+    .info-card-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .info-card-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Toast ── */
+    .toast-lo {
+      position: fixed;
+      bottom: 32px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--accent);
+      color: #0d0f14;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 11px 22px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 9999;
+      letter-spacing: .05em;
+    }
+    .toast-lo.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Scanning animation on generate btn */
+    @keyframes scan-sweep {
+      to { left: 160%; }
+    }
+    .btn-gen-loadout.scanning {
+      pointer-events: none;
+      opacity: .8;
+    }
+    .btn-gen-loadout.scanning::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+      animation: scan-sweep .9s linear forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-bracket">[</span><span class="logo-text">ZIG</span><span class="logo-accent">-ON</span><span class="logo-bracket">]</span>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html">Sensitivity Randomizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="rawaccel.html">Raw Accel Visualizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="polling.html">Polling Rate Analyzer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item active"><a href="loadout.html">Loadout Optimizer</a><span class="nav-badge">LIVE</span></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="nav-tags"><span class="game-tag">VALORANT</span><span class="game-tag">CS2</span></div>
+        <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="btn-coffee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+          Buy me a Coffee
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow" style="background:radial-gradient(ellipse,rgba(246,173,85,.3) 0%,transparent 70%)"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="pulse-dot" style="background:var(--accent)"></span>OUTIL #04 — PC TUNING ESPORT
+      </div>
+      <h1 class="hero-title">Loadout<br />
+        <span class="title-accent" style="color:var(--accent);-webkit-text-stroke-color:var(--accent)">Optimizer</span>
+      </h1>
+      <p class="hero-desc">Génère une checklist d'optimisations sur-mesure pour ton CPU, GPU et ton jeu. Maximise les FPS, réduis l'input lag.</p>
+    </div>
+  </header>
+
+  <div class="ad-zone ad-top">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <!-- ═══════════ MAIN ═══════════ -->
+  <main class="main-tool">
+  <div class="lo-wrap">
+
+    <div class="section-strip">
+      <span class="section-strip-label">CONFIGURATION SYSTÈME</span>
+      <div class="section-strip-line"></div>
+    </div>
+
+    <div class="lo-split">
+
+      <!-- ── LEFT : Config Panel ── -->
+      <aside class="config-panel">
+        <div class="config-panel-title">PROFIL MATÉRIEL</div>
+
+        <div class="cfg-field">
+          <span class="cfg-field-label">Système d'exploitation</span>
+          <div class="btn-group" id="grp-os">
+            <button class="btn-toggle active" data-val="win10">Windows 10</button>
+            <button class="btn-toggle" data-val="win11">Windows 11</button>
+          </div>
+        </div>
+
+        <div class="cfg-field">
+          <span class="cfg-field-label">Carte Graphique</span>
+          <div class="btn-group" id="grp-gpu">
+            <button class="btn-toggle active" data-val="nvidia">NVIDIA</button>
+            <button class="btn-toggle" data-val="amd">AMD</button>
+          </div>
+        </div>
+
+        <div class="cfg-field">
+          <span class="cfg-field-label">Processeur</span>
+          <div class="btn-group" id="grp-cpu">
+            <button class="btn-toggle active" data-val="intel">Intel</button>
+            <button class="btn-toggle" data-val="ryzen">AMD Ryzen</button>
+          </div>
+        </div>
+
+        <div class="cfg-field">
+          <span class="cfg-field-label">Jeu ciblé</span>
+          <div class="btn-group" id="grp-game">
+            <button class="btn-toggle active" data-val="cs2">CS2</button>
+            <button class="btn-toggle" data-val="valorant">VALORANT</button>
+          </div>
+        </div>
+
+        <div class="cfg-divider"></div>
+
+        <button class="btn-gen-loadout" id="btn-gen">
+          ⚡ &nbsp;Générer mon Loadout
+        </button>
+
+        <div class="config-summary" id="config-summary">
+          <!-- populated by JS -->
+        </div>
+      </aside>
+
+      <!-- ── RIGHT : Output ── -->
+      <div class="output-zone">
+
+        <!-- Progress header (hidden until generated) -->
+        <div id="progress-header" class="progress-header" style="display:none">
+          <div class="progress-top-row">
+            <div>
+              <div class="progress-title">OPTIMISATION DU SYSTÈME</div>
+              <div class="progress-count" id="prog-count">0 / 0 optimisations complétées</div>
+            </div>
+            <div class="progress-pct" id="prog-pct">0%</div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="prog-fill"></div>
+          </div>
+          <div class="cat-progress-row" id="cat-prog-pills"></div>
+        </div>
+
+        <!-- Completion banner -->
+        <div class="completion-banner" id="completion-banner">
+          <div class="completion-banner-icon">🏆</div>
+          <div class="completion-banner-title">LOADOUT COMPLÉTÉ !</div>
+          <div class="completion-banner-sub">Toutes les optimisations sont appliquées · Tu es prêt à dominer.</div>
+        </div>
+
+        <!-- Placeholder -->
+        <div class="loadout-placeholder" id="loadout-placeholder">
+          <div class="loadout-placeholder-icon">⚙️</div>
+          <div class="loadout-placeholder-text">
+            Sélectionne ton matériel à gauche<br />
+            et clique sur "Générer mon Loadout"<br />
+            pour obtenir ta checklist personnalisée.
+          </div>
+        </div>
+
+        <!-- Checklist -->
+        <div class="checklist-wrap" id="checklist-wrap"></div>
+
+        <!-- Actions -->
+        <div class="checklist-actions" id="checklist-actions">
+          <button class="btn-action danger" id="btn-reset-checks">↺ Réinitialiser</button>
+          <button class="btn-action" id="btn-export">⬇ Exporter (.txt)</button>
+        </div>
+
+      </div><!-- /output-zone -->
+    </div><!-- /lo-split -->
+
+    <!-- Info cards -->
+    <section class="info-cards-lo">
+      <div class="info-card">
+        <div class="info-card-icon">🎯</div>
+        <div class="info-card-title">Ordre recommandé</div>
+        <div class="info-card-text">Commence toujours par le <strong>BIOS</strong> (XMP, Resizable BAR), puis <strong>Windows</strong>, puis le <strong>GPU</strong>, et enfin l'<strong>In-Game</strong>. Chaque couche amplifie les gains des précédentes.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📊</div>
+        <div class="info-card-title">Gains attendus</div>
+        <div class="info-card-text">Les optimisations <span style="color:#fc5c7d;font-weight:700">HIGH</span> seules peuvent représenter <strong>+15 à 40% de FPS</strong> et jusqu'à <strong>-3 ms d'input lag</strong> selon ta config de départ.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">⚠️</div>
+        <div class="info-card-title">Précautions BIOS</div>
+        <div class="info-card-text">Certaines optimisations BIOS (XMP, SAG) peuvent provoquer un redémarrage. Sauvegarde tes données importantes avant de modifier le BIOS.</div>
+      </div>
+    </section>
+
+  </div>
+  </main>
+
+  <div class="ad-zone ad-bottom">
+    <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
+  </div>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">[ZIG<span style="color:var(--accent)">-ON</span>]</span>
+      <span class="footer-copy">Outils nichés pour joueurs compétitifs · Valorant & CS2</span>
+      <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="footer-coffee">☕ Support the project</a>
+      <p class="footer-copy">© 2025 zig-on. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <div class="toast-lo" id="toast-lo"></div>
+
+  <script src="loadout-script.js"></script>
+</body>
+</html>

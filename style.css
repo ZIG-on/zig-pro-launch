@@ -737,3 +737,53 @@ ul { list-style: none; }
     text-align: center;
   }
 }
+
+/* --- MENU HAMBURGER (MOBILE) --- */
+
+/* On cache le bouton sur PC par défaut */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001; /* Pour qu'il reste au-dessus du menu */
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: white; /* Tu peux mettre var(--accent) si tu veux la couleur fluo */
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* La règle Media Query : Ce qui s'applique uniquement sur les petits écrans (téléphones) */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex; /* Le bouton apparaît */
+  }
+
+  /* On modifie le comportement de la liste de liens */
+  .nav-links {
+    display: none; /* Caché par défaut sur mobile */
+    flex-direction: column;
+    position: absolute;
+    top: 70px; /* Ajuste cette valeur selon la hauteur exacte de ta navbar */
+    left: 0;
+    width: 100%;
+    background-color: #0f1015; /* La couleur sombre de ton site */
+    padding: 20px 0;
+    border-bottom: 1px solid #222;
+    z-index: 1000;
+    text-align: center;
+    gap: 15px;
+  }
+
+  /* La classe magique qui sera ajoutée par le JavaScript pour ouvrir le menu */
+  .nav-links.active {
+    display: flex;
+  }
+}

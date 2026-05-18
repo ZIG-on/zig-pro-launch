@@ -266,3 +266,15 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+
+// --- GESTION DU MENU MOBILE ---
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const navLinks = document.querySelector('.nav-links');
+
+if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', () => {
+        // Ajoute ou enlève la classe "active" pour afficher/cacher le menu
+        navLinks.classList.toggle('active');
+    });
+}

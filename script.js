@@ -272,9 +272,22 @@ window.addEventListener('DOMContentLoaded', () => {
 const hamburgerBtn = document.getElementById('hamburger-btn');
 const navLinks = document.querySelector('.nav-links');
 
-if (hamburgerBtn) {
-    hamburgerBtn.addEventListener('click', () => {
-        // Ajoute ou enlève la classe "active" pour afficher/cacher le menu
-        navLinks.classList.toggle('active');
+if (hamburgerBtn && navLinks) {
+  hamburgerBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+
+  // Ferme le menu quand on clique sur un lien
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
     });
+  });
+
+  // Ferme le menu si on clique en dehors
+  document.addEventListener('click', (e) => {
+    if (!hamburgerBtn.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('active');
+    }
+  });
 }

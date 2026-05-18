@@ -720,3 +720,13 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
 }
+
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const navLinks = document.querySelector('.nav-links');
+
+if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', () => {
+        // Ajoute ou enlève la classe "active" pour afficher/cacher le menu
+        navLinks.classList.toggle('active');
+    });
+}

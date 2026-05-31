@@ -868,6 +868,247 @@
   </div>
   </main>
 
+  <!-- ═══════════════════════════════════════════════════════════
+     BLOC SEO — OUTIL #04 : LOADOUT OPTIMIZER
+     À insérer dans loadout.html, APRÈS la section .info-cards-lo
+     et AVANT le bloc .ad-zone.ad-bottom
+     ═══════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── Guide SEO Section (Orange accent pour Loadout) ── */
+  .seo-guide-lo {
+    max-width: 1200px;
+    margin: 0 auto 0;
+    padding: 0 24px;
+  }
+
+  .seo-guide-lo .seo-guide-inner-lo {
+    background: #12151c;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .seo-guide-inner-lo::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #f6ad55, #ed8936, transparent);
+  }
+
+  .seo-guide-eyebrow-lo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: #f6ad55;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .seo-guide-lo h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .seo-guide-lo h2 span { color: #f6ad55; }
+
+  .seo-guide-lo p {
+    font-size: 15px;
+    color: #8b8fad;
+    line-height: 1.85;
+    margin-bottom: 16px;
+    font-weight: 300;
+    max-width: 760px;
+  }
+  .seo-guide-lo p:last-of-type { margin-bottom: 0; }
+  .seo-guide-lo strong { color: #e8eaf6; font-weight: 500; }
+  .seo-kw-lo { color: #f6ad55; font-weight: 500; }
+
+  /* Optimisation layers grid */
+  .lo-layers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+  @media (max-width: 800px) { .lo-layers-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 480px) { .lo-layers-grid { grid-template-columns: 1fr; } }
+
+  .lo-layer-card {
+    background: #181c26;
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 10px;
+    padding: 18px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lo-layer-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: #718096;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .lo-layer-icon { font-size: 24px; margin-bottom: 10px; line-height: 1; }
+
+  .lo-layer-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .lo-layer-gain {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .lo-layer-desc {
+    font-size: 11px;
+    color: #718096;
+    line-height: 1.5;
+  }
+
+  /* Color per layer */
+  .lo-layer-card.bios    { border-top: 2px solid #a78bfa; }
+  .lo-layer-card.bios    .lo-layer-name { color: #a78bfa; }
+  .lo-layer-card.bios    .lo-layer-gain { color: #a78bfa; }
+
+  .lo-layer-card.windows { border-top: 2px solid #60a5fa; }
+  .lo-layer-card.windows .lo-layer-name { color: #60a5fa; }
+  .lo-layer-card.windows .lo-layer-gain { color: #60a5fa; }
+
+  .lo-layer-card.gpu     { border-top: 2px solid #34d399; }
+  .lo-layer-card.gpu     .lo-layer-name { color: #34d399; }
+  .lo-layer-card.gpu     .lo-layer-gain { color: #34d399; }
+
+  .lo-layer-card.game    { border-top: 2px solid #fb923c; }
+  .lo-layer-card.game    .lo-layer-name { color: #fb923c; }
+  .lo-layer-card.game    .lo-layer-gain { color: #fb923c; }
+
+  /* Arrow between layers */
+  .lo-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 24px;
+  }
+  .lo-arrow-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(246,173,85,.3), transparent);
+  }
+  .lo-arrow-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: #f6ad55;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .lo-highlight-box {
+    background: rgba(246, 173, 85, 0.07);
+    border: 1px solid rgba(246,173,85,.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0 0;
+    font-size: 13px;
+    color: #8b8fad;
+    line-height: 1.7;
+  }
+  .lo-highlight-box strong { color: #f6ad55; }
+
+  @media (max-width: 768px) {
+    .seo-guide-inner-lo { padding: 24px 20px; }
+  }
+</style>
+
+<section class="seo-guide-lo" aria-label="Guide — Loadout Optimizer & PC Tuning">
+  <div class="seo-guide-inner-lo">
+
+    <div class="seo-guide-eyebrow-lo">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+      GUIDE COMPLET
+    </div>
+
+    <h2>PC Tuning Esport&nbsp;: les <span>4 couches d'optimisation</span><br />qui font la différence en tournoi</h2>
+
+    <div class="lo-arrow">
+      <div class="lo-arrow-line"></div>
+      <span class="lo-arrow-text">Ordre d'application recommandé — chaque couche amplifie la suivante</span>
+      <div class="lo-arrow-line"></div>
+    </div>
+
+    <div class="lo-layers-grid">
+      <div class="lo-layer-card bios">
+        <div class="lo-layer-num">Couche 01</div>
+        <div class="lo-layer-icon">🔧</div>
+        <div class="lo-layer-name">BIOS</div>
+        <div class="lo-layer-gain">+10–25%</div>
+        <div class="lo-layer-desc">XMP/EXPO, Resizable BAR, désactivation des C-States. Fondations matérielles.</div>
+      </div>
+      <div class="lo-layer-card windows">
+        <div class="lo-layer-num">Couche 02</div>
+        <div class="lo-layer-icon">🪟</div>
+        <div class="lo-layer-name">Windows</div>
+        <div class="lo-layer-gain">+8–15%</div>
+        <div class="lo-layer-desc">Plan de gestion d'alimentation, Timer Résolution, services inutiles, GameMode.</div>
+      </div>
+      <div class="lo-layer-card gpu">
+        <div class="lo-layer-num">Couche 03</div>
+        <div class="lo-layer-icon">🖥️</div>
+        <div class="lo-layer-name">GPU / Drivers</div>
+        <div class="lo-layer-gain">−1–3ms</div>
+        <div class="lo-layer-desc">NVIDIA Reflex / AMD Anti-Lag, G-Sync/FreeSync, paramètres pilote optimaux.</div>
+      </div>
+      <div class="lo-layer-card game">
+        <div class="lo-layer-num">Couche 04</div>
+        <div class="lo-layer-icon">🎮</div>
+        <div class="lo-layer-name">In-Game</div>
+        <div class="lo-layer-gain">+5–20%</div>
+        <div class="lo-layer-desc">Config graphique, launch options, caplock FPS, paramètres réseau compétitifs.</div>
+      </div>
+    </div>
+
+    <p>
+      Le <strong class="seo-kw-lo">PC Tuning orienté esport</strong> est la pratique qui consiste à optimiser chaque couche logicielle et matérielle de ton système pour <strong>réduire l'input lag</strong> — le délai entre ton action physique (clic, mouvement souris) et son exécution à l'écran — et garantir des <strong>FPS stables</strong> sans pics de latence lors des moments critiques d'une partie.
+    </p>
+
+    <p>
+      En tournoi, la différence entre une victoire et une défaite se joue souvent en millisecondes. Un système non optimisé peut présenter un input lag supplémentaire de <strong>5 à 15 ms</strong> par rapport à une machine correctement configurée — soit l'équivalent de passer d'un moniteur 60 Hz à un 240 Hz en termes de ressenti. L'activation du profil <strong>XMP/EXPO en BIOS</strong> pour la RAM est souvent la première optimisation ignorée&nbsp;: sans elle, ta RAM tourne à une fraction de sa vitesse nominale, privant le processeur et la mémoire vidéo de leur pleine bande passante.
+    </p>
+
+    <p>
+      La configuration du <strong class="seo-kw-lo">plan d'alimentation Windows</strong> (<em>Haute Performance</em> ou <em>Ultra Haute Performance</em>), combinée à la réduction de la <strong>résolution du timer système (Timer Resolution)</strong> de 15.6 ms à 0.5 ms, constitue la seconde étape critique. Ces ajustements réduisent les latences d'ordonnancement du système et garantissent une fréquence de rendu plus régulière. Enfin, les options <strong>NVIDIA Reflex</strong> (Valorant, CS2) et <strong>AMD Anti-Lag</strong> opèrent directement dans le pipeline GPU pour minimiser le délai de rendu des frames destinées à l'affichage.
+    </p>
+
+    <div class="lo-highlight-box">
+      <strong>Priorité #1 :</strong> Commence systématiquement par les optimisations <strong>HIGH IMPACT</strong> du BIOS (XMP/EXPO + Resizable BAR) avant de toucher à Windows ou aux paramètres GPU. Sans ces bases matérielles, les optimisations logicielles n'atteignent pas leur plein potentiel. L'ensemble du processus ne nécessite aucun logiciel tiers payant.
+    </div>
+
+  </div>
+</section>
+<!-- /BLOC SEO — OUTIL #04 -->
+
   <div class="ad-zone ad-bottom">
     <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
   </div>

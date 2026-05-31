@@ -712,6 +712,234 @@
 
   </div>
   </main>
+  <!-- ═══════════════════════════════════════════════════════════
+     BLOC SEO — OUTIL #03 : POLLING RATE ANALYZER
+     À insérer dans polling.html, APRÈS la section .info-cards-poll
+     et AVANT le bloc .ad-zone.ad-bottom
+     ═══════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── Guide SEO Section (Red/Rose accent pour Polling) ── */
+  .seo-guide-poll {
+    max-width: 1160px;
+    margin: 0 auto 0;
+    padding: 0 24px;
+  }
+
+  .seo-guide-poll .seo-guide-inner-poll {
+    background: #12151c;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .seo-guide-inner-poll::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #fc5c7d, #fd5151, transparent);
+  }
+
+  .seo-guide-eyebrow-poll {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: #fc5c7d;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .seo-guide-poll h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .seo-guide-poll h2 span { color: #fc5c7d; }
+
+  .seo-guide-poll p {
+    font-size: 15px;
+    color: #8b8fad;
+    line-height: 1.85;
+    margin-bottom: 16px;
+    font-weight: 300;
+    max-width: 760px;
+  }
+  .seo-guide-poll p:last-of-type { margin-bottom: 0; }
+  .seo-guide-poll strong { color: #e8eaf6; font-weight: 500; }
+  .seo-kw-poll { color: #fc5c7d; font-weight: 500; }
+
+  /* Polling rate comparison table */
+  .poll-table-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.07);
+  }
+
+  .poll-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  .poll-table thead tr {
+    background: #181c26;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+
+  .poll-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #718096;
+    font-weight: 700;
+  }
+
+  .poll-table td {
+    padding: 12px 16px;
+    color: #e2e8f0;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    vertical-align: middle;
+  }
+
+  .poll-table tbody tr:last-child td { border-bottom: none; }
+  .poll-table tbody tr:hover td { background: rgba(255,255,255,.02); }
+
+  .poll-table td:first-child {
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+
+  .status-pill {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .status-pill.safe   { background: rgba(72,187,120,.15); color: #48bb78; border: 1px solid rgba(72,187,120,.25); }
+  .status-pill.warn   { background: rgba(237,137,54,.15);  color: #ed8936; border: 1px solid rgba(237,137,54,.25); }
+  .status-pill.danger { background: rgba(252,92,125,.15);  color: #fc5c7d; border: 1px solid rgba(252,92,125,.25); }
+  .status-pill.optimal { background: rgba(79,209,197,.12); color: #4fd1c5; border: 1px solid rgba(79,209,197,.2); }
+
+  .poll-highlight-box {
+    background: rgba(252, 92, 125, 0.07);
+    border: 1px solid rgba(252,92,125,.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0 0;
+    font-size: 13px;
+    color: #8b8fad;
+    line-height: 1.7;
+  }
+  .poll-highlight-box strong { color: #fc5c7d; }
+
+  @media (max-width: 768px) {
+    .seo-guide-inner-poll { padding: 24px 20px; }
+  }
+</style>
+
+<section class="seo-guide-poll" aria-label="Guide — Polling Rate Analyzer">
+  <div class="seo-guide-inner-poll">
+
+    <div class="seo-guide-eyebrow-poll">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      GUIDE COMPLET
+    </div>
+
+    <h2>Polling Rate élevé&nbsp;: gain réel<br />ou <span>danger pour ton CPU</span>&nbsp;?</h2>
+
+    <div class="poll-table-wrap">
+      <table class="poll-table" aria-label="Impact du polling rate par configuration CPU">
+        <thead>
+          <tr>
+            <th>Polling Rate</th>
+            <th>Intervalle</th>
+            <th>Interruptions CPU/s</th>
+            <th>CPU Entrée de gamme</th>
+            <th>CPU Mid-Range</th>
+            <th>CPU Haut de gamme</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>500 Hz</td>
+            <td>2.0 ms</td>
+            <td>500</td>
+            <td><span class="status-pill safe">Sûr</span></td>
+            <td><span class="status-pill safe">Sûr</span></td>
+            <td><span class="status-pill safe">Sûr</span></td>
+          </tr>
+          <tr>
+            <td>1 000 Hz</td>
+            <td>1.0 ms</td>
+            <td>1 000</td>
+            <td><span class="status-pill safe">Sûr</span></td>
+            <td><span class="status-pill optimal">Optimal</span></td>
+            <td><span class="status-pill optimal">Optimal</span></td>
+          </tr>
+          <tr>
+            <td>2 000 Hz</td>
+            <td>0.5 ms</td>
+            <td>2 000</td>
+            <td><span class="status-pill warn">Risque</span></td>
+            <td><span class="status-pill safe">Sûr</span></td>
+            <td><span class="status-pill optimal">Optimal</span></td>
+          </tr>
+          <tr>
+            <td>4 000 Hz</td>
+            <td>0.25 ms</td>
+            <td>4 000</td>
+            <td><span class="status-pill danger">Danger</span></td>
+            <td><span class="status-pill warn">Risque</span></td>
+            <td><span class="status-pill safe">Sûr</span></td>
+          </tr>
+          <tr>
+            <td>8 000 Hz</td>
+            <td>0.125 ms</td>
+            <td>8 000</td>
+            <td><span class="status-pill danger">Danger</span></td>
+            <td><span class="status-pill danger">Danger</span></td>
+            <td><span class="status-pill warn">Risque</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      L'industrie du gaming a massivement marketé les <strong class="seo-kw-poll">polling rates ultra-élevés à 4000 Hz et 8000 Hz</strong> comme la prochaine révolution de la précision. La réalité est plus nuancée. Chaque rapport de souris génère une <strong>interruption matérielle (hardware interrupt)</strong> que ton processeur doit traiter. À 8000 Hz, cela représente 8 000 interruptions par seconde — soit 8 fois plus qu'à 1000 Hz — qui s'ajoutent à la charge existante du moteur de jeu, du rendu graphique et des autres processus système.
+    </p>
+
+    <p>
+      Sur un CPU moderne haut de gamme (Core i9, Ryzen 9, Core Ultra), cette charge supplémentaire est absorbée sans difficulté. Mais sur un processeur mid-range de génération antérieure, le <strong>scheduler Windows</strong> peut saturer et créer des <strong class="seo-kw-poll">micro-saccades (micro-stuttering)</strong> perceptibles à l'écran sous forme de petits freezes répétitifs qui dégradent précisément la fluidité que tu cherchais à améliorer.
+    </p>
+
+    <p>
+      Le moteur <strong>Source 2 de CS2</strong> est particulièrement sensible à ce phénomène, car il traite lui-même les événements souris à très haute fréquence. À l'inverse, le moteur de Valorant gère cette charge différemment et peut mieux tolérer les hauts polling rates sur des configs moyennes. Notre outil diagnostique ces interactions précisément pour ta combinaison matérielle.
+    </p>
+
+    <div class="poll-highlight-box">
+      <strong>Verdict pro :</strong> Pour la grande majorité des joueurs compétitifs sur un PC mid-range, <strong>1000 Hz reste le sweet spot optimal</strong> : gain de précision maximal par rapport à 500 Hz, sans risque de dégradation CPU. Ne monte à 2000 Hz ou plus que si ton CPU est clairement dans la catégorie haut de gamme et récente (12ème gen Intel et plus, Ryzen 5000 et plus).
+    </div>
+
+  </div>
+</section>
+<!-- /BLOC SEO — OUTIL #03 -->
 
   <div class="ad-zone ad-bottom">
     <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>

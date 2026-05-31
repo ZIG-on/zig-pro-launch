@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZIG-ON — Politique de Confidentialité</title>
+  <meta name="description" content="Politique de confidentialité de zig-on.online. Site statique sans collecte de données personnelles, utilisant Google AdSense et hébergé sur GitHub Pages.">
+  <link rel="icon" href="favicon3.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ══════════════════════════════════════════════
+       PRIVACY PAGE — scoped styles
+    ══════════════════════════════════════════════ */
+    .privacy-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    /* ── Page header ── */
+    .privacy-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .privacy-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .privacy-title span { color: var(--accent); }
+
+    .privacy-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Table of contents ── */
+    .privacy-toc {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      margin-bottom: 40px;
+    }
+    .privacy-toc-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .privacy-toc-title::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .privacy-toc ol {
+      list-style: none;
+      counter-reset: toc-counter;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .privacy-toc ol li {
+      counter-increment: toc-counter;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .privacy-toc ol li::before {
+      content: counter(toc-counter, decimal-leading-zero);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .privacy-toc ol li a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .privacy-toc ol li a:hover { color: var(--accent-light); }
+
+    /* ── Section card ── */
+    .privacy-section {
+      margin-bottom: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      scroll-margin-top: 90px;
+      transition: border-color 0.2s;
+    }
+    .privacy-section:hover { border-color: var(--border-bright); }
+
+    .privacy-section h2 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+    }
+
+    .privacy-section p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 14px;
+      font-weight: 300;
+    }
+    .privacy-section p:last-child { margin-bottom: 0; }
+
+    .privacy-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 14px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .privacy-section ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .privacy-section ul li::before {
+      content: '▸';
+      color: var(--accent);
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .privacy-section a {
+      color: var(--accent-light);
+      text-decoration: underline;
+      text-decoration-color: var(--accent-dim);
+      transition: color 0.2s;
+    }
+    .privacy-section a:hover { color: var(--text-bright); }
+
+    .privacy-section strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Highlight box ── */
+    .privacy-highlight {
+      background: var(--accent-dim);
+      border: 1px solid rgba(124, 106, 247, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .privacy-highlight strong { color: var(--accent-light); }
+
+    /* ── Info tag ── */
+    .tag-inline {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-bright);
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      vertical-align: middle;
+    }
+
+    /* ── Contact card ── */
+    .privacy-contact {
+      background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card-alt));
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .privacy-contact p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .privacy-contact a {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent-light);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .privacy-wrap { padding: 32px 16px 64px; }
+      .privacy-section { padding: 20px 18px; }
+      .privacy-toc { padding: 18px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">ZIG</span>
+        <span class="logo-accent">-ON</span>
+        <span class="logo-bracket">]</span>
+      </a>
+      <button class="hamburger" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html">Sensitivity Randomizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="rawaccel.html">Raw Accel Visualizer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="polling.html">Polling Rate Analyzer</a><span class="nav-badge">LIVE</span></li>
+        <li class="nav-item"><a href="loadout.html">Loadout Optimizer</a><span class="nav-badge">LIVE</span></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="nav-tags">
+          <span class="game-tag">VALORANT</span>
+          <span class="game-tag">CS2</span>
+        </div>
+        <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="btn-coffee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Buy me a Coffee
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <header class="hero" style="padding-bottom:32px;">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span class="pulse-dot"></span>LÉGAL — RGPD &amp; TRANSPARENCE</div>
+      <h1 class="hero-title" style="font-size:clamp(28px,4vw,48px)">Politique de<br /><span class="title-accent">Confidentialité</span></h1>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ MAIN ═══════════════════════ -->
+  <main>
+    <div class="privacy-wrap">
+
+      <div class="privacy-eyebrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Document officiel
+      </div>
+      <h1 class="privacy-title">Politique de <span>Confidentialité</span></h1>
+      <p class="privacy-meta">
+        Site&nbsp;: zig-on.online &nbsp;·&nbsp;
+        Dernière mise à jour&nbsp;: Juin 2025 &nbsp;·&nbsp;
+        Langue&nbsp;: Français
+      </p>
+
+      <!-- TABLE OF CONTENTS -->
+      <nav class="privacy-toc" aria-label="Sommaire">
+        <div class="privacy-toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#s1">Présentation du site</a></li>
+          <li><a href="#s2">Données personnelles collectées</a></li>
+          <li><a href="#s3">Google AdSense &amp; Publicité</a></li>
+          <li><a href="#s4">Google Analytics &amp; Mesure d'audience</a></li>
+          <li><a href="#s5">Hébergement — GitHub Pages</a></li>
+          <li><a href="#s6">Cookies</a></li>
+          <li><a href="#s7">Droits des utilisateurs (RGPD)</a></li>
+          <li><a href="#s8">Sécurité des données</a></li>
+          <li><a href="#s9">Liens externes</a></li>
+          <li><a href="#s10">Modifications de la présente politique</a></li>
+          <li><a href="#s11">Contact</a></li>
+        </ol>
+      </nav>
+
+      <!-- ── 01 PRÉSENTATION ── -->
+      <section class="privacy-section" id="s1">
+        <h2><span class="section-num">01</span> Présentation du site</h2>
+        <p>
+          Bienvenue sur <strong>zig-on.online</strong>, un site web proposant des outils gratuits dédiés aux joueurs compétitifs de <strong>Valorant</strong> et <strong>Counter-Strike 2</strong> (CS2). Le site est développé et maintenu à titre personnel, sans entité juridique commerciale associée.
+        </p>
+        <p>
+          ZIG-ON est un <strong>site statique</strong> : il est composé exclusivement de fichiers HTML, CSS et JavaScript. Il ne dispose d'aucun serveur applicatif, d'aucune base de données, et ne traite aucune information côté serveur.
+        </p>
+        <div class="privacy-highlight">
+          <strong>En résumé :</strong> ZIG-ON ne collecte pas vos données personnelles, ne crée pas de compte utilisateur, et ne stocke aucune information vous identifiant sur nos serveurs.
+        </div>
+      </section>
+
+      <!-- ── 02 DONNÉES COLLECTÉES ── -->
+      <section class="privacy-section" id="s2">
+        <h2><span class="section-num">02</span> Données personnelles collectées</h2>
+        <p>
+          Le site ZIG-ON <strong>ne collecte, ne stocke et ne traite aucune donnée personnelle</strong> directement. Il n'existe pas de formulaire d'inscription, de système de connexion, de newsletter, ni de collecte explicite d'informations telles que votre nom, adresse e-mail ou numéro de téléphone.
+        </p>
+        <p>Toutes les interactions avec les outils du site (calcul de sensibilité, génération de paramètres Raw Accel, diagnostic polling rate, checklist d'optimisation) sont traitées <strong>localement dans votre navigateur</strong>. Aucune donnée saisie n'est transmise à un serveur.</p>
+        <p>Cependant, des données peuvent être collectées indirectement par des <strong>services tiers intégrés</strong>, détaillés dans les sections suivantes.</p>
+      </section>
+
+      <!-- ── 03 ADSENSE ── -->
+      <section class="privacy-section" id="s3">
+        <h2><span class="section-num">03</span> Google AdSense &amp; Publicité</h2>
+        <p>
+          Ce site utilise <strong>Google AdSense</strong>, un service publicitaire fourni par Google LLC (1600 Amphitheatre Parkway, Mountain View, CA 94043, USA). AdSense affiche des publicités ciblées en fonction de vos centres d'intérêt et de votre navigation.
+        </p>
+        <p>Dans ce cadre, Google peut :</p>
+        <ul>
+          <li>Utiliser des <strong>cookies publicitaires</strong> pour personnaliser les annonces affichées</li>
+          <li>Collecter des <strong>données de navigation</strong> (pages visitées, interactions)</li>
+          <li>Utiliser le <strong>remarketing</strong> pour afficher des publicités sur d'autres sites</li>
+          <li>Mesurer les <strong>performances des annonces</strong> (impressions, clics)</li>
+        </ul>
+        <p>
+          Vous pouvez désactiver la personnalisation des annonces via les paramètres de confidentialité Google&nbsp;: <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">adssettings.google.com</a>. Pour en savoir plus sur l'utilisation des données par Google, consultez la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">politique de confidentialité de Google</a>.
+        </p>
+        <div class="privacy-highlight">
+          <strong>Base légale (RGPD) :</strong> le traitement des données par Google AdSense repose sur votre consentement préalable (Art. 6 §1 (a) RGPD). Un bandeau de consentement aux cookies peut être affiché lors de votre première visite conformément aux exigences légales applicables.
+        </div>
+      </section>
+
+      <!-- ── 04 ANALYTICS ── -->
+      <section class="privacy-section" id="s4">
+        <h2><span class="section-num">04</span> Google Analytics &amp; Mesure d'audience</h2>
+        <p>
+          Le site peut utiliser <strong>Google Analytics</strong> (ou un service équivalent) afin de mesurer l'audience et d'analyser la fréquentation des pages. Ces outils collectent des données <strong>agrégées et anonymisées</strong> telles que le nombre de visiteurs, les pages consultées, la durée des sessions et la provenance géographique approximative.
+        </p>
+        <p>
+          Ces données sont utilisées uniquement dans le but d'améliorer les outils proposés sur le site. Aucune donnée permettant d'identifier personnellement un visiteur n'est traitée par nos soins.
+        </p>
+        <p>
+          Pour refuser le suivi analytique, vous pouvez installer l'extension officielle Google : <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>.
+        </p>
+      </section>
+
+      <!-- ── 05 HÉBERGEMENT ── -->
+      <section class="privacy-section" id="s5">
+        <h2><span class="section-num">05</span> Hébergement — GitHub Pages</h2>
+        <p>
+          Le site ZIG-ON est hébergé via <strong>GitHub Pages</strong>, un service de GitHub, Inc. (88 Colin P Kelly Jr St, San Francisco, CA 94107, USA), filiale de Microsoft.
+        </p>
+        <p>
+          Lorsque vous accédez au site, GitHub Pages peut enregistrer automatiquement des données techniques de connexion (logs de serveur) incluant notamment votre <strong>adresse IP</strong>, l'horodatage de la requête, le navigateur utilisé et la page demandée. Ces données sont collectées et gérées par GitHub conformément à leur propre politique de confidentialité, consultable ici&nbsp;: <a href="https://docs.github.com/fr/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a>.
+        </p>
+        <p>
+          ZIG-ON n'a pas accès à ces données de logs et ne les contrôle pas.
+        </p>
+      </section>
+
+      <!-- ── 06 COOKIES ── -->
+      <section class="privacy-section" id="s6">
+        <h2><span class="section-num">06</span> Cookies</h2>
+        <p>
+          ZIG-ON lui-même <strong>ne dépose aucun cookie propriétaire</strong>. Le site ne stocke aucune information dans les cookies de votre navigateur à des fins de tracking ou de profilage.
+        </p>
+        <p>Des cookies tiers peuvent néanmoins être déposés par les services intégrés :</p>
+        <ul>
+          <li><strong>Google AdSense</strong> <span class="tag-inline">TIERS</span> — cookies publicitaires pour la personnalisation des annonces</li>
+          <li><strong>Google Analytics</strong> <span class="tag-inline">TIERS</span> — cookies de mesure d'audience anonymisée</li>
+          <li><strong>Google Fonts</strong> <span class="tag-inline">TIERS</span> — polices web chargées depuis les serveurs Google</li>
+        </ul>
+        <p>
+          Vous pouvez gérer, bloquer ou supprimer les cookies directement depuis les paramètres de votre navigateur. Notez que le blocage des cookies tiers peut affecter l'affichage des publicités sur le site, mais n'impactera pas le fonctionnement des outils.
+        </p>
+      </section>
+
+      <!-- ── 07 DROITS RGPD ── -->
+      <section class="privacy-section" id="s7">
+        <h2><span class="section-num">07</span> Droits des utilisateurs (RGPD)</h2>
+        <p>
+          Conformément au <strong>Règlement Général sur la Protection des Données (RGPD — UE 2016/679)</strong>, et dans la mesure où des données personnelles vous concernant seraient collectées indirectement via des services tiers, vous disposez des droits suivants :
+        </p>
+        <ul>
+          <li><strong>Droit d'accès</strong> — obtenir une copie des données vous concernant</li>
+          <li><strong>Droit de rectification</strong> — corriger des données inexactes</li>
+          <li><strong>Droit à l'effacement</strong> — demander la suppression de vos données</li>
+          <li><strong>Droit à la limitation du traitement</strong> — restreindre l'usage de vos données</li>
+          <li><strong>Droit à la portabilité</strong> — recevoir vos données dans un format structuré</li>
+          <li><strong>Droit d'opposition</strong> — vous opposer au traitement de vos données à des fins publicitaires</li>
+        </ul>
+        <p>
+          Ces droits s'exercent principalement auprès des services tiers concernés (Google, GitHub). Pour toute demande relative aux données potentiellement associées à notre site, vous pouvez nous contacter via les coordonnées indiquées en section 11.
+        </p>
+        <p>
+          Vous disposez également du droit d'introduire une réclamation auprès de l'autorité de contrôle compétente. En France, il s'agit de la <strong>CNIL</strong> (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>).
+        </p>
+      </section>
+
+      <!-- ── 08 SÉCURITÉ ── -->
+      <section class="privacy-section" id="s8">
+        <h2><span class="section-num">08</span> Sécurité des données</h2>
+        <p>
+          Le site ZIG-ON est servi exclusivement en <strong>HTTPS</strong> (connexion sécurisée par chiffrement TLS), garantissant la confidentialité des échanges entre votre navigateur et les serveurs GitHub Pages.
+        </p>
+        <p>
+          Dans la mesure où aucune donnée personnelle n'est collectée ni stockée par notre site, le risque de violation de données vous concernant est réduit au minimum. Les mesures de sécurité applicables aux données éventuellement traitées par des services tiers relèvent de leurs propres politiques de sécurité.
+        </p>
+      </section>
+
+      <!-- ── 09 LIENS EXTERNES ── -->
+      <section class="privacy-section" id="s9">
+        <h2><span class="section-num">09</span> Liens externes</h2>
+        <p>
+          Le site ZIG-ON peut contenir des liens vers des sites tiers (notamment <a href="https://buymeacoffee.com/ZIGon" target="_blank" rel="noopener noreferrer">buymeacoffee.com</a>). Ces sites disposent de leur propre politique de confidentialité, sur laquelle nous n'avons aucun contrôle. Nous vous encourageons à consulter les politiques de confidentialité de chaque site tiers que vous visitez.
+        </p>
+        <p>
+          La présence de liens vers des sites externes ne constitue pas une approbation de leur contenu ou de leurs pratiques en matière de protection des données.
+        </p>
+      </section>
+
+      <!-- ── 10 MODIFICATIONS ── -->
+      <section class="privacy-section" id="s10">
+        <h2><span class="section-num">10</span> Modifications de la présente politique</h2>
+        <p>
+          Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment, notamment pour nous conformer à l'évolution de la législation applicable ou aux changements de nos pratiques. La date de dernière mise à jour est toujours indiquée en haut de ce document.
+        </p>
+        <p>
+          En continuant à utiliser le site après modification de la politique, vous acceptez les nouvelles dispositions. Nous vous encourageons à consulter régulièrement cette page.
+        </p>
+      </section>
+
+      <!-- ── 11 CONTACT ── -->
+      <section class="privacy-section" id="s11">
+        <h2><span class="section-num">11</span> Contact</h2>
+        <p>
+          Pour toute question relative à la présente politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter via la page de support du projet :
+        </p>
+        <ul>
+          <li><strong>Support &amp; Feedback :</strong> <a href="https://buymeacoffee.com/ZIGon" target="_blank" rel="noopener noreferrer">buymeacoffee.com/ZIGon</a></li>
+          <li><strong>Hébergement du code source :</strong> GitHub Pages (zig-on.online)</li>
+        </ul>
+        <p>
+          Nous nous engageons à répondre à toute demande dans un délai raisonnable, et au plus tard dans un délai de <strong>30 jours</strong> conformément aux exigences du RGPD.
+        </p>
+      </section>
+
+      <!-- CONTACT CARD -->
+      <div class="privacy-contact">
+        <p style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-bright);margin-bottom:8px;">Une question sur tes données ?</p>
+        <p>Ce site est conçu dans le respect de ta vie privée. Aucune donnée personnelle n'est collectée par nos soins.</p>
+        <a href="https://buymeacoffee.com/ZIGon" target="_blank" rel="noopener noreferrer">☕ Nous contacter via Buy Me a Coffee</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">[ZIG<span style="color:var(--accent)">-ON</span>]</span>
+      <span class="footer-copy">Outils nichés pour joueurs compétitifs · Valorant &amp; CS2</span>
+      <a href="https://buymeacoffee.com/ZIGon" target="_blank" class="footer-coffee">☕ Support the project</a>
+      <p class="footer-copy">© 2025 zig-on. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navLinks = document.querySelector('.nav-links');
+    if (hamburgerBtn && navLinks) {
+      hamburgerBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+      navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('active')));
+      document.addEventListener('click', (e) => {
+        if (!hamburgerBtn.contains(e.target) && !navLinks.contains(e.target)) navLinks.classList.remove('active');
+      });
+    }
+  </script>
+</body>
+</html>

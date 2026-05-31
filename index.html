@@ -149,6 +149,157 @@
   <div class="ad-zone ad-bottom">
     <div class="ad-inner"><span class="ad-label">ESPACE PUBLICITAIRE</span><span class="ad-size">728 × 90 — Leaderboard</span></div>
   </div>
+  <!-- ═══════════════════════════════════════════════════════════
+     BLOC SEO — OUTIL #01 : SENSITIVITY RANDOMIZER
+     À insérer dans index.html, APRÈS la section .info-cards
+     et AVANT le bloc .ad-zone.ad-bottom
+     ═══════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── Guide SEO Section ── */
+  .seo-guide {
+    max-width: 900px;
+    margin: 0 auto 0;
+    padding: 0 24px;
+  }
+
+  .seo-guide-inner {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .seo-guide-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), transparent);
+  }
+
+  .seo-guide-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .seo-guide h2 {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .seo-guide h2 span { color: var(--accent); }
+
+  .seo-guide p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.85;
+    margin-bottom: 16px;
+    font-weight: 300;
+    max-width: 720px;
+  }
+  .seo-guide p:last-of-type { margin-bottom: 0; }
+
+  .seo-guide strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .seo-kw {
+    display: inline;
+    color: var(--accent-light);
+    font-weight: 500;
+  }
+
+  .seo-guide-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin: 24px 0;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .seo-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .seo-stat-val {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .seo-stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .seo-guide-inner { padding: 24px 20px; }
+    .seo-guide-stats { gap: 16px; }
+  }
+</style>
+
+<section class="seo-guide" aria-label="Guide — Sensitivity Randomizer">
+  <div class="seo-guide-inner">
+
+    <div class="seo-guide-eyebrow">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      GUIDE COMPLET
+    </div>
+
+    <h2>Pourquoi randomiser ta <span>sensibilité</span> ?<br />La science de la mémoire musculaire</h2>
+
+    <div class="seo-guide-stats">
+      <div class="seo-stat">
+        <span class="seo-stat-val">24h</span>
+        <span class="seo-stat-label">Durée recommandée</span>
+      </div>
+      <div class="seo-stat">
+        <span class="seo-stat-val">150–400</span>
+        <span class="seo-stat-label">Plage eDPI jouable</span>
+      </div>
+      <div class="seo-stat">
+        <span class="seo-stat-val">3</span>
+        <span class="seo-stat-label">Styles de jeu détectés</span>
+      </div>
+    </div>
+
+    <p>
+      La <strong>randomisation de sensibilité</strong> est une méthode d'entraînement utilisée par de nombreux joueurs professionnels pour briser la dépendance à une valeur unique et forcer le cerveau à développer une <strong class="seo-kw">adaptabilité motrice</strong> plus robuste. En variant régulièrement ton eDPI dans une plage calibrée (150–400), ton système nerveux apprend à viser en s'appuyant sur la vision et la perception spatiale plutôt que sur un pattern musculaire figé.
+    </p>
+
+    <p>
+      La <strong>mémoire musculaire</strong> en FPS fonctionne comme un raccourci neuronal&nbsp;: ton bras reproduit des gestes appris sans effort conscient. Le problème survient lorsque ce pattern est trop rigide&nbsp;: un simple changement d'équipement ou de PC en LAN suffit à désorienter complètement ta visée. Le challenge de sensibilité aléatoire casse ce verrou en t'obligeant à jouer <strong>en conscience</strong> le temps d'une session.
+    </p>
+
+    <p>
+      L'outil calcule automatiquement ton <strong class="seo-kw">In-Game Sensitivity</strong> pour <strong>Valorant</strong> et <strong>CS2</strong> à partir du couple eDPI/DPI généré, et positionne ton profil sur la jauge Bras–Poignet–Hybride utilisée dans la littérature e-sport compétitive. Joue cette sensibilité <strong>sans la changer pendant 24 heures minimum</strong>&nbsp;: c'est le seuil à partir duquel le cerveau commence à intégrer les nouveaux patterns moteurs.
+    </p>
+
+  </div>
+</section>
+<!-- /BLOC SEO — OUTIL #01 -->
 
   <footer class="footer">
     <div class="footer-inner">

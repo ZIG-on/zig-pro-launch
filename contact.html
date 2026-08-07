@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14231C">
+<title>Contact — octets & cie</title>
+<meta name="description" content="Contactez octets & cie pour une question, une suggestion ou une collaboration.">
+<link rel="canonical" href="https://zig-on.online/contact.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>octets-cie.dev — system online</span>
+    <span>build 20260807</span>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="logo" href="index.html">octets<span>&amp;cie</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="site-menu">
+      <a href="index.html" class="">Accueil</a>
+      <a href="blog.html" class="">Articles</a>
+      <a href="a-propos.html" class="">À propos</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </div>
+</header>
+<div class="trace"></div>
+
+<main class="page wrap">
+  <h1>Contact</h1>
+  <p class="prose" style="font-size:17px;">Une question sur un article, une suggestion de sujet, une proposition de collaboration ? Écrivez-moi.</p>
+
+  <!--
+    Ce site est statique (pas de serveur/backend), donc ce formulaire seul n'envoie rien.
+    Deux options simples et gratuites pour le faire fonctionner :
+    1) Remplacer l'attribut action par une URL Formspree (https://formspree.io) ou Web3Forms (https://web3forms.com) — inscription gratuite, 2 minutes.
+    2) Ou simplement afficher une adresse mail cliquable ci-dessous.
+  -->
+  <form class="contact" action="https://formspree.io/f/TON_ID_FORMSPREE" method="POST">
+    <div>
+      <label for="name">Nom</label><br>
+      <input id="name" name="name" type="text" required>
+    </div>
+    <div>
+      <label for="email">Email</label><br>
+      <input id="email" name="email" type="email" required>
+    </div>
+    <div>
+      <label for="message">Message</label><br>
+      <textarea id="message" name="message" rows="6" required></textarea>
+    </div>
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <p class="prose" style="margin-top:32px;">Vous pouvez aussi écrire directement à <a href="/cdn-cgi/l/email-protection#5c3f3332283d3f281c283332713833313d353239723a2e"><span class="__cf_email__" data-cfemail="e5868a8b91848691a5918a8bc8818a88848c8b80cb8397">[zig.suppoff@gmail.com]</span></a>.</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;">octets<span>&amp;cie</span></div>
+      <div>IA · Développement · Composants · Jeux vidéo</div>
+    </div>
+    <div class="cols">
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Site</div>
+        <a href="blog.html">Articles</a><br>
+        <a href="a-propos.html">À propos</a><br>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Légal</div>
+        <a href="confidentialite.html">Confidentialité</a><br>
+        <a href="mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function () {
+  var button = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("site-menu");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    menu.classList.toggle("is-open", !expanded);
+  });
+  menu.addEventListener("click", function (event) {
+    if (event.target.tagName === "A") {
+      button.setAttribute("aria-expanded", "false");
+      menu.classList.remove("is-open");
+    }
+  });
+})();
+</script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5"}' crossorigin="anonymous"></script>
+</body>
+</html>

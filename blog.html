@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14231C">
+<title>Articles — octets & cie</title>
+<meta name="description" content="Tous les articles sur l'IA, le développement, les composants et le jeu vidéo.">
+<link rel="canonical" href="https://zig-on.online/blog.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>octets-cie.dev — system online</span>
+    <span>build 20260807</span>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="logo" href="index.html">octets<span>&amp;cie</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="site-menu">
+      <a href="index.html" class="">Accueil</a>
+      <a href="blog.html" class="active">Articles</a>
+      <a href="a-propos.html" class="">À propos</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+  </div>
+</header>
+<div class="trace"></div>
+
+
+<main class="page wrap">
+  <h1>Tous les articles</h1>
+  <p class="prose" style="font-size:17px;">IA, développement, composants et jeux vidéo — écrit et testé avant publication.</p>
+  <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+  <div class="grid" style="margin-top:32px;">
+   
+  <a class="card" href="Les-Meilleures-IA-pour-la-Création-en-2026.html">
+    <span class="ref">IA-02</span>
+    <span class="pill ia">IA</span>
+    <h3>Les meilleures IA pour la création en 2026 en 6 minutes</h3>
+    <p>Un aperçu des outils d'IA les plus puissants pour la création de contenu en 2026.</p>
+    <span class="meta">2026-08-01</span>
+  </a> 
+  <a class="card" href="comprendre-les-llm.html">
+    <span class="ref">IA-01</span>
+    <span class="pill ia">IA</span>
+    <h3>Comprendre les LLM en 10 minutes, sans jargon</h3>
+    <p>Comment fonctionnent les grands modèles de langage comme GPT ou Claude, expliqué simplement avec des exemples concrets.</p>
+    <span class="meta">2026-08-01</span>
+  </a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;">octets<span>&amp;cie</span></div>
+      <div>IA · Développement · Composants · Jeux vidéo</div>
+    </div>
+    <div class="cols">
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Site</div>
+        <a href="blog.html">Articles</a><br>
+        <a href="a-propos.html">À propos</a><br>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Légal</div>
+        <a href="confidentialite.html">Confidentialité</a><br>
+        <a href="mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var button = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("site-menu");
+  if (!button || !menu) return;
+  button.addEventListener("click", function () {
+    var expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    menu.classList.toggle("is-open", !expanded);
+  });
+  menu.addEventListener("click", function (event) {
+    if (event.target.tagName === "A") {
+      button.setAttribute("aria-expanded", "false");
+      menu.classList.remove("is-open");
+    }
+  });
+})();
+</script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5"}' crossorigin="anonymous"></script>
+</body>
+</html>

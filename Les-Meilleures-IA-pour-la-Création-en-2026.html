@@ -101,15 +101,6 @@ header.main .wrap{
   display:flex; align-items:baseline; gap:2px;
 }
 .logo span{ color:var(--signal); }
-nav.links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:14px; }
-nav.links a{
-  text-decoration:none; color:var(--ink-soft);
-  padding-bottom:2px; border-bottom:2px solid transparent;
-  transition:.15s;
-}
-nav.links a:hover, nav.links a.active{
-  color:var(--ink); border-color:var(--signal);
-}
 /* trace line under header */
 .trace{
   height:2px; width:100%;
@@ -230,7 +221,6 @@ footer .cols{ display:flex; gap:36px; flex-wrap:wrap; }
     <h3>ChatGPT (GPT-4o) (OpenAI) : L'assistant pragmatique</h3>
     <p>Si Claude brille par sa plume, ChatGPT reste l'outil de productivité ultime. Vous avez besoin de générer rapidement la trame d'une réunion complexe ? Ou de structurer et traduire en plusieurs langues des fiches produits e-commerce ? ChatGPT gère ces tâches administratives ou logiques avec une efficacité redoutable.</p>
     
-    <p><em>Règle d'or :</em> Ne copiez-collez jamais ! Google détecte facilement les schémas de l'IA. Ajoutez toujours vos propres exemples et retouchez le texte. Une IA doit rester un assistant de brouillon, pas un auteur final.</p>
 
     <h2>2. La Meilleure IA pour le Code et le Développement</h2>
     <p>C'est incontestablement le domaine où les gains de temps sont les plus spectaculaires, que vous fassiez du web, du logiciel ou du scripting d'automatisation.</p>
@@ -314,18 +304,30 @@ def ranger_fichiers(dossier):
   var button = document.querySelector(".menu-toggle");
   var menu = document.getElementById("site-menu");
   if (!button || !menu) return;
-  button.addEventListener("click", function () {
+
+  function closeMenu() {
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Ouvrir le menu");
+    menu.classList.remove("is-open");
+  }
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
     var expanded = button.getAttribute("aria-expanded") === "true";
     button.setAttribute("aria-expanded", String(!expanded));
+    button.setAttribute("aria-label", expanded ? "Ouvrir le menu" : "Fermer le menu");
     menu.classList.toggle("is-open", !expanded);
   });
+
   menu.addEventListener("click", function (event) {
-    if (event.target.tagName === "A") {
-      button.setAttribute("aria-expanded", "false");
-      menu.classList.remove("is-open");
-    }
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
   });
 })();
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5"}' crossorigin="anonymous"></script>
 </body>
 </html>

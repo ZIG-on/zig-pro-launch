@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14231C">
+<title>Faut-il passer à une souris 8000 Hz en 2026 ? Le guide complet — octets & cie</title>
+<meta name="description" content="Le polling rate à 8000 Hz est-il un véritable avantage compétitif ou un simple argument marketing ? Décryptage des capteurs haute fréquence pour le gaming.">
+<link rel="canonical" href="https://zig-on.online/blog/souris-8000-hz-utile-ou-pas.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   OCTETS & CIE — design system
+   Palette "circuit imprimé" : papier sauge clair, encre pin,
+   accents turquoise (signal) et cuivre (chaleur / hardware)
+   ========================================================= */
+
+:root{
+  --bg:            #F2F5EF;
+  --bg-alt:        #E7EBE2;
+  --surface:       #FFFFFF;
+  --ink:           #14231C;
+  --ink-soft:      #46554C;
+  --line:          #D3DACB;
+  --signal:        #157E80;   /* turquoise circuit */
+  --signal-dim:    #DCEEEC;
+  --copper:        #B5652D;   /* cuivre */
+  --copper-dim:    #F3E4D6;
+  --violet:        #6C5B9E;   /* catégorie Jeux */
+  --violet-dim:    #E9E4F4;
+  --amber:         #C08A1E;   /* catégorie Hardware */
+  --amber-dim:     #F5EAD1;
+
+  --font-display:  'Space Grotesk', sans-serif;
+  --font-body:     'Source Serif 4', Georgia, serif;
+  --font-mono:     'JetBrains Mono', monospace;
+
+  --radius: 3px;
+  --max: 1120px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:18px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{ max-width:100%; display:block; border-radius:var(--radius); margin:1.6em 0; }
+a{ color:inherit; }
+
+.wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:600;
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  margin:0 0 .5em;
+}
+
+/* ---------- status bar (header) ---------- */
+.statusbar{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  font-family:var(--font-mono);
+  font-size:13px;
+}
+.statusbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  height:36px;
+  color:var(--ink-soft);
+}
+.statusbar .dot{
+  display:inline-block; width:7px; height:7px; border-radius:50%;
+  background:var(--signal); margin-right:8px;
+  box-shadow:0 0 0 3px var(--signal-dim);
+}
+
+/* ---------- nav ---------- */
+header.main{
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:50;
+}
+header.main .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+.logo{
+  font-family:var(--font-display);
+  font-weight:700; font-size:22px;
+  text-decoration:none; color:var(--ink);
+  display:flex; align-items:baseline; gap:2px;
+}
+.logo span{ color:var(--signal); }
+nav.links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:14px; }
+nav.links a{
+  text-decoration:none; color:var(--ink-soft);
+  padding-bottom:2px; border-bottom:2px solid transparent;
+  transition:.15s;
+}
+nav.links a:hover, nav.links a.active{
+  color:var(--ink); border-color:var(--signal);
+}
+/* trace line under header */
+.trace{
+  height:2px; width:100%;
+  background:repeating-linear-gradient(90deg,var(--signal) 0 8px, transparent 8px 14px);
+  opacity:.5;
+}
+
+/* ---------- category pills ---------- */
+.pill{
+  font-family:var(--font-mono); font-size:11px; text-transform:uppercase;
+  letter-spacing:.04em; padding:3px 8px; border-radius:2px;
+  display:inline-block;
+}
+.pill.ia{ background:var(--signal-dim); color:var(--signal); }
+.pill.dev{ background:var(--copper-dim); color:var(--copper); }
+.pill.hardware{ background:var(--amber-dim); color:var(--amber); }
+
+/* ---------- generic page / article ---------- */
+.page{ padding:56px 0 40px; }
+.page h1{ font-size:clamp(28px,4vw,42px); max-width:22ch; }
+.article-meta{
+  font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+  display:flex; gap:14px; align-items:center; margin:14px 0 40px;
+}
+.prose{ max-width:70ch; font-size:19px; }
+.prose h2{ margin-top:2.2em; font-size:26px; }
+.prose h3{ margin-top:1.8em; font-size:21px; }
+.prose p{ margin:1.1em 0; }
+.prose code{
+  font-family:var(--font-mono); background:var(--bg-alt); padding:2px 6px;
+  border-radius:2px; font-size:.85em;
+}
+.prose pre{
+  background:var(--ink); color:#EAF3EF; padding:18px 20px; overflow:auto;
+  border-radius:var(--radius); font-family:var(--font-mono); font-size:14px; line-height:1.55;
+}
+.prose pre code{ background:none; padding:0; color:inherit; }
+.prose ul,.prose ol{ padding-left:1.3em; }
+.prose a{ color:var(--signal); font-weight: 500; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; transition: 0.2s; }
+.prose a:hover{ text-decoration-color: var(--signal); }
+.prose blockquote{
+  border-left:3px solid var(--copper); margin:1.6em 0; padding:.3em 0 .3em 1.2em;
+  color:var(--ink-soft); font-style:italic;
+}
+.prose img{ border-radius:var(--radius); margin:1.6em 0; width: 100%; height: auto; box-shadow: 0 4px 12px rgba(20,35,28,0.08); }
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line); margin-top:96px;
+  padding:40px 0; font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+}
+footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+footer a{ text-decoration:none; color:var(--ink-soft); }
+footer a:hover{ color:var(--signal); }
+footer .cols{ display:flex; gap:36px; flex-wrap:wrap; }
+
+/* ---------- advertising placeholders ---------- */
+.ad-slot{
+  width:100%; max-width:728px; min-height:90px; margin:40px auto;
+  padding:14px 16px; display:flex; align-items:center; justify-content:center;
+  background:var(--bg-alt); border:1px solid var(--line); color:var(--ink-soft);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ad-slot::before{ content:"Publicité"; opacity:.72; }
+
+/* ---------- menu mobile ---------- */
+.menu-toggle{ display:none; }
+@media (max-width:767px){
+  .menu-toggle{
+    display:flex; appearance:none; border:1px solid var(--line); background:var(--surface);
+    color:var(--ink); border-radius:var(--radius); width:42px; height:38px; padding:8px;
+    cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+  }
+  .menu-toggle span{ display:block; width:20px; height:2px; background:currentColor; transition:transform .15s, opacity .15s; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  nav.links{ display:none; position:absolute; z-index:60; top:100%; left:0; right:0; padding:8px 16px 14px; gap:0; flex-direction:column; background:var(--surface); border-bottom:1px solid var(--line); box-shadow:0 8px 14px rgba(20,35,28,.08); }
+  nav.links.is-open{ display:flex; }
+  nav.links a{ padding:11px 0; border-bottom:1px solid var(--line); }
+}
+</style>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>octets-cie.dev — system online</span>
+    <span>build 20260816</span>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="logo" href="../index.html">octets<span>&amp;cie</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="site-menu">
+      <a href="../index.html" class="">Accueil</a>
+      <a href="../blog.html" class="active">Articles</a>
+      <a href="../a-propos.html" class="">À propos</a>
+      <a href="../contact.html" class="">Contact</a>
+    </nav>
+  </div>
+</header>
+<div class="trace"></div>
+
+<main class="page wrap">
+  <span class="pill hardware">Hardware</span>
+  <h1>Faut-il passer à une souris 8000 Hz en 2026 ?</h1>
+  <div class="article-meta">
+    <span>HW-05</span><span>·</span><span>2026-08-16</span><span>·</span><span>Temps de lecture : 6 min</span>
+  </div>
+  
+  <article class="prose">
+    <p class="lead">Le marché des périphériques pour joueurs est une course constante à l'armement. Après la guerre des DPI (Dots Per Inch), c'est désormais le "polling rate" (taux d'interrogation) qui est au centre de toutes les attentions. Longtemps bloqué à 1000 Hz, le standard des souris compétitives pousse désormais jusqu'à 4000, voire 8000 Hz. Mais cette débauche technologique a-t-elle un réel impact sur votre visée, ou n'est-ce qu'un mirage marketing ?</p>
+    
+    <p>Pour faire simple, une souris à 8000 Hz communique sa position à l'ordinateur 8000 fois par seconde, soit toutes les 0,125 millisecondes. Sur le papier, c'est l'assurance d'une fluidité absolue. Dans la pratique, la réalité est nettement plus nuancée et dépend énormément du reste de votre configuration matérielle.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>1. Qu'est-ce que le Polling Rate et comment il interagit avec les DPI</h2>
+    <p>Le polling rate définit la fréquence de rafraîchissement des données de la souris. Un taux de 1000 Hz signifie un délai de 1 ms entre chaque rapport envoyé à votre processeur. Passer à 8000 Hz divise ce délai par huit.</p>
+
+    <h3>L'importance de coupler avec de hauts DPI</h3>
+    <p>C'est l'erreur la plus fréquente : acheter une souris 8000 Hz et continuer à jouer avec une sensibilité de 400 DPI. Pour que les capteurs ultra-rapides (comme l'excellent PAW 3395) puissent envoyer 8000 paquets d'informations par seconde, ils ont besoin de matière à analyser !</p>
+    
+    <p>Si vous déplacez lentement une souris réglée à 400 DPI, elle ne génère tout simplement pas assez de "points" de mouvement pour remplir ces 8000 requêtes. Le capteur enverra des rapports vides. <strong>Pour exploiter un polling rate supérieur à 2000 Hz, il est fortement recommandé de régler sa souris sur au moins 1600 DPI, voire 3200 DPI</strong>, puis de baisser proportionnellement la sensibilité directement dans les paramètres du jeu (in-game sens) pour conserver la même vitesse de déplacement globale.</p>
+
+    <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=1200&q=80" alt="Gros plan sur une souris gamer noire posée sur un tapis de souris texturé, éclairée par une lumière tamisée." />
+
+    <h2>2. L'impact réel sur votre configuration (Le piège du CPU)</h2>
+    <p>La fluidité a un coût. Interroger un périphérique USB 8000 fois par seconde demande énormément de ressources à votre processeur. Si vous avez lu notre récent article sur <a href="meilleures-combinaisons-cpu-gpu.html" title="Guide des meilleures combinaisons CPU et GPU">les meilleures combinaisons CPU/GPU pour éviter le bottleneck</a>, vous savez que le processeur est déjà fortement sollicité par les jeux à haut framerate.</p>
+
+    <h3>Des chutes de FPS inattendues</h3>
+    <p>Sur des processeurs vieillissants ou d'entrée de gamme, brancher une souris 8000 Hz peut paradoxalement détériorer votre expérience de jeu. Le processeur, surchargé par les interruptions USB constantes, n'arrive plus à générer les images assez vite, ce qui provoque de violentes saccades (stuttering) lorsque vous bougez rapidement la souris.</p>
+    <p>Avant d'investir, assurez-vous de posséder un processeur très récent (comme un AMD Ryzen série 7000 ou un Intel Core de 13/14ème génération) capable d'encaisser cette charge sans broncher.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>3. 8000 Hz : Avantage compétitif ou placebo ?</h2>
+    <p>La question fatidique : allez-vous devenir meilleur sur des <em>tactical shooters</em> exigeants ? La réponse dépend entièrement de votre écran.</p>
+
+    <h3>La loi du taux de rafraîchissement de l'écran</h3>
+    <p>Si vous jouez sur un écran classique à 60 Hz ou même 144 Hz, la différence entre 1000 Hz et 8000 Hz sur votre souris sera absolument imperceptible à l'œil nu et dans vos sensations. Votre écran n'affiche de toute façon pas assez d'images par seconde pour traduire visuellement cette micro-précision.</p>
+    
+    <p>En revanche, <strong>le 4000 Hz et le 8000 Hz prennent tout leur sens si vous possédez un moniteur à 240 Hz, 360 Hz ou 540 Hz</strong>. À ces fréquences d'affichage extrêmes, la désynchronisation entre le moment où l'image s'affiche et le moment où la souris à 1000 Hz envoie son rapport commence à créer de très subtils effets de "sauts" ou de flou. Un polling rate élevé permet de "lisser" le mouvement du curseur et de la caméra de manière flagrante pour les joueurs professionnels.</p>
+
+    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80" alt="Joueur compétitif en pleine concentration devant son écran, la main posée sur sa souris gamer lors d'un tournoi." />
+
+    <h2>Conclusion : Faut-il craquer ?</h2>
+    <p>Le passage au 8000 Hz (ou même au 4000 Hz sans fil) n'est pas une priorité absolue pour le grand public. C'est une technologie d'optimisation "fin de chaîne".</p>
+    
+    <ul>
+        <li><strong>N'achetez PAS de souris 8000 Hz si :</strong> Vous jouez sur un écran de 144 Hz ou moins, votre processeur a plus de 4 ans, ou vous gardez vos DPI bloqués à 400. Investissez plutôt cet argent dans une meilleure carte graphique ou un meilleur écran.</li>
+        <li><strong>Achetez une souris 8000 Hz si :</strong> Vous jouez à un niveau compétitif sur un moniteur de 240 Hz (ou plus), vous avez un PC haut de gamme très récent, et vous êtes prêt à jouer avec au moins 1600 DPI. Dans ce cas très précis, le gain de fluidité (le "smoothness") sera bien réel.</li>
+    </ul>
+    
+    <p>Pour les passionnés qui souhaitent pousser l'optimisation à l'extrême, la prochaine étape n'est d'ailleurs plus seulement d'acheter des modèles commerciaux, mais de <a href="https://github.com/topics/mouse-firmware" target="_blank" rel="noopener noreferrer" title="Découvrir les firmwares open source pour souris sur GitHub (Nouvelle fenêtre)">concevoir ou flasher son propre firmware</a> pour obtenir une latence véritablement nulle.</p>
+
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;">octets<span>&amp;cie</span></div>
+      <div>IA · Développement · Composants · Jeux vidéo</div>
+    </div>
+    <div class="cols">
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Site</div>
+        <a href="../blog.html">Articles</a><br>
+        <a href="../a-propos.html">À propos</a><br>
+        <a href="../contact.html">Contact</a>
+      </div>
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Légal</div>
+        <a href="../confidentialite.html">Confidentialité</a><br>
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var button = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("site-menu");
+  if (!button || !menu) return;
+
+  function closeMenu() {
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Ouvrir le menu");
+    menu.classList.remove("is-open");
+  }
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
+    var expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    button.setAttribute("aria-label", expanded ? "Ouvrir le menu" : "Fermer le menu");
+    menu.classList.toggle("is-open", !expanded);
+  });
+
+  menu.addEventListener("click", function (event) {
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+  });
+})();
+</script>
+</body>
+</html>

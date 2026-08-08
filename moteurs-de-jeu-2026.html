@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14231C">
+<title>Unity vs Unreal Engine vs Godot : Quel moteur choisir en 2026 ? — octets & cie</title>
+<meta name="description" content="Découvrez notre comparatif des moteurs de jeu en 2026. Unity, Unreal Engine ou Godot : lequel est fait pour votre premier projet de développement ?">
+<link rel="canonical" href="https://zig-on.online/blog/unity-vs-unreal-vs-godot.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   OCTETS & CIE — design system
+   Palette "circuit imprimé" : papier sauge clair, encre pin,
+   accents turquoise (signal) et cuivre (chaleur / hardware)
+   ========================================================= */
+
+:root{
+  --bg:            #F2F5EF;
+  --bg-alt:        #E7EBE2;
+  --surface:       #FFFFFF;
+  --ink:           #14231C;
+  --ink-soft:      #46554C;
+  --line:          #D3DACB;
+  --signal:        #157E80;   /* turquoise circuit */
+  --signal-dim:    #DCEEEC;
+  --copper:        #B5652D;   /* cuivre */
+  --copper-dim:    #F3E4D6;
+  --violet:        #6C5B9E;   /* catégorie Jeux */
+  --violet-dim:    #E9E4F4;
+  --amber:         #C08A1E;   /* catégorie Hardware */
+  --amber-dim:     #F5EAD1;
+
+  --font-display:  'Space Grotesk', sans-serif;
+  --font-body:     'Source Serif 4', Georgia, serif;
+  --font-mono:     'JetBrains Mono', monospace;
+
+  --radius: 3px;
+  --max: 1120px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:18px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{ max-width:100%; display:block; border-radius:var(--radius); margin:1.6em 0; width: 100%; height: auto; box-shadow: 0 4px 12px rgba(20,35,28,0.08); }
+a{ color:inherit; }
+
+.wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:600;
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  margin:0 0 .5em;
+}
+
+/* ---------- status bar (header) ---------- */
+.statusbar{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  font-family:var(--font-mono);
+  font-size:13px;
+}
+.statusbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  height:36px;
+  color:var(--ink-soft);
+}
+.statusbar .dot{
+  display:inline-block; width:7px; height:7px; border-radius:50%;
+  background:var(--signal); margin-right:8px;
+  box-shadow:0 0 0 3px var(--signal-dim);
+}
+
+/* ---------- nav ---------- */
+header.main{
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:50;
+}
+header.main .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+.logo{
+  font-family:var(--font-display);
+  font-weight:700; font-size:22px;
+  text-decoration:none; color:var(--ink);
+  display:flex; align-items:baseline; gap:2px;
+}
+.logo span{ color:var(--signal); }
+nav.links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:14px; }
+nav.links a{
+  text-decoration:none; color:var(--ink-soft);
+  padding-bottom:2px; border-bottom:2px solid transparent;
+  transition:.15s;
+}
+nav.links a:hover, nav.links a.active{
+  color:var(--ink); border-color:var(--signal);
+}
+/* trace line under header */
+.trace{
+  height:2px; width:100%;
+  background:repeating-linear-gradient(90deg,var(--signal) 0 8px, transparent 8px 14px);
+  opacity:.5;
+}
+
+/* ---------- category pills ---------- */
+.pill{
+  font-family:var(--font-mono); font-size:11px; text-transform:uppercase;
+  letter-spacing:.04em; padding:3px 8px; border-radius:2px;
+  display:inline-block;
+}
+.pill.ia{ background:var(--signal-dim); color:var(--signal); }
+.pill.dev{ background:var(--copper-dim); color:var(--copper); }
+.pill.hardware{ background:var(--amber-dim); color:var(--amber); }
+.pill.jeux{ background:var(--violet-dim); color:var(--violet); }
+
+/* ---------- generic page / article ---------- */
+.page{ padding:56px 0 40px; }
+.page h1{ font-size:clamp(28px,4vw,42px); max-width:22ch; }
+.article-meta{
+  font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+  display:flex; gap:14px; align-items:center; margin:14px 0 40px;
+}
+.prose{ max-width:70ch; font-size:19px; }
+.prose h2{ margin-top:2.2em; font-size:26px; }
+.prose h3{ margin-top:1.8em; font-size:21px; }
+.prose p{ margin:1.1em 0; }
+.prose code{
+  font-family:var(--font-mono); background:var(--bg-alt); padding:2px 6px;
+  border-radius:2px; font-size:.85em;
+}
+.prose pre{
+  background:var(--ink); color:#EAF3EF; padding:18px 20px; overflow:auto;
+  border-radius:var(--radius); font-family:var(--font-mono); font-size:14px; line-height:1.55;
+}
+.prose pre code{ background:none; padding:0; color:inherit; }
+.prose ul,.prose ol{ padding-left:1.3em; }
+.prose a{ color:var(--signal); font-weight: 500; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; transition: 0.2s; }
+.prose a:hover{ text-decoration-color: var(--signal); }
+.prose blockquote{
+  border-left:3px solid var(--copper); margin:1.6em 0; padding:.3em 0 .3em 1.2em;
+  color:var(--ink-soft); font-style:italic;
+}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line); margin-top:96px;
+  padding:40px 0; font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+}
+footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+footer a{ text-decoration:none; color:var(--ink-soft); }
+footer a:hover{ color:var(--signal); }
+footer .cols{ display:flex; gap:36px; flex-wrap:wrap; }
+
+/* ---------- advertising placeholders ---------- */
+.ad-slot{
+  width:100%; max-width:728px; min-height:90px; margin:40px auto;
+  padding:14px 16px; display:flex; align-items:center; justify-content:center;
+  background:var(--bg-alt); border:1px solid var(--line); color:var(--ink-soft);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ad-slot::before{ content:"Publicité"; opacity:.72; }
+
+/* ---------- menu mobile ---------- */
+.menu-toggle{ display:none; }
+@media (max-width:767px){
+  .menu-toggle{
+    display:flex; appearance:none; border:1px solid var(--line); background:var(--surface);
+    color:var(--ink); border-radius:var(--radius); width:42px; height:38px; padding:8px;
+    cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+  }
+  .menu-toggle span{ display:block; width:20px; height:2px; background:currentColor; transition:transform .15s, opacity .15s; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  nav.links{ display:none; position:absolute; z-index:60; top:100%; left:0; right:0; padding:8px 16px 14px; gap:0; flex-direction:column; background:var(--surface); border-bottom:1px solid var(--line); box-shadow:0 8px 14px rgba(20,35,28,.08); }
+  nav.links.is-open{ display:flex; }
+  nav.links a{ padding:11px 0; border-bottom:1px solid var(--line); }
+}
+</style>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>octets-cie.dev — system online</span>
+    <span>build 20260822</span>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="logo" href="../index.html">octets<span>&amp;cie</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="site-menu">
+      <a href="../index.html" class="">Accueil</a>
+      <a href="../blog.html" class="active">Articles</a>
+      <a href="../a-propos.html" class="">À propos</a>
+      <a href="../contact.html" class="">Contact</a>
+    </nav>
+  </div>
+</header>
+<div class="trace"></div>
+
+<main class="page wrap">
+  <span class="pill dev">Dev</span>
+  <h1>Unity vs Unreal Engine vs Godot : Quel moteur choisir pour créer son premier jeu ?</h1>
+  <div class="article-meta">
+    <span>DEV-10</span><span>·</span><span>2026-08-22</span><span>·</span><span>Temps de lecture : 7 min</span>
+  </div>
+  
+  <article class="prose">
+    <p class="lead">Se lancer dans le développement de jeux vidéo n'a jamais été aussi accessible qu'en 2026. Fini le temps où il fallait écrire son propre moteur graphique (engine) de zéro. Aujourd'hui, des outils surpuissants gèrent la physique, la lumière et l'interface pour vous. Mais face au trio de tête qui domine le marché — Unity, Unreal Engine et Godot — le choix peut s'avérer paralysant pour un développeur débutant.</p>
+
+    <p>Chaque moteur possède sa philosophie, son langage de prédilection et son modèle économique. Pour éviter de passer des semaines à apprendre un outil qui ne correspond finalement pas à votre projet, voici un comparatif franc et objectif des trois géants de l'industrie.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>1. Unity : La polyvalence absolue et le standard du mobile</h2>
+    <p>Pendant des années, Unity a été le choix par défaut des studios indépendants et des créateurs de jeux mobiles. Bien que son modèle économique ait traversé des turbulences très médiatisées par le passé, il reste un mastodonte incontournable en 2026.</p>
+
+    <ul>
+        <li><strong>Langage de programmation :</strong> C# (C-Sharp). Comme évoqué dans notre <a href="langages-programmation-plus-utilises-2026.html" title="Consulter notre classement des langages de programmation">classement des langages les plus utilisés</a>, le C# est un excellent langage orienté objet, très structuré et soutenu par Microsoft.</li>
+        <li><strong>Ses forces :</strong> Une documentation infinie, des millions de tutoriels en ligne, et un magasin d'assets (l'Asset Store) qui permet d'acheter des modèles 3D et des scripts prêts à l'emploi. Il excelle particulièrement dans la création de jeux mobiles 2D/3D et les expériences en réalité virtuelle (VR).</li>
+        <li><strong>Le bémol :</strong> Le moteur souffre parfois de problèmes de lourdeur (bloatware) avec des systèmes internes qui se superposent (plusieurs systèmes de rendu, plusieurs systèmes d'UI).</li>
+    </ul>
+
+    <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1200&q=80" alt="Un développeur travaillant sur un environnement de jeu 3D complexe affiché sur plusieurs moniteurs." />
+
+    <h2>2. Unreal Engine 5 : Le roi du photoréalisme et des AAA</h2>
+    <p>Si vous rêvez de concevoir le prochain jeu d'action-aventure en monde ouvert avec des graphismes à couper le souffle, Unreal Engine (développé par Epic Games) est l'outil qu'il vous faut. C'est le moteur utilisé par la quasi-totalité des grands studios actuels.</p>
+
+    <ul>
+        <li><strong>Langage de programmation :</strong> C++ (pour les performances pures) et <strong>Blueprints</strong>. Ce dernier est un système de programmation visuelle (No-Code/Low-Code) révolutionnaire. Vous reliez des boîtes entre elles pour créer la logique de votre jeu, sans écrire une ligne de code ! Idéal si l'on est plus artiste que programmeur, <a href="automatiser-taches-ia.html" title="Lire notre article sur les avantages du No-Code">à l'image des automatisations No-Code récentes</a>.</li>
+        <li><strong>Ses forces :</strong> Des technologies internes magiques comme <em>Nanite</em> (qui permet d'afficher des milliards de polygones sans ralentissement) et <em>Lumen</em> (gestion de la lumière réaliste en temps réel). C'est le moteur pour "faire beau" par excellence.</li>
+        <li><strong>Le bémol :</strong> Une courbe d'apprentissage très raide et un besoin matériel conséquent. Il vous faudra un vrai PC gamer équipé d'une <a href="meilleures-cartes-graphiques-rapport-qualite-prix.html" title="Découvrir les meilleures cartes graphiques">carte graphique récente</a> pour faire tourner l'éditeur confortablement.</li>
+    </ul>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>3. Godot Engine : L'alternative open-source qui monte en flèche</h2>
+    <p>Godot est l'étoile montante de la décennie. Entièrement gratuit, léger, et open-source (ce qui signifie que la communauté le développe et qu'il n'y a aucune redevance à payer sur les ventes de vos jeux), il est devenu le chouchou de la scène "indé".</p>
+
+    <ul>
+        <li><strong>Langage de programmation :</strong> GDScript (un langage propre au moteur, extrêmement similaire au Python) et C#.</li>
+        <li><strong>Ses forces :</strong> Une légèreté incroyable (le logiciel pèse à peine une centaine de mégaoctets et se lance en 3 secondes). Il brille particulièrement dans la création de jeux 2D, grâce à un moteur dédié très propre, là où Unity et Unreal ont tendance à "tricher" en faisant de la 2D dans un espace 3D.</li>
+        <li><strong>Le bémol :</strong> Bien que ses capacités 3D se soient drastiquement améliorées, il reste en deçà d'Unreal Engine pour tout ce qui concerne le rendu photoréaliste complexe. Le marché de l'emploi "pro" est également plus restreint que pour Unity ou Unreal.</li>
+    </ul>
+
+    <img src="https://images.stockcake.com/public/b/5/6/b5635670-9a09-42d5-a094-726a5f9546e9_large/coding-after-dark-stockcake.jpg" alt="Gros plan sur un écran affichant des lignes de code de programmation colorées sur un fond sombre." />
+
+    <h2>Conclusion : Lequel est fait pour vous ?</h2>
+    <p>Il n'y a pas de mauvaise réponse, uniquement des choix adaptés à vos ambitions :</p>
+    
+    <ol>
+        <li>Choisissez <strong>Godot</strong> si vous voulez faire un jeu 2D (Metroidvania, plateforme), que vous aimez le Python, et que vous tenez à une philosophie open-source 100% gratuite.</li>
+        <li>Choisissez <strong>Unity</strong> si vous visez spécifiquement le marché mobile (Android/iOS) ou la Réalité Virtuelle, et que vous souhaitez trouver facilement des réponses à vos questions sur les forums.</li>
+        <li>Choisissez <strong>Unreal Engine</strong> si votre objectif est le rendu 3D haute-fidélité (photoréalisme), ou si vous êtes effrayé par l'écriture de code et préférez la programmation visuelle avec les Blueprints.</li>
+    </ol>
+
+    <p>L'important n'est pas l'outil, mais de franchir le pas. Si vous hésitez encore, la meilleure méthode reste de télécharger les logiciels et de suivre les tutoriels introductifs officiels, comme ceux disponibles sur le <a href="https://godotengine.org/" target="_blank" rel="noopener noreferrer" title="Visiter le site officiel du moteur Godot (Nouvelle fenêtre)">site de Godot Engine</a>.</p>
+
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;">octets<span>&amp;cie</span></div>
+      <div>IA · Développement · Composants · Jeux vidéo</div>
+    </div>
+    <div class="cols">
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Site</div>
+        <a href="../blog.html">Articles</a><br>
+        <a href="../a-propos.html">À propos</a><br>
+        <a href="../contact.html">Contact</a>
+      </div>
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Légal</div>
+        <a href="../confidentialite.html">Confidentialité</a><br>
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var button = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("site-menu");
+  if (!button || !menu) return;
+
+  function closeMenu() {
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Ouvrir le menu");
+    menu.classList.remove("is-open");
+  }
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
+    var expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    button.setAttribute("aria-label", expanded ? "Ouvrir le menu" : "Fermer le menu");
+    menu.classList.toggle("is-open", !expanded);
+  });
+
+  menu.addEventListener("click", function (event) {
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14231C">
+<title>Quel est le langage de programmation le plus utilisé en 2026 ? — octets & cie</title>
+<meta name="description" content="Découvrez le classement des langages de programmation les plus populaires en 2026. Python, JavaScript, Rust : lequel choisir pour débuter ou faire évoluer sa carrière ?">
+<link rel="canonical" href="https://zig-on.online/blog/langages-programmation-plus-utilises-2026.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   OCTETS & CIE — design system
+   Palette "circuit imprimé" : papier sauge clair, encre pin,
+   accents turquoise (signal) et cuivre (chaleur / hardware)
+   ========================================================= */
+
+:root{
+  --bg:            #F2F5EF;
+  --bg-alt:        #E7EBE2;
+  --surface:       #FFFFFF;
+  --ink:           #14231C;
+  --ink-soft:      #46554C;
+  --line:          #D3DACB;
+  --signal:        #157E80;   /* turquoise circuit */
+  --signal-dim:    #DCEEEC;
+  --copper:        #B5652D;   /* cuivre */
+  --copper-dim:    #F3E4D6;
+  --violet:        #6C5B9E;   /* catégorie Jeux */
+  --violet-dim:    #E9E4F4;
+  --amber:         #C08A1E;   /* catégorie Hardware */
+  --amber-dim:     #F5EAD1;
+
+  --font-display:  'Space Grotesk', sans-serif;
+  --font-body:     'Source Serif 4', Georgia, serif;
+  --font-mono:     'JetBrains Mono', monospace;
+
+  --radius: 3px;
+  --max: 1120px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:18px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{ max-width:100%; display:block; border-radius:var(--radius); margin:1.6em 0; }
+a{ color:inherit; }
+
+.wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:600;
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  margin:0 0 .5em;
+}
+
+/* ---------- status bar (header) ---------- */
+.statusbar{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  font-family:var(--font-mono);
+  font-size:13px;
+}
+.statusbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  height:36px;
+  color:var(--ink-soft);
+}
+.statusbar .dot{
+  display:inline-block; width:7px; height:7px; border-radius:50%;
+  background:var(--signal); margin-right:8px;
+  box-shadow:0 0 0 3px var(--signal-dim);
+}
+
+/* ---------- nav ---------- */
+header.main{
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:50;
+}
+header.main .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+.logo{
+  font-family:var(--font-display);
+  font-weight:700; font-size:22px;
+  text-decoration:none; color:var(--ink);
+  display:flex; align-items:baseline; gap:2px;
+}
+.logo span{ color:var(--signal); }
+nav.links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:14px; }
+nav.links a{
+  text-decoration:none; color:var(--ink-soft);
+  padding-bottom:2px; border-bottom:2px solid transparent;
+  transition:.15s;
+}
+nav.links a:hover, nav.links a.active{
+  color:var(--ink); border-color:var(--signal);
+}
+/* trace line under header */
+.trace{
+  height:2px; width:100%;
+  background:repeating-linear-gradient(90deg,var(--signal) 0 8px, transparent 8px 14px);
+  opacity:.5;
+}
+
+/* ---------- category pills ---------- */
+.pill{
+  font-family:var(--font-mono); font-size:11px; text-transform:uppercase;
+  letter-spacing:.04em; padding:3px 8px; border-radius:2px;
+  display:inline-block;
+}
+.pill.ia{ background:var(--signal-dim); color:var(--signal); }
+.pill.dev{ background:var(--copper-dim); color:var(--copper); }
+.pill.hardware{ background:var(--amber-dim); color:var(--amber); }
+.pill.jeux{ background:var(--violet-dim); color:var(--violet); }
+
+/* ---------- generic page / article ---------- */
+.page{ padding:56px 0 40px; }
+.page h1{ font-size:clamp(28px,4vw,42px); max-width:22ch; }
+.article-meta{
+  font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+  display:flex; gap:14px; align-items:center; margin:14px 0 40px;
+}
+.prose{ max-width:70ch; font-size:19px; }
+.prose h2{ margin-top:2.2em; font-size:26px; }
+.prose h3{ margin-top:1.8em; font-size:21px; }
+.prose p{ margin:1.1em 0; }
+.prose code{
+  font-family:var(--font-mono); background:var(--bg-alt); padding:2px 6px;
+  border-radius:2px; font-size:.85em;
+}
+.prose pre{
+  background:var(--ink); color:#EAF3EF; padding:18px 20px; overflow:auto;
+  border-radius:var(--radius); font-family:var(--font-mono); font-size:14px; line-height:1.55;
+}
+.prose pre code{ background:none; padding:0; color:inherit; }
+.prose ul,.prose ol{ padding-left:1.3em; }
+.prose a{ color:var(--signal); font-weight: 500; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; transition: 0.2s; }
+.prose a:hover{ text-decoration-color: var(--signal); }
+.prose blockquote{
+  border-left:3px solid var(--copper); margin:1.6em 0; padding:.3em 0 .3em 1.2em;
+  color:var(--ink-soft); font-style:italic;
+}
+.prose img{ border-radius:var(--radius); margin:1.6em 0; width: 100%; height: auto; box-shadow: 0 4px 12px rgba(20,35,28,0.08); }
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line); margin-top:96px;
+  padding:40px 0; font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+}
+footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+footer a{ text-decoration:none; color:var(--ink-soft); }
+footer a:hover{ color:var(--signal); }
+footer .cols{ display:flex; gap:36px; flex-wrap:wrap; }
+
+/* ---------- advertising placeholders ---------- */
+.ad-slot{
+  width:100%; max-width:728px; min-height:90px; margin:40px auto;
+  padding:14px 16px; display:flex; align-items:center; justify-content:center;
+  background:var(--bg-alt); border:1px solid var(--line); color:var(--ink-soft);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ad-slot::before{ content:"Publicité"; opacity:.72; }
+
+/* ---------- menu mobile ---------- */
+.menu-toggle{ display:none; }
+@media (max-width:767px){
+  .menu-toggle{
+    display:flex; appearance:none; border:1px solid var(--line); background:var(--surface);
+    color:var(--ink); border-radius:var(--radius); width:42px; height:38px; padding:8px;
+    cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+  }
+  .menu-toggle span{ display:block; width:20px; height:2px; background:currentColor; transition:transform .15s, opacity .15s; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  nav.links{ display:none; position:absolute; z-index:60; top:100%; left:0; right:0; padding:8px 16px 14px; gap:0; flex-direction:column; background:var(--surface); border-bottom:1px solid var(--line); box-shadow:0 8px 14px rgba(20,35,28,.08); }
+  nav.links.is-open{ display:flex; }
+  nav.links a{ padding:11px 0; border-bottom:1px solid var(--line); }
+}
+</style>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>octets-cie.dev — system online</span>
+    <span>build 20260819</span>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="logo" href="../index.html">octets<span>&amp;cie</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="site-menu">
+      <a href="../index.html" class="">Accueil</a>
+      <a href="../blog.html" class="active">Articles</a>
+      <a href="../a-propos.html" class="">À propos</a>
+      <a href="../contact.html" class="">Contact</a>
+    </nav>
+  </div>
+</header>
+<div class="trace"></div>
+
+<main class="page wrap">
+  <span class="pill dev">Dev</span>
+  <h1>Quel est le langage de programmation le plus utilisé en 2026 ?</h1>
+  <div class="article-meta">
+    <span>DEV-06</span><span>·</span><span>2026-08-19</span><span>·</span><span>Temps de lecture : 7 min</span>
+  </div>
+  
+  <article class="prose">
+    <p class="lead">Le monde du développement logiciel est en perpétuel mouvement. Si certains vétérans refusent de céder leur place, de nouveaux challengers redessinent les standards de l'industrie, fortement influencés par l'essor de l'intelligence artificielle et le besoin crucial de sécurité.</p>
+    
+    <p>Que vous soyez un étudiant cherchant à orienter sa carrière, un amateur souhaitant automatiser des tâches, ou un développeur confirmé préparant sa prochaine transition, il est crucial de savoir quelles technologies dominent le marché. Basé sur les offres d'emploi, l'activité sur les dépôts GitHub et les enquêtes développeurs, voici le classement des langages les plus utilisés en 2026.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>1. Python : Le Roi Indétrônable de l'ère de l'IA</h2>
+    <p>Sans grande surprise, <strong>Python</strong> conserve sa couronne. Si sa popularité était déjà massive au début de la décennie, l'explosion de l'IA générative l'a rendu absolument incontournable. Il n'est plus seulement un langage d'apprentissage ; c'est le socle sur lequel repose l'innovation mondiale.</p>
+
+    <ul>
+        <li><strong>Ses forces :</strong> Une syntaxe extrêmement lisible, et surtout un écosystème de bibliothèques (TensorFlow, PyTorch, Pandas) qui n'a aucun équivalent pour la data science et le machine learning.</li>
+        <li><strong>Cas d'usage typiques :</strong> Entraînement de modèles d'IA, automatisation de scripts serveurs, et backend web rapide (avec Django ou FastAPI).</li>
+    </ul>
+    
+    <p>Même si sa vitesse d'exécution pure reste inférieure à d'autres langages compilés, Python compense par la rapidité de développement qu'il offre aux ingénieurs. D'ailleurs, si vous avez lu notre récent article sur <a href="comment-coder-avec-ia.html" title="Lire notre guide sur l'assistance IA au code">comment coder efficacement avec l'IA</a>, vous savez que les LLM génèrent du Python avec une fiabilité redoutable.</p>
+
+    <img src="https://images.unsplash.com/photo-1770734360042-676ef707d022?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D" alt="Lignes de code Python colorées s'affichant sur un écran d'ordinateur à fond noir" />
+
+    <h2>2. JavaScript / TypeScript : Les Maîtres du Web</h2>
+    <p>Le web moderne ne peut pas exister sans lui. <strong>JavaScript</strong> maintient sa position de leader absolu pour tout ce qui concerne le développement Frontend (ce qui s'affiche dans le navigateur). Cependant, la véritable tendance de 2026 est la suprématie de son "sur-ensemble" : <strong>TypeScript</strong>.</p>
+
+    <h3>Pourquoi TypeScript a pris le dessus ?</h3>
+    <p>Créé par Microsoft, TypeScript ajoute un typage statique strict à JavaScript. Concrètement, cela permet de détecter les erreurs avant même de lancer le code. Dans les grandes entreprises où plusieurs développeurs travaillent sur le même projet React ou Node.js, cette sécurité est devenue obligatoire pour éviter les bugs en production.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>3. Rust : Le Challenger Devenu Standard de Sécurité</h2>
+    <p>C'est la plus grande ascension de ces cinq dernières années. <strong>Rust</strong> est passé du statut de langage "niche pour passionnés de performance" à celui de pilier fondamental pour l'infrastructure mondiale.</p>
+
+    <p>Là où C et C++ étaient autrefois les rois de la programmation système (création de systèmes d'exploitation, de moteurs de jeu ou de navigateurs), Rust les remplace progressivement grâce à une caractéristique majeure : la <strong>sécurité de la mémoire sans garbage collector</strong>. Il empêche par conception la majorité des failles de sécurité qui hantent l'industrie depuis des décennies (comme les dépassements de tampon).</p>
+    
+    <blockquote><p>Preuve de sa domination : Des géants comme Microsoft (Windows), Linus Torvalds (Linux) et Amazon ont officiellement intégré Rust dans le cœur de leurs systèmes vitaux en remplacement du C++.</p></blockquote>
+
+    <img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=1200&q=80" alt="Un développeur travaillant dans un environnement sombre avec plusieurs écrans affichant des environnements de développement complexes" />
+
+    <h2>4. Les Vieux Briscards Qui Résistent (Java, C#, PHP)</h2>
+    <p>Il serait faux de croire que tout le monde code uniquement en Python ou en Rust. Le monde de l'entreprise repose sur des millions de lignes de code "legacy" (ancien code) qui doivent être maintenues et évoluer.</p>
+
+    <ul>
+        <li><strong>C# (C-Sharp) :</strong> Poussé par l'écosystème robuste .NET de Microsoft, il reste le langage de choix pour les applications d'entreprise lourdes. Il est également incontournable dans le jeu vidéo grâce au moteur Unity.</li>
+        <li><strong>Java :</strong> Toujours omniprésent dans le monde bancaire et les systèmes backend massifs grâce à sa stabilité (Spring Boot).</li>
+        <li><strong>PHP :</strong> Souvent moqué, maintes fois déclaré mort, PHP propulse toujours près de 70% des sites web mondiaux. Avec des frameworks modernes comme Laravel, il reste une compétence extrêmement demandée, notamment pour gérer des bases de données de <a href="automatiser-taches-ia.html" title="Lire notre article sur l'automatisation">façon automatisée ou dynamique</a>.</li>
+    </ul>
+
+    <h2>Conclusion : Lequel Devez-vous Apprendre ?</h2>
+    <p>Il n'y a pas de "meilleur" langage universel, tout dépend de votre objectif en 2026 :</p>
+    <ul>
+        <li>Pour l'<strong>Intelligence Artificielle et la Data</strong> : Foncez sur Python.</li>
+        <li>Pour le <strong>Développement Web Frontend/Fullstack</strong> : Apprenez JavaScript, puis passez immédiatement à TypeScript.</li>
+        <li>Pour la <strong>Performance brute et la cybersécurité</strong> : Investissez votre temps dans Rust.</li>
+    </ul>
+    
+    <p>Pour suivre l'évolution des tendances en temps réel, l'index le plus fiable reste l'<a href="https://www.tiobe.com/tiobe-index/" target="_blank" rel="noopener noreferrer" title="Consulter le classement officiel TIOBE (Nouvelle fenêtre)">Index TIOBE</a>, qui classe chaque mois la popularité des langages au niveau mondial.</p>
+
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;">octets<span>&amp;cie</span></div>
+      <div>IA · Développement · Composants · Jeux vidéo</div>
+    </div>
+    <div class="cols">
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Site</div>
+        <a href="../blog.html">Articles</a><br>
+        <a href="../a-propos.html">À propos</a><br>
+        <a href="../contact.html">Contact</a>
+      </div>
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Légal</div>
+        <a href="../confidentialite.html">Confidentialité</a><br>
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var button = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("site-menu");
+  if (!button || !menu) return;
+
+  function closeMenu() {
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Ouvrir le menu");
+    menu.classList.remove("is-open");
+  }
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
+    var expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    button.setAttribute("aria-label", expanded ? "Ouvrir le menu" : "Fermer le menu");
+    menu.classList.toggle("is-open", !expanded);
+  });
+
+  menu.addEventListener("click", function (event) {
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+  });
+})();
+</script>
+</body>
+</html>

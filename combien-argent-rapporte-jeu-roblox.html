@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14231C">
+<title>Combien d'argent peut rapporter un jeu Roblox en 2026 ? — octets & cie</title>
+<meta name="description" content="Découvrez le potentiel financier de la création de jeux sur Roblox. Du programme DevEx aux microtransactions, analyse complète des revenus des développeurs.">
+<link rel="canonical" href="https://zig-on.online/blog/combien-argent-rapporte-jeu-roblox.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   OCTETS & CIE — design system
+   Palette "circuit imprimé" : papier sauge clair, encre pin,
+   accents turquoise (signal) et cuivre (chaleur / hardware)
+   ========================================================= */
+
+:root{
+  --bg:            #F2F5EF;
+  --bg-alt:        #E7EBE2;
+  --surface:       #FFFFFF;
+  --ink:           #14231C;
+  --ink-soft:      #46554C;
+  --line:          #D3DACB;
+  --signal:        #157E80;   /* turquoise circuit */
+  --signal-dim:    #DCEEEC;
+  --copper:        #B5652D;   /* cuivre */
+  --copper-dim:    #F3E4D6;
+  --violet:        #6C5B9E;   /* catégorie Jeux */
+  --violet-dim:    #E9E4F4;
+  --amber:         #C08A1E;   /* catégorie Hardware */
+  --amber-dim:     #F5EAD1;
+
+  --font-display:  'Space Grotesk', sans-serif;
+  --font-body:     'Source Serif 4', Georgia, serif;
+  --font-mono:     'JetBrains Mono', monospace;
+
+  --radius: 3px;
+  --max: 1120px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:18px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{ max-width:100%; display:block; border-radius:var(--radius); margin:1.6em 0; }
+a{ color:inherit; }
+
+.wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:600;
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  margin:0 0 .5em;
+}
+
+/* ---------- status bar (header) ---------- */
+.statusbar{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  font-family:var(--font-mono);
+  font-size:13px;
+}
+.statusbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  height:36px;
+  color:var(--ink-soft);
+}
+.statusbar .dot{
+  display:inline-block; width:7px; height:7px; border-radius:50%;
+  background:var(--signal); margin-right:8px;
+  box-shadow:0 0 0 3px var(--signal-dim);
+}
+
+/* ---------- nav ---------- */
+header.main{
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:50;
+}
+header.main .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+.logo{
+  font-family:var(--font-display);
+  font-weight:700; font-size:22px;
+  text-decoration:none; color:var(--ink);
+  display:flex; align-items:baseline; gap:2px;
+}
+.logo span{ color:var(--signal); }
+nav.links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:14px; }
+nav.links a{
+  text-decoration:none; color:var(--ink-soft);
+  padding-bottom:2px; border-bottom:2px solid transparent;
+  transition:.15s;
+}
+nav.links a:hover, nav.links a.active{
+  color:var(--ink); border-color:var(--signal);
+}
+/* trace line under header */
+.trace{
+  height:2px; width:100%;
+  background:repeating-linear-gradient(90deg,var(--signal) 0 8px, transparent 8px 14px);
+  opacity:.5;
+}
+
+/* ---------- category pills ---------- */
+.pill{
+  font-family:var(--font-mono); font-size:11px; text-transform:uppercase;
+  letter-spacing:.04em; padding:3px 8px; border-radius:2px;
+  display:inline-block;
+}
+.pill.ia{ background:var(--signal-dim); color:var(--signal); }
+.pill.dev{ background:var(--copper-dim); color:var(--copper); }
+.pill.hardware{ background:var(--amber-dim); color:var(--amber); }
+.pill.jeux{ background:var(--violet-dim); color:var(--violet); }
+
+/* ---------- generic page / article ---------- */
+.page{ padding:56px 0 40px; }
+.page h1{ font-size:clamp(28px,4vw,42px); max-width:22ch; }
+.article-meta{
+  font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+  display:flex; gap:14px; align-items:center; margin:14px 0 40px;
+}
+.prose{ max-width:70ch; font-size:19px; }
+.prose h2{ margin-top:2.2em; font-size:26px; }
+.prose h3{ margin-top:1.8em; font-size:21px; }
+.prose p{ margin:1.1em 0; }
+.prose code{
+  font-family:var(--font-mono); background:var(--bg-alt); padding:2px 6px;
+  border-radius:2px; font-size:.85em;
+}
+.prose pre{
+  background:var(--ink); color:#EAF3EF; padding:18px 20px; overflow:auto;
+  border-radius:var(--radius); font-family:var(--font-mono); font-size:14px; line-height:1.55;
+}
+.prose pre code{ background:none; padding:0; color:inherit; }
+.prose ul,.prose ol{ padding-left:1.3em; }
+.prose a{ color:var(--signal); font-weight: 500; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; transition: 0.2s; }
+.prose a:hover{ text-decoration-color: var(--signal); }
+.prose blockquote{
+  border-left:3px solid var(--copper); margin:1.6em 0; padding:.3em 0 .3em 1.2em;
+  color:var(--ink-soft); font-style:italic;
+}
+.prose img{ border-radius:var(--radius); margin:1.6em 0; width: 100%; height: auto; box-shadow: 0 4px 12px rgba(20,35,28,0.08); }
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line); margin-top:96px;
+  padding:40px 0; font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+}
+footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+footer a{ text-decoration:none; color:var(--ink-soft); }
+footer a:hover{ color:var(--signal); }
+footer .cols{ display:flex; gap:36px; flex-wrap:wrap; }
+
+/* ---------- advertising placeholders ---------- */
+.ad-slot{
+  width:100%; max-width:728px; min-height:90px; margin:40px auto;
+  padding:14px 16px; display:flex; align-items:center; justify-content:center;
+  background:var(--bg-alt); border:1px solid var(--line); color:var(--ink-soft);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ad-slot::before{ content:"Publicité"; opacity:.72; }
+
+/* ---------- menu mobile ---------- */
+.menu-toggle{ display:none; }
+@media (max-width:767px){
+  .menu-toggle{
+    display:flex; appearance:none; border:1px solid var(--line); background:var(--surface);
+    color:var(--ink); border-radius:var(--radius); width:42px; height:38px; padding:8px;
+    cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+  }
+  .menu-toggle span{ display:block; width:20px; height:2px; background:currentColor; transition:transform .15s, opacity .15s; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  nav.links{ display:none; position:absolute; z-index:60; top:100%; left:0; right:0; padding:8px 16px 14px; gap:0; flex-direction:column; background:var(--surface); border-bottom:1px solid var(--line); box-shadow:0 8px 14px rgba(20,35,28,.08); }
+  nav.links.is-open{ display:flex; }
+  nav.links a{ padding:11px 0; border-bottom:1px solid var(--line); }
+}
+</style>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>octets-cie.dev — system online</span>
+    <span>build 20260820</span>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="logo" href="../index.html">octets<span>&amp;cie</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="site-menu">
+      <a href="../index.html" class="">Accueil</a>
+      <a href="../blog.html" class="active">Articles</a>
+      <a href="../a-propos.html" class="">À propos</a>
+      <a href="../contact.html" class="">Contact</a>
+    </nav>
+  </div>
+</header>
+<div class="trace"></div>
+
+<main class="page wrap">
+  <span class="pill jeux">Jeux Vidéo</span>
+  <h1>Combien d'argent peut rapporter un jeu Roblox en 2026 ?</h1>
+  <div class="article-meta">
+    <span>JV-09</span><span>·</span><span>2026-08-20</span><span>·</span><span>Temps de lecture : 8 min</span>
+  </div>
+  
+  <article class="prose">
+    <p class="lead">Roblox n'est plus seulement une plateforme de divertissement pour enfants : c'est un véritable écosystème économique où se brassent des centaines de millions de dollars chaque année. De simple passe-temps pour développeurs indépendants, la création d'expériences virtuelles sur la plateforme est devenue une industrie florissante capable de faire naître de véritables studios de développement.</p>
+
+    <p>Mais au-delà des mythes et des réussites exceptionnelles relayées par les médias, quelles sont les véritables réalités financières derrière la création d'un jeu Roblox ? Comment fonctionne la monétisation, quel est le taux de conversion des Robux en euros, et combien gagne réellement un créateur moyen en 2026 ? Voici notre décryptage complet.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>1. Le fonctionnement de l'économie Roblox : Du Robux aux Euros</h2>
+    <p>Tout l'écosystème financier de la plateforme repose sur sa monnaie virtuelle : le <strong>Robux</strong>. Les joueurs achètent des Robux avec de l'argent réel pour acquérir des éléments cosmétiques, des avantages dans les jeux ou des abonnements.</p>
+
+    <p>Lorsqu'un joueur dépense des Robux dans votre jeu, la plateforme prélève sa commission, puis crédite votre compte développeur. Pour convertir ces Robux virtuels en véritables devises (Euros ou Dollars), Roblox a mis en place un programme officiel appelé le <strong>Developer Exchange (DevEx)</strong>.</p>
+
+    <h3>Le taux de conversion DevEx et ses conditions</h3>
+    <p>Le taux du programme DevEx n'est pas identique au prix d'achat des Robux par les joueurs. En 2026, le taux standard de conversion est d'environ <strong>0,0035 $ par Robux</strong> (soit 350 $ pour 100 000 Robux gérés). Pour pouvoir effectuer un retrait, les développeurs doivent respecter plusieurs critères stricts :</p>
+
+    <ul>
+        <li>Avoir accumulé un minimum de 30 000 Robux gagnés de manière légitime.</li>
+        <li>Être âgé d'au moins 13 ans.</li>
+        <li>Disposer d'un compte vérifié avec un abonnement Roblox Premium actif.</li>
+        <li>Respecter scrupuleusement les conditions d'utilisation de la plateforme.</li>
+    </ul>
+
+    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" alt="Un écran de travail informatique affichant du code et des graphiques financiers dans un environnement moderne." />
+
+    <h2>2. Combien gagnent réellement les créateurs ?</h2>
+    <p>Comme dans la majorité des industries créatives, les revenus sur Roblox suivent une distribution à forte disparité. On peut diviser les développeurs en trois grandes catégories :</p>
+
+    <h3>Les créateurs amateurs et indépendants (Solo)</h3>
+    <p>La grande majorité des projets publiés sur la plateforme ne génèrent que quelques centaines à quelques milliers de Robux par mois. Cela représente souvent entre 10 € et 100 € mensuels. Pour un développeur solo qui apprend à programmer, il s'agit surtout d'un moyen d'arrondir ses fins de mois tout en se formant aux compétences du développement vidéo-ludique.</p>
+
+    <h3>Les projets à succès intermédiaire</h3>
+    <p>Un jeu qui parvient à rassembler une communauté fidèle de quelques centaines de joueurs simultanés (CCU - Concurrent Users) peut générer entre 500 000 et 2 millions de Robux par mois. Une fois convertis via DevEx, cela représente environ <strong>1 700 € à 7 000 € mensuels</strong>, constituant un salaire à plein temps très confortable pour un indépendant ou une petite équipe de deux personnes.</p>
+
+    <h3>Le Top 1 % : Les studios millionnaires</h3>
+    <p>Au sommet de la pyramide, les jeux phénomènes comme <em>Adopt Me!</em>, <em>Blox Fruits</em> ou <em>Brookhaven</em> génèrent plusieurs dizaines de millions de dollars par an. Ces expériences ne sont plus gérées par des amateurs, mais par de véritables entreprises employant des dizaines de développeurs, 3D artists, sound designers et community managers.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>3. Les 4 leviers de monétisation dans un jeu</h2>
+    <p>Pour rentabiliser un jeu sur Roblox, les créateurs s'appuient sur plusieurs mécanismes complémentaires offerts par le moteur :</p>
+
+    <ol>
+        <li><strong>Les Gamepasses :</strong> Des achats uniques qui débloquent un pouvoir permanent, un véhicule ou un accès privilégié (comme un passe VIP).</li>
+        <li><strong>Les Developer Products :</strong> Des consommables achetables à l'infini (comme de la monnaie in-game, des potions de soin ou des tirages aléatoires).</li>
+        <li><strong>Les Premium Payouts :</strong> Roblox rémunère automatiquement les créateurs en fonction du temps passé dans leur jeu par les membres abonnés à Roblox Premium, même si ces derniers n'achètent rien dans la boutique du jeu.</li>
+        <li><strong>Les publicités immersives (Immersive Ads) :</strong> L'intégration d'affichages publicitaires dynamiques au sein des décors 3D du jeu, rémunérés à l'impression.</li>
+    </ol>
+
+    <img src="https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=1200&q=80" alt="Un développeur travaillant sur la modélisation 3D d'un environnement de jeu vidéo sur son ordinateur de bureau." />
+
+    <h2>4. La part réelle conservée par Roblox et les coûts cachés</h2>
+    <p>Il est essentiel de comprendre que la plateforme prend une part significative des revenus globaux. Sur chaque achat effectué dans votre jeu, Roblox prélève environ 30 % de commission de base pour couvrir l'hébergement des serveurs, la sécurité, et le traitement des paiements.</p>
+
+    <p>Lorsque l'on prend en compte la marge de conversion du programme DevEx, les développeurs récupèrent en réalité entre <strong>25 % et 30 % de la valeur brute</strong> dépensée par les joueurs en argent réel. Bien que ce pourcentage puisse paraître faible par rapport aux stores traditionnels (comme Steam ou Epic Games), il prend en charge l'intégralité des coûts d'infrastructures serveurs multijoueurs, qui seraient extrêmement coûteux à gérer de manière autonome.</p>
+
+    <p>De plus, pour qu'un jeu sorte du lot parmi les millions d'expériences disponibles, <a href="jeux-les-plus-joues-2026.html" title="Lire notre dossier sur les jeux les plus joués">comme les mastodontes du marché</a>, les développeurs doivent souvent réinvestir une partie de leurs gains dans les campagnes publicitaires internes de la plateforme (Sponsorisation de jeux).</p>
+
+    <h2>Conclusion</h2>
+    <p>Créer un jeu sur Roblox peut rapporter de quelques dizaines d'euros d'argent de poche à plusieurs milliers d'euros par mois pour les projets les plus aboutis. La plateforme offre une opportunité unique de lancer un jeu vidéo sans frais d'infrastructures de départ.</p>
+
+    <p>Cependant, le succès repose avant tout sur une excellente compréhension des mécaniques d'engagement, une maîtrise de la programmation (en Lua) et une monétisation équilibrée qui respecte les joueurs. Pour en savoir plus sur les critères officiels de conversion et les barèmes de paiement, vous pouvez consulter directement le portal officiel du <a href="https://create.roblox.com/landing/devex" target="_blank" rel="noopener noreferrer" title="Consulter le portail officiel Roblox DevEx (Nouvelle fenêtre)">Programme Developer Exchange de Roblox</a>.</p>
+
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;">octets<span>&amp;cie</span></div>
+      <div>IA · Développement · Composants · Jeux vidéo</div>
+    </div>
+    <div class="cols">
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Site</div>
+        <a href="../blog.html">Articles</a><br>
+        <a href="../a-propos.html">À propos</a><br>
+        <a href="../contact.html">Contact</a>
+      </div>
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Légal</div>
+        <a href="../confidentialite.html">Confidentialité</a><br>
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var button = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("site-menu");
+  if (!button || !menu) return;
+
+  function closeMenu() {
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Ouvrir le menu");
+    menu.classList.remove("is-open");
+  }
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
+    var expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    button.setAttribute("aria-label", expanded ? "Ouvrir le menu" : "Fermer le menu");
+    menu.classList.toggle("is-open", !expanded);
+  });
+
+  menu.addEventListener("click", function (event) {
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+  });
+})();
+</script>
+</body>
+</html>

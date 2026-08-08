@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14231C">
+<title>Les Jeux les Plus Joués en 2026 : Le Classement Définitif — octets & cie</title>
+<meta name="description" content="Découvrez le classement des jeux vidéo les plus populaires en 2026. Du phénomène e-sport aux succès inattendus, voici ce à quoi le monde joue cette année.">
+<link rel="canonical" href="https://zig-on.online/blog/jeux-les-plus-joues-2026.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   OCTETS & CIE — design system
+   Palette "circuit imprimé" : papier sauge clair, encre pin,
+   accents turquoise (signal) et cuivre (chaleur / hardware)
+   ========================================================= */
+
+:root{
+  --bg:            #F2F5EF;
+  --bg-alt:        #E7EBE2;
+  --surface:       #FFFFFF;
+  --ink:           #14231C;
+  --ink-soft:      #46554C;
+  --line:          #D3DACB;
+  --signal:        #157E80;   /* turquoise circuit */
+  --signal-dim:    #DCEEEC;
+  --copper:        #B5652D;   /* cuivre */
+  --copper-dim:    #F3E4D6;
+  --violet:        #6C5B9E;   /* catégorie Jeux */
+  --violet-dim:    #E9E4F4;
+  --amber:         #C08A1E;   /* catégorie Hardware */
+  --amber-dim:     #F5EAD1;
+
+  --font-display:  'Space Grotesk', sans-serif;
+  --font-body:     'Source Serif 4', Georgia, serif;
+  --font-mono:     'JetBrains Mono', monospace;
+
+  --radius: 3px;
+  --max: 1120px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:18px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{ max-width:100%; display:block; border-radius:var(--radius); margin:1.6em 0; }
+a{ color:inherit; }
+
+.wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:600;
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  margin:0 0 .5em;
+}
+
+/* ---------- status bar (header) ---------- */
+.statusbar{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  font-family:var(--font-mono);
+  font-size:13px;
+}
+.statusbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  height:36px;
+  color:var(--ink-soft);
+}
+.statusbar .dot{
+  display:inline-block; width:7px; height:7px; border-radius:50%;
+  background:var(--signal); margin-right:8px;
+  box-shadow:0 0 0 3px var(--signal-dim);
+}
+
+/* ---------- nav ---------- */
+header.main{
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:50;
+}
+header.main .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:18px; padding-bottom:18px;
+}
+.logo{
+  font-family:var(--font-display);
+  font-weight:700; font-size:22px;
+  text-decoration:none; color:var(--ink);
+  display:flex; align-items:baseline; gap:2px;
+}
+.logo span{ color:var(--signal); }
+nav.links{ display:flex; gap:28px; font-family:var(--font-mono); font-size:14px; }
+nav.links a{
+  text-decoration:none; color:var(--ink-soft);
+  padding-bottom:2px; border-bottom:2px solid transparent;
+  transition:.15s;
+}
+nav.links a:hover, nav.links a.active{
+  color:var(--ink); border-color:var(--signal);
+}
+/* trace line under header */
+.trace{
+  height:2px; width:100%;
+  background:repeating-linear-gradient(90deg,var(--signal) 0 8px, transparent 8px 14px);
+  opacity:.5;
+}
+
+/* ---------- category pills ---------- */
+.pill{
+  font-family:var(--font-mono); font-size:11px; text-transform:uppercase;
+  letter-spacing:.04em; padding:3px 8px; border-radius:2px;
+  display:inline-block;
+}
+.pill.ia{ background:var(--signal-dim); color:var(--signal); }
+.pill.dev{ background:var(--copper-dim); color:var(--copper); }
+.pill.hardware{ background:var(--amber-dim); color:var(--amber); }
+.pill.jeux{ background:var(--violet-dim); color:var(--violet); }
+
+/* ---------- generic page / article ---------- */
+.page{ padding:56px 0 40px; }
+.page h1{ font-size:clamp(28px,4vw,42px); max-width:22ch; }
+.article-meta{
+  font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+  display:flex; gap:14px; align-items:center; margin:14px 0 40px;
+}
+.prose{ max-width:70ch; font-size:19px; }
+.prose h2{ margin-top:2.2em; font-size:26px; }
+.prose h3{ margin-top:1.8em; font-size:21px; }
+.prose p{ margin:1.1em 0; }
+.prose code{
+  font-family:var(--font-mono); background:var(--bg-alt); padding:2px 6px;
+  border-radius:2px; font-size:.85em;
+}
+.prose pre{
+  background:var(--ink); color:#EAF3EF; padding:18px 20px; overflow:auto;
+  border-radius:var(--radius); font-family:var(--font-mono); font-size:14px; line-height:1.55;
+}
+.prose pre code{ background:none; padding:0; color:inherit; }
+.prose ul,.prose ol{ padding-left:1.3em; }
+.prose a{ color:var(--signal); font-weight: 500; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; transition: 0.2s; }
+.prose a:hover{ text-decoration-color: var(--signal); }
+.prose blockquote{
+  border-left:3px solid var(--copper); margin:1.6em 0; padding:.3em 0 .3em 1.2em;
+  color:var(--ink-soft); font-style:italic;
+}
+.prose img{ border-radius:var(--radius); margin:1.6em 0; width: 100%; height: auto; box-shadow: 0 4px 12px rgba(20,35,28,0.08); }
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line); margin-top:96px;
+  padding:40px 0; font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+}
+footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+footer a{ text-decoration:none; color:var(--ink-soft); }
+footer a:hover{ color:var(--signal); }
+footer .cols{ display:flex; gap:36px; flex-wrap:wrap; }
+
+/* ---------- advertising placeholders ---------- */
+.ad-slot{
+  width:100%; max-width:728px; min-height:90px; margin:40px auto;
+  padding:14px 16px; display:flex; align-items:center; justify-content:center;
+  background:var(--bg-alt); border:1px solid var(--line); color:var(--ink-soft);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ad-slot::before{ content:"Publicité"; opacity:.72; }
+
+/* ---------- menu mobile ---------- */
+.menu-toggle{ display:none; }
+@media (max-width:767px){
+  .menu-toggle{
+    display:flex; appearance:none; border:1px solid var(--line); background:var(--surface);
+    color:var(--ink); border-radius:var(--radius); width:42px; height:38px; padding:8px;
+    cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+  }
+  .menu-toggle span{ display:block; width:20px; height:2px; background:currentColor; transition:transform .15s, opacity .15s; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  nav.links{ display:none; position:absolute; z-index:60; top:100%; left:0; right:0; padding:8px 16px 14px; gap:0; flex-direction:column; background:var(--surface); border-bottom:1px solid var(--line); box-shadow:0 8px 14px rgba(20,35,28,.08); }
+  nav.links.is-open{ display:flex; }
+  nav.links a{ padding:11px 0; border-bottom:1px solid var(--line); }
+}
+</style>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>octets-cie.dev — system online</span>
+    <span>build 20260808</span>
+  </div>
+</div>
+
+<header class="main">
+  <div class="wrap">
+    <a class="logo" href="../index.html">octets<span>&amp;cie</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="site-menu">
+      <a href="../index.html" class="">Accueil</a>
+      <a href="../blog.html" class="active">Articles</a>
+      <a href="../a-propos.html" class="">À propos</a>
+      <a href="../contact.html" class="">Contact</a>
+    </nav>
+  </div>
+</header>
+<div class="trace"></div>
+
+<main class="page wrap">
+  <span class="pill jeux">Jeux Vidéo</span>
+  <h1>Les Jeux les Plus Joués en 2026 : Le Classement Définitif</h1>
+  <div class="article-meta">
+    <span>JV-07</span><span>·</span><span>2026-08-08</span><span>·</span><span>Temps de lecture : 6 min</span>
+  </div>
+  
+  <article class="prose">
+    <p class="lead">L'industrie vidéoludique ne cesse d'évoluer, mais s'il y a bien une tendance qui se confirme en 2026, c'est la domination écrasante des jeux "GaaS" (Games as a Service). Les titres qui rassemblent le plus de joueurs aujourd'hui ne sont pas forcément sortis cette année, mais ont su créer un écosystème persistant et des communautés fidèles.</p>
+    
+    <p>Que ce soit sur PC, consoles ou plateformes mobiles, découvrons ensemble les mastodontes qui accaparent notre temps de cerveau disponible cette année. Ce classement est basé sur le nombre de joueurs actifs mensuels (MAU) et l'impact culturel de chaque titre.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>1. Les Indétrônables de l'E-sport : Valorant et CS2</h2>
+    <p>Dans la catégorie des shooters tactiques sur PC, le duel au sommet continue. Riot Games et Valve se partagent toujours la part du lion, attirant des millions de joueurs quotidiens grâce à leur modèle free-to-play redoutablement efficace.</p>
+
+    <h3>Valorant : La constante évolution</h3>
+    <p>Depuis son lancement, <strong>Valorant</strong> a su maintenir l'intérêt de sa base de joueurs grâce à un rythme de mises à jour effréné. L'ajout régulier de nouveaux agents, de cartes inédites, et surtout un circuit e-sport (le VCT) extrêmement structuré, font du titre de Riot Games un incontournable absolu en 2026.</p>
+
+    <h3>Counter-Strike 2 (CS2) : L'héritage modernisé</h3>
+    <p>La transition depuis CS:GO n'a pas été sans heurts, mais <strong>CS2</strong> a fini par convaincre les puristes. Avec son moteur Source 2 et son système de fumigènes dynamiques, le jeu a su se moderniser sans perdre l'essence de son gameplay millimétré. Pour en profiter pleinement, assurez-vous d'avoir <a href="meilleures-combinaisons-cpu-gpu.html" title="Voir les meilleurs PC pour CS2">un duo CPU/GPU optimisé pour les hautes fréquences</a>.</p>
+
+    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80" alt="Un joueur professionnel en pleine compétition e-sport, concentré devant son écran avec un casque gaming" />
+
+    <h2>2. Les Plateformes de Création : Roblox et Fortnite</h2>
+    <p>Ce ne sont plus seulement des jeux, ce sont devenus des moteurs de création de contenu à part entière. Ces titres attirent une audience jeune mais extrêmement engagée, générant des milliards d'heures de jeu.</p>
+
+    <h3>Roblox : Le métavers qui fonctionne</h3>
+    <p>Roblox a largement dépassé son statut de "jeu pour enfants". En 2026, la plateforme abrite des expériences de plus en plus complexes, développées par de véritables studios utilisant Roblox Studio (notamment avec le langage Lua). Que ce soit pour des jeux de rôle (Roleplay), des simulations d'entreprises ou des jeux d'horreur coopératifs, la variété est infinie.</p>
+    
+    <h3>Fortnite : Bien plus qu'un Battle Royale</h3>
+    <p>Epic Games a réussi son pari : transformer Fortnite en un hub social. Le mode Battle Royale classique reste populaire, mais ce sont les modes créatifs (UEFN) et les concerts virtuels qui permettent au jeu de figurer systématiquement dans le top 3 mondial des jeux les plus joués.</p>
+
+    <!-- Publicité (AdSense Placeholder) -->
+    <div class="ad-slot" aria-label="Emplacement publicitaire"></div>
+
+    <h2>3. Les Phénomènes Mobiles et Cross-Platform</h2>
+    <p>Il est impossible de parler de jeux populaires sans évoquer le marché mobile, qui représente la plus grande part du gâteau en termes de volume de joueurs en Asie et en Occident.</p>
+
+    <h3>Genshin Impact et Honkai : Star Rail</h3>
+    <p>Le studio HoYoverse continue de dominer le marché des "Gacha games". Avec des mises à jour massives toutes les 6 semaines, ces jeux d'action-RPG et de stratégie au tour par tour offrent une qualité visuelle digne d'une console de salon directement sur smartphone ou PC.</p>
+    
+    <h3>Call of Duty : Warzone Mobile</h3>
+    <p>Après de longs mois de rodage, la version mobile de Warzone s'est imposée comme le shooter de référence sur smartphone, partageant la progression des joueurs avec les versions PC et consoles.</p>
+
+    <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?auto=format&fit=crop&w=1200&q=80" alt="Une personne jouant intensément à un jeu sur son smartphone, tenant l'appareil à deux mains" />
+
+    <h2>Ce qu'il faut retenir en 2026</h2>
+    <p>Le classement des jeux les plus joués nous montre une tendance claire : les joueurs recherchent avant tout <strong>le lien social et la compétition</strong>. Les jeux exclusivement solo peinent à rester dans le top 10 plus d'un mois après leur sortie, même lorsqu'ils sont d'excellente qualité.</p>
+    
+    <p>Si vous souhaitez explorer les statistiques détaillées du nombre de joueurs en temps réel sur PC, la plateforme <a href="https://steamcharts.com/" target="_blank" rel="noopener noreferrer" title="Consulter les statistiques de joueurs sur SteamCharts (Nouvelle fenêtre)">SteamCharts</a> reste l'outil le plus fiable pour analyser les tendances du moment.</p>
+
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;">octets<span>&amp;cie</span></div>
+      <div>IA · Développement · Composants · Jeux vidéo</div>
+    </div>
+    <div class="cols">
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Site</div>
+        <a href="../blog.html">Articles</a><br>
+        <a href="../a-propos.html">À propos</a><br>
+        <a href="../contact.html">Contact</a>
+      </div>
+      <div>
+        <div style="margin-bottom:8px;color:var(--ink);">Légal</div>
+        <a href="../confidentialite.html">Confidentialité</a><br>
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var button = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("site-menu");
+  if (!button || !menu) return;
+
+  function closeMenu() {
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Ouvrir le menu");
+    menu.classList.remove("is-open");
+  }
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
+    var expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    button.setAttribute("aria-label", expanded ? "Ouvrir le menu" : "Fermer le menu");
+    menu.classList.toggle("is-open", !expanded);
+  });
+
+  menu.addEventListener("click", function (event) {
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+  });
+})();
+</script>
+</body>
+</html>
